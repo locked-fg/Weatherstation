@@ -1,6 +1,7 @@
 package de.locked.weatherstation;
 
 import java.util.HashMap;
+import java.util.function.LongFunction;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart.Data;
@@ -17,9 +18,9 @@ public class ValuesModel {
     }
 
     public void add(Measure m) {
-        final long now = new DateTime().minusHours(25).getMillis();
+        final long limit = new DateTime().minusHours(25).getMillis();
         // check if we can simply ignore the incoming value
-        if (m.getDate().getMillis() < now) {
+        if (m.getDate().getMillis() < limit) {
             return;
         }
 
@@ -36,15 +37,17 @@ public class ValuesModel {
             });
         }
 
-        // limit size / age
-        map.keySet().stream().filter(timestamp -> timestamp < now).forEach(timestamp -> {
-            map.remove(timestamp);
-            for (int i = 0; i < model.size(); i++) {
-                if (model.get(i).XValueProperty().get() == timestamp) {
-                    model.remove(i);
+        // cleanup timed out values
+        for (Long timestamp : map.keySet()) {
+            if (timestamp < limit) {
+                map.remove(timestamp);
+                for (int i = 0; i < model.size(); i++) {
+                    if (model.get(i).XValueProperty().get() == timestamp) {
+                        model.remove(i);
+                    }
                 }
             }
-        });
+        }
     }
 
     class MyStats extends SummaryStatistics {
