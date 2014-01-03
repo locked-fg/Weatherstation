@@ -1,0 +1,108 @@
+#AnchorPane {}
+
+#contentPane {
+    -fx-padding: 20px 50px 50px 50px;
+}
+
+.largeButton {
+    -fx-background-color: 
+        linear-gradient(#ffd65b, #e68400),
+        linear-gradient(#ffef84, #f2ba44),
+        linear-gradient(#ffea6a, #efaa22),
+        linear-gradient(#ffe657 0%, #f8c202 50%, #eea10b 100%),
+        linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 30;
+    -fx-background-insets: 0,1,2,3,0;
+    -fx-text-fill: #654b00;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20 10 20;
+}
+
+#title {
+    -fx-font: bold 40px "System";
+    -fx-effect: dropshadow(gaussian, rgba(128,128,128,0.5), 10, 0.2, 4, 4);
+}
+
+#date {
+    -fx-font: bold 25px "System";
+    -fx-effect: dropshadow(gaussian, rgba(128,128,128,0.5), 5, 0.2, 3, 3);
+}
+
+.dataGrid {
+}
+
+.gridValue{
+    -fx-font: bold 13px "System";
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 4, 0.4, 0, 0);
+}
+
+.gridLabel, .gridHead {
+    -fx-font: bold 13px "System";
+    /*    -fx-text-fill: white;
+        -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 4, 0.4, 0, 0);*/
+}
+
+#diagramHead {
+    -fx-effect: dropshadow(gaussian, rgba(128,128,128,0.5), 5, 0.2, 3, 3);
+    -fx-font: bold 20px "System";
+}
+
+#LineChartNxN .chart {
+    -fx-opacity: 0.2;
+}
+
+#LineChartNxN .axis {
+    -fx-opacity: 1;
+}
+
+.chart-plot-background {
+    -fx-background-color: #eea10b;
+}
+
+.chart-vertical-grid-lines {
+    -fx-stroke: #654b00;
+}
+
+.chart-horizontal-grid-lines {
+    -fx-stroke: #654b00;
+}
+
+.chart-alternative-row-fill {
+    -fx-fill: #f8c202;
+    -fx-stroke: transparent;
+    -fx-stroke-width: 0;
+}
+
+.chart {
+    -fx-legend-visible: false;
+}
+
+.roundButton{
+    -fx-fill: 
+        radial-gradient(center 25% 25%, radius 75%, #ffef84, #e68400);
+    -fx-stroke-width: 1px;
+    -fx-stroke: 
+        linear-gradient(from 20% 20% to 80% 80%, #ffef84, #f2ba44);
+}
+
+.leftRightButton{
+    -fx-stroke-width: 3px;
+    -fx-stroke-line-cap: round;
+    -fx-stroke-line-join: bevel;
+}
+
+.leftButton {
+    -fx-fill: 
+        radial-gradient(center 15% 15%, radius 100%, #f8c202, #e68400);
+    -fx-stroke:
+        linear-gradient(from 0% 30% to 100% 100%, #ffef84, #e68400);
+}
+
+.rightButton {
+    -fx-fill: 
+        radial-gradient(center 85% 85%, radius 100%, #f8c202, #e68400);
+    -fx-stroke:
+        linear-gradient(from 100% 100% to 0% 30%, #ffd65b, #e68400);
+}
