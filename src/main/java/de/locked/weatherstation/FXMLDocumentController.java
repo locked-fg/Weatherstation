@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -18,7 +19,7 @@ import org.joda.time.format.DateTimeFormatter;
 
 public class FXMLDocumentController {
 
-    static final Logger log = Logger.getLogger(FXMLDocumentController.class.getName());
+    private static final Logger log = Logger.getLogger(FXMLDocumentController.class.getName());
     private final Locale locale = Locale.GERMAN;
 
     // masterpane
@@ -29,6 +30,8 @@ public class FXMLDocumentController {
     private Label title;
     @FXML
     private Label date;
+    @FXML
+    private Label chartTitle;
     // current
     @FXML
     private Label currentTemp;
@@ -89,34 +92,63 @@ public class FXMLDocumentController {
         });
 
         setDate(new DateTime());
-        setTitle("Wetter Gaißach");
+        title.setText("Wetter Gaißach");
 
         setCurrentAmbient(0);
         setCurrentHumidity(0);
         setCurrentPressure(0);
         setCurrentTemp(0);
 
-        setMinMaxAmbient(0);
-        setMinMaxHumidity(0);
-        setMinMaxPressure(0);
-        setMinMaxTemp(0);
+        setMinMaxAmbient(0, 0);
+        setMinMaxHumidity(0, 0);
+        setMinMaxPressure(0, 0);
+        setMinMaxTemp(0, 0);
 
+        initModels();
         initModel(currentChart);
     }
 
-    @FXML
-    public void keyPress(KeyEvent e) {
-        if (e.getCode() == KeyCode.RIGHT) {
-            initModel(currentChart.next());
-        } else if (e.getCode() == KeyCode.LEFT) {
-            initModel(currentChart.prev());
+    public void next() {
+        initModel(currentChart.next());
+    }
+
+    public void prev() {
+        initModel(currentChart.prev());
+    }
+
+    private void initModels() {
+        for (Charts aChart : Charts.values()) {
+            aChart.addPropertyChangeListener(e -> {
+                switch (aChart) {
+                    case AMBIENT:
+                        setCurrentAmbient(aChart.getCurrentValue());
+                        setMinMaxAmbient(aChart.getMinValue(), aChart.getMaxValue());
+                        break;
+                    case TEMPERATURE:
+                        setCurrentTemp(aChart.getCurrentValue());
+                        setMinMaxTemp(aChart.getMinValue(), aChart.getMaxValue());
+                        break;
+                    case HUMIDITY:
+                        setCurrentHumidity(aChart.getCurrentValue());
+                        setMinMaxHumidity(aChart.getMinValue(), aChart.getMaxValue());
+                        break;
+                    case PRESSURE:
+                        setCurrentPressure(aChart.getCurrentValue());
+                        setMinMaxPressure(aChart.getMinValue(), aChart.getMaxValue());
+                        break;
+                }
+            });
         }
     }
 
     private void initModel(Charts model) {
+        log.info("now displaying " + model.name());
         currentChart = model;
-        // TODO set min/max
+
+        chartTitle.setText(currentChart.title());
+        chart.getData().clear();
         chart.getData().add(new XYChart.Series(currentChart.getValuesModel()));
+        chart.requestLayout();
     }
 
 //<editor-fold defaultstate="collapsed" desc="setter">
@@ -125,16 +157,12 @@ public class FXMLDocumentController {
         date.setText(fmt.print(now));
     }
 
-    private void setTitle(String str) {
-        title.setText(str);
-    }
-
     private void setCurrentAmbient(double d) {
         currentAmbient.setText(String.format(locale, "%.1f Lux", d));
     }
 
     private void setCurrentHumidity(double d) {
-        currentHumidity.setText(String.format(locale, "%.0f%%", d));
+        currentHumidity.setText(String.format(locale, "%.1f%%", d));
     }
 
     private void setCurrentPressure(double d) {
@@ -145,20 +173,21 @@ public class FXMLDocumentController {
         currentTemp.setText(String.format(locale, "%.1f°C", d));
     }
 
-    private void setMinMaxAmbient(double d) {
-        minMaxAmbient.setText(String.format(locale, "%.1f Lux", d));
+    private void setMinMaxAmbient(double min, double max) {
+        minMaxAmbient.setText(String.format(locale, "%.1f / %.1f Lux", min, max));
     }
 
-    private void setMinMaxHumidity(double d) {
-        minMaxHumidity.setText(String.format(locale, "%.0f%%", d));
+    private void setMinMaxHumidity(double min, double max) {
+        minMaxHumidity.setText(String.format(locale, "%.1f / %.1f%%", min, max));
     }
 
-    private void setMinMaxPressure(double d) {
-        minMaxPressure.setText(String.format(locale, "%.0fmBar", d));
+    private void setMinMaxPressure(double min, double max) {
+        minMaxPressure.setText(String.format(locale, "%.0f / %.0fmBar", min, max));
     }
 
-    private void setMinMaxTemp(double d) {
-        minMaxTemp.setText(String.format(locale, "%.1f°C", d));
+    private void setMinMaxTemp(double min, double max) {
+        minMaxTemp.setText(String.format(locale, "%.1f / %.1f°C", min, max));
     }
 //</editor-fold>
+
 }

@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" focusTraversable="true" onKeyPressed="#keyPress" prefHeight="800.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="de.locked.weatherstation.FXMLDocumentController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" focusTraversable="true" prefHeight="800.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="de.locked.weatherstation.FXMLDocumentController">
   <children>
     <GridPane id="contentPane" layoutX="14.0" layoutY="14.0" prefHeight="772.0" prefWidth="1252.0" styleClass="largeButton">
       <children>
@@ -96,7 +96,7 @@
             </Pane>
           </right>
           <top>
-            <Label id="diagramHead" text="Temperatur" />
+            <Label id="diagramHead" fx:id="chartTitle" text="Temperatur" />
           </top>
         </BorderPane>
       </children>

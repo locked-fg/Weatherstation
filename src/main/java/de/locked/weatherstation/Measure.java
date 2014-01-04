@@ -34,4 +34,7 @@ public class Measure {
         this.value = value;
     }
 
+    public boolean isAfter(Measure m) {
+        return this.date.isAfter(m.getDate());
+    }
 }
