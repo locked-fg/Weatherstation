@@ -33,8 +33,7 @@ import org.joda.time.DateTime;
 public class MainApp extends Application {
 
     private static final Logger log = Logger.getLogger(MainApp.class.getName());
-    private final ScheduledExecutorService connectionKeepAlive = Executors.newScheduledThreadPool(1);
-    private ScheduledExecutorService valueScheduler = Executors.newScheduledThreadPool(1);
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
     //
     private final String host = "192.168.178.38";
     private final int port = 4223;
@@ -60,6 +59,11 @@ public class MainApp extends Application {
                 controller.prev();
             }
         });
+
+        // refresh date 
+        scheduler.scheduleAtFixedRate(() -> {
+            controller.setDate(new DateTime());
+        }, 5, 5, TimeUnit.MINUTES);
 
         stage.setTitle("JavaFX and Maven");
         stage.setScene(scene);
@@ -127,8 +131,7 @@ public class MainApp extends Application {
     @Override
     public void stop() throws Exception {
         log.info("shutting down application");
-        connectionKeepAlive.shutdownNow();
-        valueScheduler.shutdownNow();
+        scheduler.shutdownNow();
         try {
             ipcon.disconnect();
         } catch (NotConnectedException ignore) {
@@ -139,23 +142,13 @@ public class MainApp extends Application {
         final MyBricklet temp = new MyBrickletTemperature(new BrickletTemperature(UID_temperature, ipcon));
         final MyBricklet humidity = new MyBrickletHumidity(new BrickletHumidity(UID_humidity, ipcon));
 
-        connectionKeepAlive.scheduleAtFixedRate(new Connector(ipcon, host, port), 0, 30, TimeUnit.SECONDS);
-
-        ipcon.addConnectedListener((short reason) -> {
-            log.info("connected, schedule poller");
-            valueScheduler = Executors.newScheduledThreadPool(2);
-            schedulePolling(temp, Charts.TEMPERATURE);
-            schedulePolling(humidity, Charts.HUMIDITY);
-        });
-
-        ipcon.addDisconnectedListener((short reason) -> {
-            log.info("disconnected, stop all poller");
-            valueScheduler.shutdownNow();
-        });
+        scheduler.scheduleAtFixedRate(new Connector(ipcon, host, port), 0, 1, TimeUnit.MINUTES);
+        schedulePolling(temp, Charts.TEMPERATURE);
+        schedulePolling(humidity, Charts.HUMIDITY);
     }
 
     private void schedulePolling(MyBricklet bricklet, Charts aChart) {
-        valueScheduler.scheduleAtFixedRate(() -> {
+        scheduler.scheduleAtFixedRate(() -> {
             if (ipcon.getConnectionState() != IPConnection.CONNECTION_STATE_CONNECTED) {
                 return;
             }
@@ -169,7 +162,7 @@ public class MainApp extends Application {
             } catch (TimeoutException | NotConnectedException e) {
                 log.log(Level.SEVERE, e.getMessage(), e);
             }
-        }, 0, 10, TimeUnit.SECONDS);
+        }, 30, 10, TimeUnit.SECONDS);
     }
 
 }

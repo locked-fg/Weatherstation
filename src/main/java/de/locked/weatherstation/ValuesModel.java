@@ -9,12 +9,14 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart.Data;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.joda.time.DateTime;
+import org.joda.time.ReadableInstant;
+import org.joda.time.Seconds;
 
 public class ValuesModel {
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final ObservableList<Data<Long, Double>> model = FXCollections.<Data<Long, Double>>observableArrayList();
-    private final List<MyStats> map = new ArrayList<>(25);
+    private final List<MyStats> statList = new ArrayList<>(25);
 
     private Measure recent = new Measure(new DateTime(0), 0);
 
@@ -23,17 +25,13 @@ public class ValuesModel {
     }
 
     public void add(Measure m) {
-        final long limit = new DateTime().minusHours(25).getMillis();
-
+        DateTime limit = new DateTime().minusHours(25);
         // check if we can simply ignore the incoming value
-        if (m.getDate().getMillis() < limit) {
+        if (m.getDate().isBefore(limit)) {
             return;
         }
 
-        long key = m.getDate().getMillis();
-        key = key - m.getDate().getMillis() % 3600_000; // get rid of minutes, sec, msec
-
-        addOrUpdate(key, m);
+        addOrUpdate(m);
         cleanup(limit);
 
         updateRecent(m);
@@ -41,11 +39,11 @@ public class ValuesModel {
     }
 
     public double getMin() {
-        if (map.isEmpty()) {
+        if (statList.isEmpty()) {
             return 0d;
         }
         double min = Double.MAX_VALUE;
-        for (MyStats m : map) {
+        for (MyStats m : statList) {
             min = Math.min(min, m.getMean());
         }
         min = Math.min(min, recent.getValue());
@@ -53,11 +51,11 @@ public class ValuesModel {
     }
 
     public double getMax() {
-        if (map.isEmpty()) {
+        if (statList.isEmpty()) {
             return 0d;
         }
         double min = Double.MIN_VALUE;
-        for (MyStats m : map) {
+        for (MyStats m : statList) {
             min = Math.max(min, m.getMean());
         }
         min = Math.max(min, recent.getValue());
@@ -70,38 +68,44 @@ public class ValuesModel {
         }
     }
 
-    private void addOrUpdate(long key, Measure m) {
+    private void addOrUpdate(Measure m) {
+        DateTime date = m.getDate();
+        // get rid of min, sec, msec
+        DateTime key = new DateTime(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), date.getHourOfDay(), 0);
+        long keyMillis = key.getMillis();
+
         // measure for this key in list and map?
         boolean found = false;
-        for (MyStats stat : map) {
-            if (stat.timestamp == key) { // yes there it is!
+        for (MyStats stat : statList) {
+            if (Seconds.secondsBetween(stat.timestamp, key).getSeconds() < 10) {
                 found = true;
                 stat.add(m.getValue());
-                model.stream().filter(d -> d.getXValue() == key).forEach(d -> {
+                model.stream().filter(d -> d.getXValue() == keyMillis).forEach(d -> {
                     d.setYValue(stat.getMean());
                 });
                 break;
             }
         }
         if (!found) { // wasn't there
-            map.add(new MyStats(key, m.getValue()));
-            model.add(new Data<>(key, m.getValue()));
+            statList.add(new MyStats(key, m.getValue()));
+            model.add(new Data<>(keyMillis, m.getValue()));
         }
     }
 
     /**
      * cleanup timed out values
      */
-    private void cleanup(final long limit) {
-        for (int i = map.size() - 1; i >= 0; i--) {
-            MyStats myStat = map.get(i);
-            if (myStat.timestamp < limit) {
-                map.remove(i);
-                for (int j = 0; j < model.size(); j++) { // clean ObservableList
-                    if (model.get(j).XValueProperty().get() == myStat.timestamp) {
-                        model.remove(j);
-                    }
-                }
+    private void cleanup(DateTime limit) {
+        for (int i = statList.size() - 1; i >= 0; i--) {
+            MyStats myStat = statList.get(i);
+            if (myStat.isBefore(limit)) {
+                statList.remove(i);
+            }
+        }
+
+        for (int i = model.size() - 1; i >= 0; i--) {
+            if (limit.isAfter((long) model.get(i).XValueProperty().get())) {
+                model.remove(i);
             }
         }
     }
@@ -116,9 +120,9 @@ public class ValuesModel {
 
     static class MyStats extends SummaryStatistics {
 
-        final long timestamp;
+        final DateTime timestamp;
 
-        private MyStats(Long ts, double value) {
+        private MyStats(DateTime ts, double value) {
             this.timestamp = ts;
             addValue(value);
         }
@@ -126,6 +130,18 @@ public class ValuesModel {
         public MyStats add(double val) {
             addValue(val);
             return this;
+        }
+
+        public boolean isAfter(long instant) {
+            return timestamp.isAfter(instant);
+        }
+
+        public boolean isAfter(ReadableInstant instant) {
+            return timestamp.isAfter(instant);
+        }
+
+        public boolean isBefore(ReadableInstant instant) {
+            return timestamp.isBefore(instant);
         }
     }
 }
