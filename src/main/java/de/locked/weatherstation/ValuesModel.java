@@ -77,7 +77,7 @@ public class ValuesModel {
         // measure for this key in list and map?
         boolean found = false;
         for (MyStats stat : statList) {
-            if (Seconds.secondsBetween(stat.timestamp, key).getSeconds() < 10) {
+            if (Seconds.secondsBetween(stat.timestamp, key).getSeconds() < 15) {
                 found = true;
                 stat.add(m.getValue());
                 model.stream().filter(d -> d.getXValue() == keyMillis).forEach(d -> {
