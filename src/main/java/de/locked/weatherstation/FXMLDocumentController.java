@@ -10,6 +10,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -21,7 +22,9 @@ public class FXMLDocumentController {
 
     // masterpane
     @FXML
-    private AnchorPane rootPane;
+    AnchorPane rootPane;
+    @FXML
+    GridPane contentPane;
     // header
     @FXML
     private Label title;
