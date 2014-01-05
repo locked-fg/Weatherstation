@@ -11,106 +11,110 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" focusTraversable="true" prefHeight="720.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="de.locked.weatherstation.FXMLDocumentController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" focusTraversable="true" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="de.locked.weatherstation.FXMLDocumentController">
   <children>
-    <GridPane id="contentPane" layoutX="14.0" layoutY="14.0" prefHeight="692.0" prefWidth="1252.0" styleClass="largeButton">
-      <children>
-        <Label fx:id="title" text="Wetter Gaißach" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-        <Label fx:id="date" text="Montag, 30. Dezember" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <GridPane id="dataGrid" styleClass="dataGrid" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+    <BorderPane id="frame" maxHeight="720.0" maxWidth="1280.0" styleClass="borderPane">
+      <center>
+        <GridPane fx:id="contentPane" maxHeight="-1.0" maxWidth="-1.0" styleClass="largeButton">
           <children>
-            <Label styleClass="gridLabel" text="Temperatur:" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
-            <Label styleClass="gridLabel" text="Luftfeuchtigkeit:" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
-            <Label styleClass="gridLabel" text="Luftdruck:" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
-            <Label styleClass="gridLabel" text="Umgebungslicht:" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="4" />
-            <Label styleClass="gridHead" text="aktuell" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="0" />
-            <Label styleClass="gridHead" text="min / max 12h" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="0" />
-            <Label fx:id="currentTemp" styleClass="gridValue" text="-5.0 °C" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-            <Label fx:id="currentHumidity" styleClass="gridValue" text="70.0 %" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-            <Label fx:id="currentPressure" styleClass="gridValue" text="100 mBar" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-            <Label fx:id="currentAmbient" styleClass="gridValue" text="500 Lux" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
-            <Label fx:id="minMaxTemp" styleClass="gridValue" text="-5.0 / +10 °C" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-            <Label fx:id="minMaxHumidity" styleClass="gridValue" text="60 / 70.0 %" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-            <Label fx:id="minMaxPressure" styleClass="gridValue" text="500 / 800 mBar" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-            <Label fx:id="minMaxAmbient" styleClass="gridValue" text="0 / 100 Lux" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+            <Label fx:id="title" text="Wetter Gaißach" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <Label fx:id="date" text="Montag, 30. Dezember" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <GridPane id="dataGrid" styleClass="dataGrid" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+              <children>
+                <Label styleClass="gridLabel" text="Temperatur:" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
+                <Label styleClass="gridLabel" text="Luftfeuchtigkeit:" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
+                <Label styleClass="gridLabel" text="Luftdruck:" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
+                <Label styleClass="gridLabel" text="Umgebungslicht:" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="4" />
+                <Label styleClass="gridHead" text="aktuell" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="0" />
+                <Label styleClass="gridHead" text="min / max 12h" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="0" />
+                <Label fx:id="currentTemp" styleClass="gridValue" text="-5.0 °C" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                <Label fx:id="currentHumidity" styleClass="gridValue" text="70.0 %" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                <Label fx:id="currentPressure" styleClass="gridValue" text="100 mBar" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                <Label fx:id="currentAmbient" styleClass="gridValue" text="500 Lux" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+                <Label fx:id="minMaxTemp" styleClass="gridValue" text="-5.0 / +10 °C" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                <Label fx:id="minMaxHumidity" styleClass="gridValue" text="60 / 70.0 %" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                <Label fx:id="minMaxPressure" styleClass="gridValue" text="500 / 800 mBar" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                <Label fx:id="minMaxAmbient" styleClass="gridValue" text="0 / 100 Lux" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+              </children>
+              <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="33.0" />
+                <ColumnConstraints hgrow="NEVER" percentWidth="33.0" />
+                <ColumnConstraints hgrow="NEVER" percentWidth="33.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints vgrow="ALWAYS" />
+                <RowConstraints vgrow="ALWAYS" />
+                <RowConstraints vgrow="ALWAYS" />
+                <RowConstraints vgrow="ALWAYS" />
+                <RowConstraints vgrow="ALWAYS" />
+              </rowConstraints>
+              <GridPane.margin>
+                <Insets bottom="25.0" />
+              </GridPane.margin>
+            </GridPane>
+            <BorderPane id="digramPane" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="3">
+              <center>
+                <LineChart fx:id="chart">
+                  <xAxis>
+                    <NumberAxis fx:id="xAxis" forceZeroInRange="false" minorTickCount="4" minorTickLength="5.0" minorTickVisible="true" side="BOTTOM" tickLabelGap="3.0" tickLabelRotation="270.0" tickLength="10.0" />
+                  </xAxis>
+                  <yAxis>
+                    <NumberAxis forceZeroInRange="false" side="LEFT" />
+                  </yAxis>
+                </LineChart>
+              </center>
+              <left>
+                <Pane BorderPane.alignment="CENTER">
+                  <children>
+                    <Circle layoutX="35.0" layoutY="50.0" radius="30.0" styleClass="roundButton" />
+                    <Polygon layoutX="5.0" layoutY="50.0" styleClass="leftRightButton, leftButton">
+                      <points>
+                        <Double fx:value="40.0" />
+                        <Double fx:value="-18.0" />
+                        <Double fx:value="40.0" />
+                        <Double fx:value="18.0" />
+                        <Double fx:value="10.0" />
+                        <Double fx:value="0.0" />
+                      </points>
+                    </Polygon>
+                  </children>
+                </Pane>
+              </left>
+              <right>
+                <Pane BorderPane.alignment="CENTER">
+                  <children>
+                    <Circle layoutX="25.0" layoutY="50.0" radius="30.0" styleClass="roundButton" />
+                    <Polygon layoutX="4.0" layoutY="50.0" rotate="180.0" styleClass="rightButton, leftRightButton">
+                      <points>
+                        <Double fx:value="40.0" />
+                        <Double fx:value="-18.0" />
+                        <Double fx:value="40.0" />
+                        <Double fx:value="18.0" />
+                        <Double fx:value="10.0" />
+                        <Double fx:value="0.0" />
+                      </points>
+                    </Polygon>
+                  </children>
+                </Pane>
+              </right>
+              <top>
+                <Label id="diagramHead" fx:id="chartTitle" text="Temperatur" />
+              </top>
+            </BorderPane>
           </children>
           <columnConstraints>
-            <ColumnConstraints hgrow="ALWAYS" percentWidth="33.0" />
-            <ColumnConstraints hgrow="NEVER" percentWidth="33.0" />
-            <ColumnConstraints hgrow="NEVER" percentWidth="33.0" />
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="50.0" />
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="50.0" />
           </columnConstraints>
           <rowConstraints>
             <RowConstraints vgrow="ALWAYS" />
             <RowConstraints vgrow="ALWAYS" />
             <RowConstraints vgrow="ALWAYS" />
             <RowConstraints vgrow="ALWAYS" />
-            <RowConstraints vgrow="ALWAYS" />
           </rowConstraints>
-          <GridPane.margin>
-            <Insets bottom="25.0" />
-          </GridPane.margin>
         </GridPane>
-        <BorderPane id="digramPane" prefHeight="437.0" prefWidth="1152.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="3">
-          <center>
-            <LineChart fx:id="chart">
-              <xAxis>
-                <NumberAxis fx:id="xAxis" forceZeroInRange="false" minorTickCount="4" minorTickLength="5.0" minorTickVisible="true" side="BOTTOM" tickLabelGap="3.0" tickLabelRotation="270.0" tickLength="10.0" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis forceZeroInRange="false" side="LEFT" />
-              </yAxis>
-            </LineChart>
-          </center>
-          <left>
-            <Pane maxHeight="100.0" maxWidth="60.0" prefHeight="100.0" prefWidth="60.0" BorderPane.alignment="CENTER">
-              <children>
-                <Circle layoutX="35.0" layoutY="50.0" radius="30.0" styleClass="roundButton" />
-                <Polygon layoutX="5.0" layoutY="50.0" styleClass="leftRightButton, leftButton">
-                  <points>
-                    <Double fx:value="40.0" />
-                    <Double fx:value="-18.0" />
-                    <Double fx:value="40.0" />
-                    <Double fx:value="18.0" />
-                    <Double fx:value="10.0" />
-                    <Double fx:value="0.0" />
-                  </points>
-                </Polygon>
-              </children>
-            </Pane>
-          </left>
-          <right>
-            <Pane maxHeight="100.0" maxWidth="60.0" prefHeight="100.0" prefWidth="60.0" BorderPane.alignment="CENTER">
-              <children>
-                <Circle layoutX="25.0" layoutY="50.0" radius="30.0" styleClass="roundButton" />
-                <Polygon layoutX="4.0" layoutY="50.0" rotate="180.0" styleClass="rightButton, leftRightButton">
-                  <points>
-                    <Double fx:value="40.0" />
-                    <Double fx:value="-18.0" />
-                    <Double fx:value="40.0" />
-                    <Double fx:value="18.0" />
-                    <Double fx:value="10.0" />
-                    <Double fx:value="0.0" />
-                  </points>
-                </Polygon>
-              </children>
-            </Pane>
-          </right>
-          <top>
-            <Label id="diagramHead" fx:id="chartTitle" text="Temperatur" />
-          </top>
-        </BorderPane>
-      </children>
-      <columnConstraints>
-        <ColumnConstraints hgrow="ALWAYS" percentWidth="50.0" />
-        <ColumnConstraints hgrow="ALWAYS" percentWidth="50.0" />
-      </columnConstraints>
-      <rowConstraints>
-        <RowConstraints vgrow="ALWAYS" />
-        <RowConstraints vgrow="ALWAYS" />
-        <RowConstraints vgrow="ALWAYS" />
-        <RowConstraints vgrow="ALWAYS" />
-      </rowConstraints>
-    </GridPane>
+      </center>
+    </BorderPane>
   </children>
   <stylesheets>
     <URL value="@../styles/base.css" />
