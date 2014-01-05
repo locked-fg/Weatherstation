@@ -37,7 +37,7 @@ public class Connector extends Thread {
             log.info("Connection down, connecting");
             try {
                 ipcon.connect(host, port);
-                log.info("Connecting succeededc");
+                log.info("Connecting succeeded.");
             } catch (IOException | AlreadyConnectedException e) {
                 log.log(Level.SEVERE, e.getMessage(), e);
             }
