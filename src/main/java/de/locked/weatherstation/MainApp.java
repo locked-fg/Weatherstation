@@ -49,7 +49,6 @@ public class MainApp extends Application {
         loader.load();
         Parent root = loader.getRoot();
 
-        // Parent root = FXMLLoader.load(getClass().getResource("/fxml/FXMLDocument.fxml"));
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/base.css");
 
@@ -65,9 +64,16 @@ public class MainApp extends Application {
             log.info(e.toString());
         });
 
-//        controller.rootPane.setPrefSize(1280, 780);
-//        controller.contentPane.setPrefSize(1280, 780);
-//        controller.rootPane.layout();
+        try {
+            if (getParameters().getNamed().containsKey("w")) {
+                int w = Integer.parseInt(getParameters().getNamed().get("w"));
+                int h = Integer.parseInt(getParameters().getNamed().get("h"));
+                controller.rootPane.setPrefSize(w, h);
+                controller.rootPane.setMaxSize(w, h);
+            }
+        } catch (Exception e) {
+            log.severe(e.getMessage());
+        }
 
         stage.setTitle("JavaFX and Maven");
         stage.setScene(scene);

@@ -2,11 +2,8 @@
     -fx-background-color: black;
 }
 
-#contentPane {
-    -fx-padding: 20px 20px 0px 40px;
-}
-
 .largeButton {
+    -fx-padding: 20px 20px 0px 40px;
     -fx-background-color: 
         linear-gradient(#ffd65b, #e68400),
         linear-gradient(#ffef84, #f2ba44),
