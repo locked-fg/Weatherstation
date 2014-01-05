@@ -29,7 +29,7 @@ public class Connector extends Thread {
 
     @Override
     public void run() {
-        if (ipcon.getConnectionState() != IPConnection.CONNECTION_STATE_PENDING) {
+        if (ipcon.getConnectionState() == IPConnection.CONNECTION_STATE_PENDING) {
             log.info("Connection is pending.");
         } else if (ipcon.getConnectionState() == IPConnection.CONNECTION_STATE_CONNECTED) {
             log.info("Connection is up.");
