@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -43,6 +44,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLDocument.fxml"));
         loader.load();
         Parent root = loader.getRoot();
@@ -59,22 +61,31 @@ public class MainApp extends Application {
                 controller.prev();
             }
         });
-        scene.addEventHandler(KeyEvent.ANY, (KeyEvent e) -> {
+        scene.addEventHandler(Event.ANY, (Event e) -> {
             log.info(e.toString());
         });
-        
 
-        // refresh date 
-        scheduler.scheduleAtFixedRate(() -> {
-            controller.setDate(new DateTime());
-        }, 5, 5, TimeUnit.MINUTES);
+//        controller.rootPane.setPrefSize(1280, 780);
+//        controller.contentPane.setPrefSize(1280, 780);
+//        controller.rootPane.layout();
 
         stage.setTitle("JavaFX and Maven");
         stage.setScene(scene);
         stage.show();
 
-        initModelsFromCSV();
-        listenTemp();
+        // refresh date 
+        scheduler.scheduleAtFixedRate(() -> {
+            controller.setDate(new DateTime());
+        }, 5, 1, TimeUnit.MINUTES);
+
+        Platform.runLater(() -> {
+            try {
+                initModelsFromCSV();
+                listenTemp();
+            } catch (IOException ex) {
+                log.log(Level.SEVERE, null, ex);
+            }
+        });
     }
 
     /**
@@ -166,7 +177,7 @@ public class MainApp extends Application {
             } catch (TimeoutException | NotConnectedException e) {
                 log.log(Level.SEVERE, e.getMessage(), e);
             }
-        }, 30, 10, TimeUnit.SECONDS);
+        }, 1, 1, TimeUnit.MINUTES);
     }
 
 }
