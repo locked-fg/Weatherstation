@@ -39,24 +39,24 @@ public class ValuesModel {
     }
 
     public double getMin() {
-        if (statList.isEmpty()) {
-            return 0d;
-        }
+        DateTime now = new DateTime().minusHours(12);
         double min = Double.MAX_VALUE;
         for (MyStats m : statList) {
-            min = Math.min(min, m.getMean());
+            if (m.isAfter(now)) {
+                min = Math.min(min, m.getMean());
+            }
         }
         min = Math.min(min, recent.getValue());
         return min;
     }
 
     public double getMax() {
-        if (statList.isEmpty()) {
-            return 0d;
-        }
+        DateTime now = new DateTime().minusHours(12);
         double min = Double.MIN_VALUE;
         for (MyStats m : statList) {
-            min = Math.max(min, m.getMean());
+            if (m.isAfter(now)) {
+                min = Math.max(min, m.getMean());
+            }
         }
         min = Math.max(min, recent.getValue());
         return min;
