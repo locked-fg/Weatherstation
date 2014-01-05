@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart.Data;
@@ -25,6 +26,12 @@ public class ValuesModel {
     }
 
     public void add(Measure m) {
+        if (!Platform.isFxApplicationThread()) {
+            Platform.runLater(() -> {
+                add(m);
+            });
+            return;
+        }
         DateTime limit = new DateTime().minusHours(25);
         // check if we can simply ignore the incoming value
         if (m.getDate().isBefore(limit)) {
