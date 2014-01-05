@@ -11,9 +11,9 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" focusTraversable="true" prefHeight="800.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="de.locked.weatherstation.FXMLDocumentController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" focusTraversable="true" prefHeight="720.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="de.locked.weatherstation.FXMLDocumentController">
   <children>
-    <GridPane id="contentPane" layoutX="14.0" layoutY="14.0" prefHeight="772.0" prefWidth="1252.0" styleClass="largeButton">
+    <GridPane id="contentPane" layoutX="14.0" layoutY="14.0" prefHeight="692.0" prefWidth="1252.0" styleClass="largeButton">
       <children>
         <Label fx:id="title" text="Wetter Gaißach" GridPane.columnIndex="0" GridPane.rowIndex="0" />
         <Label fx:id="date" text="Montag, 30. Dezember" GridPane.columnIndex="0" GridPane.rowIndex="1" />
@@ -50,7 +50,7 @@
             <Insets bottom="25.0" />
           </GridPane.margin>
         </GridPane>
-        <BorderPane id="digramPane" prefHeight="386.0" prefWidth="1252.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="3">
+        <BorderPane id="digramPane" prefHeight="437.0" prefWidth="1152.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="3">
           <center>
             <LineChart fx:id="chart">
               <xAxis>
@@ -101,8 +101,8 @@
         </BorderPane>
       </children>
       <columnConstraints>
-        <ColumnConstraints hgrow="ALWAYS" percentWidth="40.0" />
-        <ColumnConstraints hgrow="ALWAYS" percentWidth="60.0" />
+        <ColumnConstraints hgrow="ALWAYS" percentWidth="50.0" />
+        <ColumnConstraints hgrow="ALWAYS" percentWidth="50.0" />
       </columnConstraints>
       <rowConstraints>
         <RowConstraints vgrow="ALWAYS" />

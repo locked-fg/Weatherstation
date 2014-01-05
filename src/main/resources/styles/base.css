@@ -1,7 +1,9 @@
-#AnchorPane {}
+#AnchorPane {
+    -fx-background-color: black;
+}
 
 #contentPane {
-    -fx-padding: 20px 50px 50px 50px;
+    -fx-padding: 20px 20px 0px 40px;
 }
 
 .largeButton {
@@ -14,9 +16,7 @@
     -fx-background-radius: 30;
     -fx-background-insets: 0,1,2,3,0;
     -fx-text-fill: #654b00;
-    -fx-font-weight: bold;
-    -fx-font-size: 14px;
-    -fx-padding: 10 20 10 20;
+    -fx-font: bold 20px "System";
 }
 
 #title {
@@ -25,7 +25,7 @@
 }
 
 #date {
-    -fx-font: bold 25px "System";
+    -fx-font: bold 30px "System";
     -fx-effect: dropshadow(gaussian, rgba(128,128,128,0.5), 5, 0.2, 3, 3);
 }
 
@@ -33,13 +33,13 @@
 }
 
 .gridValue{
-    -fx-font: bold 13px "System";
+    -fx-font: bold 20px "System";
     -fx-text-fill: white;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 4, 0.4, 0, 0);
 }
 
 .gridLabel, .gridHead {
-    -fx-font: bold 13px "System";
+    -fx-font: bold 20px "System";
     /*    -fx-text-fill: white;
         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 4, 0.4, 0, 0);*/
 }
@@ -73,6 +73,10 @@
     -fx-fill: #f8c202;
     -fx-stroke: transparent;
     -fx-stroke-width: 0;
+}
+
+.axis {
+    -fx-tick-label-font: bold 15px "System";
 }
 
 .chart {

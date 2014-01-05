@@ -59,6 +59,10 @@ public class MainApp extends Application {
                 controller.prev();
             }
         });
+        scene.addEventHandler(KeyEvent.ANY, (KeyEvent e) -> {
+            log.info(e.toString());
+        });
+        
 
         // refresh date 
         scheduler.scheduleAtFixedRate(() -> {
