@@ -24,7 +24,7 @@ public class FXMLDocumentController {
     @FXML
     AnchorPane rootPane;
     @FXML
-    private GridPane contentPane;
+     GridPane contentPane;
     // header
     @FXML
     private Label title;

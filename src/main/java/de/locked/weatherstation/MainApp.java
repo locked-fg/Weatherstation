@@ -69,8 +69,7 @@ public class MainApp extends Application {
                 int w = Integer.parseInt(getParameters().getNamed().get("w"));
                 int h = Integer.parseInt(getParameters().getNamed().get("h"));
                 controller.rootPane.setPrefSize(w, h);
-                controller.rootPane.setMaxSize(w, h);
-                controller.rootPane.setMinSize(w, h);
+                controller.contentPane.setPrefSize(w, h);
                 
                 // set Grid Pane size as well!!
             }
