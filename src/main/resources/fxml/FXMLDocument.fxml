@@ -13,7 +13,7 @@
 
 <AnchorPane id="AnchorPane" fx:id="rootPane" focusTraversable="true" prefHeight="760.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="de.locked.weatherstation.FXMLDocumentController">
   <children>
-    <GridPane id="contentPane" fx:id="contentPane" layoutX="0.0" layoutY="0.0" prefHeight="760.0" prefWidth="1280.0" styleClass="largeButton">
+    <GridPane fx:id="contentPane" layoutX="14.0" layoutY="14.0" prefHeight="732.0" prefWidth="1252.0" styleClass="largeButton">
       <children>
         <Label fx:id="title" text="Wetter Gaißach" GridPane.columnIndex="0" GridPane.rowIndex="0" />
         <Label fx:id="date" text="Montag, 30. Dezember" GridPane.columnIndex="0" GridPane.rowIndex="1" />
@@ -112,6 +112,9 @@
       </rowConstraints>
     </GridPane>
   </children>
+  <padding>
+    <Insets />
+  </padding>
   <stylesheets>
     <URL value="@../styles/base.css" />
   </stylesheets>
