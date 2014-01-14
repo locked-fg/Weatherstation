@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>run</actionName>
+            <goals>
+                <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
+                
+            </goals>
+            <properties>
+                <exec.args>-jar ${basedir}/target/Weatherstation-1.0-SNAPSHOT.jar --temperature-csv=data/temperature.csv --humidity-csv=data/humidity.csv</exec.args>
+                <exec.executable>java</exec.executable>
+            </properties>
+        </action>
+        <action>
+            <actionName>debug</actionName>
+            <goals>
+                <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
+            </goals>
+            <properties>
+                <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -jar ${basedir}/target/Weatherstation-1.0-SNAPSHOT.jar</exec.args>
+                <exec.executable>java</exec.executable>
+                <jpda.listen>true</jpda.listen>
+            </properties>
+        </action>        
+    </actions>
