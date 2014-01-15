@@ -30,7 +30,7 @@
 }
 
 .gridValue{
-    -fx-font: bold 20px "System";
+    -fx-font: bold 25px "System";
     -fx-text-fill: white;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 4, 0.4, 0, 0);
 }
