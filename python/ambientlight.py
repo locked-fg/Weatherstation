@@ -17,7 +17,7 @@ if __name__ == "__main__":
     ipcon.connect(HOST, PORT) # Connect to brickd
 
     # Get current illuminance (unit is Lux/10)
-    illuminance = h.get_illuminance() #/10.0
+    illuminance = h.get_illuminance() /10.0
     
     ts = int(time.time())
     
