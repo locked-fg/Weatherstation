@@ -2,24 +2,45 @@
 <actions>
         <action>
             <actionName>run</actionName>
+            <packagings>
+                <packaging>jar</packaging>
+            </packagings>
             <goals>
+                <goal>process-classes</goal>
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
-                
             </goals>
             <properties>
-                <exec.args>-jar ${basedir}/target/Weatherstation-1.0-SNAPSHOT.jar --temperature-csv=data/temperature.csv --humidity-csv=data/humidity.csv</exec.args>
+                <exec.args>-classpath %classpath de.locked.weatherstation.MainApp --temperature-csv=data/temperature.csv --humidity-csv=data/humidity.csv --barometer-csv=data/barometer.csv --ambient-csv=data/ambientlight.csv</exec.args>
                 <exec.executable>java</exec.executable>
             </properties>
         </action>
         <action>
             <actionName>debug</actionName>
+            <packagings>
+                <packaging>jar</packaging>
+            </packagings>
             <goals>
+                <goal>process-classes</goal>
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
             </goals>
             <properties>
-                <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -jar ${basedir}/target/Weatherstation-1.0-SNAPSHOT.jar</exec.args>
+                <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath de.locked.weatherstation.MainApp --temperature-csv=data/temperature.csv --humidity-csv=data/humidity.csv --barometer-csv=data/barometer.csv --ambient-csv=data/ambientlight.csv</exec.args>
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
             </properties>
-        </action>        
+        </action>
+        <action>
+            <actionName>profile</actionName>
+            <packagings>
+                <packaging>jar</packaging>
+            </packagings>
+            <goals>
+                <goal>process-classes</goal>
+                <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
+            </goals>
+            <properties>
+                <exec.args>-classpath %classpath de.locked.weatherstation.MainApp --temperature-csv=data/temperature.csv --humidity-csv=data/humidity.csv --barometer-csv=data/barometer.csv --ambient-csv=data/ambientlight.csv</exec.args>
+                <exec.executable>java</exec.executable>
+            </properties>
+        </action>
     </actions>
