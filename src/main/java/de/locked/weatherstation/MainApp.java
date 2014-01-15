@@ -60,6 +60,7 @@ public class MainApp extends Application {
                 controller.prev();
             }
         });
+        
         scene.addEventHandler(Event.ANY, (Event e) -> {
             log.info(e.toString());
         });

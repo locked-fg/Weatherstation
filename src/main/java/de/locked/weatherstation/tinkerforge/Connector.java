@@ -39,7 +39,7 @@ public class Connector extends Thread {
                 ipcon.connect(host, port);
                 log.info("Connecting succeeded.");
             } catch (IOException | AlreadyConnectedException e) {
-                log.log(Level.SEVERE, e.getMessage(), e);
+                log.warning(e.getMessage());
             }
         }
     }
