@@ -132,7 +132,7 @@ public class FXMLDocumentController {
                         setCurrentHumidity(aChart.getCurrentValue());
                         setMinMaxHumidity(aChart.getMinValue(), aChart.getMaxValue());
                         break;
-                    case PRESSURE:
+                    case BAROMETER:
                         setCurrentPressure(aChart.getCurrentValue());
                         setMinMaxPressure(aChart.getMinValue(), aChart.getMaxValue());
                         break;

@@ -7,7 +7,7 @@ import org.joda.time.DateTime;
 
 public enum Charts {
 
-    TEMPERATURE("Temperatur"), HUMIDITY("Luftfeuchtigkeit"), PRESSURE("Luftdruck"), AMBIENT("Lichtstärke");
+    TEMPERATURE("Temperatur"), HUMIDITY("Luftfeuchtigkeit"), BAROMETER("Luftdruck"), AMBIENT("Lichtstärke");
 
     private final ValuesModel valuesModel = new ValuesModel();
     private final String title;

@@ -1,5 +1,7 @@
 package de.locked.weatherstation;
 
+import com.tinkerforge.BrickletAmbientLight;
+import com.tinkerforge.BrickletBarometer;
 import com.tinkerforge.BrickletHumidity;
 import com.tinkerforge.BrickletTemperature;
 import com.tinkerforge.IPConnection;
@@ -7,6 +9,8 @@ import com.tinkerforge.NotConnectedException;
 import com.tinkerforge.TimeoutException;
 import de.locked.weatherstation.tinkerforge.Connector;
 import de.locked.weatherstation.tinkerforge.MyBricklet;
+import de.locked.weatherstation.tinkerforge.MyBrickletAmbientLight;
+import de.locked.weatherstation.tinkerforge.MyBrickletBarometer;
 import de.locked.weatherstation.tinkerforge.MyBrickletHumidity;
 import de.locked.weatherstation.tinkerforge.MyBrickletTemperature;
 import java.io.BufferedReader;
@@ -39,12 +43,15 @@ public class MainApp extends Application {
     private final String host = "192.168.178.38";
     private final int port = 4223;
     private final IPConnection ipcon = new IPConnection();
+    //
     private final String UID_temperature = "dXC";
     private final String UID_humidity = "hRd";
+    private final String UID_ambient = "jzj";
+    private final String UID_barometer = "jo7";
 
     @Override
     public void start(Stage stage) throws Exception {
-
+        log.info("Welcome - starting " + getClass().getName());
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLDocument.fxml"));
         loader.load();
         Parent root = loader.getRoot();
@@ -60,7 +67,7 @@ public class MainApp extends Application {
                 controller.prev();
             }
         });
-        
+
         scene.addEventHandler(Event.ANY, (Event e) -> {
             log.info(e.toString());
         });
@@ -69,10 +76,10 @@ public class MainApp extends Application {
             if (getParameters().getNamed().containsKey("w")) {
                 int w = Integer.parseInt(getParameters().getNamed().get("w"));
                 int h = Integer.parseInt(getParameters().getNamed().get("h"));
+
+                log.info("setting width/height to " + w + "/" + h);
                 controller.rootPane.setPrefSize(w, h);
                 controller.contentPane.setPrefSize(w, h);
-                
-                // set Grid Pane size as well!!
             }
         } catch (Exception e) {
             log.severe(e.getMessage());
@@ -85,7 +92,7 @@ public class MainApp extends Application {
         // refresh date 
         scheduler.scheduleAtFixedRate(() -> {
             controller.setDate(new DateTime());
-        }, 5, 1, TimeUnit.MINUTES);
+        }, 1, 1, TimeUnit.MINUTES);
 
         Platform.runLater(() -> {
             try {
@@ -135,7 +142,7 @@ public class MainApp extends Application {
                     String line = in.readLine();
                     String[] parts = line.split("\t");
                     if (parts.length != 2) {
-                        log.info("invalid line (Ignoring): " + line);
+                        log.warning("invalid line (Ignoring): " + line);
                         continue;
                     }
 
@@ -165,28 +172,33 @@ public class MainApp extends Application {
     private void listenTemp() {
         final MyBricklet temp = new MyBrickletTemperature(new BrickletTemperature(UID_temperature, ipcon));
         final MyBricklet humidity = new MyBrickletHumidity(new BrickletHumidity(UID_humidity, ipcon));
+        final MyBricklet ambient = new MyBrickletAmbientLight(new BrickletAmbientLight(UID_ambient, ipcon));
+        final MyBricklet barometer = new MyBrickletBarometer(new BrickletBarometer(UID_barometer, ipcon));
 
         scheduler.scheduleAtFixedRate(new Connector(ipcon, host, port), 0, 1, TimeUnit.MINUTES);
         schedulePolling(temp, Charts.TEMPERATURE);
         schedulePolling(humidity, Charts.HUMIDITY);
+        schedulePolling(barometer, Charts.BAROMETER);
+        schedulePolling(ambient, Charts.AMBIENT);
     }
 
     private void schedulePolling(MyBricklet bricklet, Charts aChart) {
         scheduler.scheduleAtFixedRate(() -> {
             if (ipcon.getConnectionState() != IPConnection.CONNECTION_STATE_CONNECTED) {
+                log.warning("No connection available. Don't query sensor.");
                 return;
             }
 
-            log.info("pull for " + aChart.name());
             try {
                 double t = bricklet.getValue();
+                log.fine("queried " + aChart.name() + ": " + t);
                 Platform.runLater(() -> {
                     aChart.add(t);
                 });
             } catch (TimeoutException | NotConnectedException e) {
                 log.log(Level.SEVERE, e.getMessage(), e);
             }
-        }, 1, 1, TimeUnit.MINUTES);
+        }, 1, 15, TimeUnit.SECONDS);
     }
 
 }
