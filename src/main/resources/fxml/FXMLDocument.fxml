@@ -35,9 +35,9 @@
             <Label fx:id="minMaxAmbient" styleClass="gridValue" text="0 / 100 Lux" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
           </children>
           <columnConstraints>
-            <ColumnConstraints hgrow="ALWAYS" percentWidth="33.0" />
-            <ColumnConstraints hgrow="NEVER" percentWidth="33.0" />
-            <ColumnConstraints hgrow="NEVER" percentWidth="33.0" />
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="35.0" />
+            <ColumnConstraints hgrow="NEVER" percentWidth="25.0" />
+            <ColumnConstraints hgrow="NEVER" percentWidth="40.0" />
           </columnConstraints>
           <rowConstraints>
             <RowConstraints vgrow="ALWAYS" />
