@@ -99,7 +99,7 @@
             <Label id="diagramHead" fx:id="chartTitle" text="Temperatur" />
           </top>
         </BorderPane>
-        <Label id="bigValue" fx:id="bigValue" contentDisplay="CENTER" styleClass="gridValueBig" text="-5.0°C" textAlignment="LEFT" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+        <Label fx:id="bigValue" styleClass="gridValueBig" text="-5.0°C" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP" />
       </children>
       <columnConstraints>
         <ColumnConstraints hgrow="ALWAYS" percentWidth="40.0" />
