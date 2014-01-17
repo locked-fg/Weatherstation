@@ -12,12 +12,12 @@ from tinkerforge.bricklet_ambient_light import AmbientLight
 
 if __name__ == "__main__":
     ipcon = IPConnection() # Create IP connection
-    h = AmbientLight(UID, ipcon) # Create device object
+    al = AmbientLight(UID, ipcon) # Create device object
 
     ipcon.connect(HOST, PORT) # Connect to brickd
 
     # Get current illuminance (unit is Lux/10)
-    illuminance = h.get_illuminance() /10.0
+    illuminance = al.get_illuminance() /10.0
     
     ts = int(time.time())
     

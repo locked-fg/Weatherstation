@@ -12,17 +12,17 @@ from tinkerforge.bricklet_barometer import Barometer
 
 if __name__ == "__main__":
     ipcon = IPConnection() # Create IP connection
-    h = Barometer(UID, ipcon) # Create device object
+    b = Barometer(UID, ipcon) # Create device object
 
     ipcon.connect(HOST, PORT) # Connect to brickd
 
     # Get current air pressure (unit is mbar/1000)
-    air_pressure = h.get_air_pressure() /1000.0
+    air_pressure = b.get_air_pressure() /1000.0
 
     #print('Air Pressure: ' + str(air_pressure) + ' mbar')
 
     # Get current altitude (unit is cm)
-    altitude = h.get_altitude()/100.0
+    altitude = b.get_altitude()/100.0
 
     ts = int(time.time())
     
