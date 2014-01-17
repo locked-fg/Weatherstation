@@ -198,7 +198,7 @@ public class MainApp extends Application {
             } catch (TimeoutException | NotConnectedException e) {
                 log.log(Level.SEVERE, e.getMessage(), e);
             }
-        }, 1, 15, TimeUnit.SECONDS);
+        }, 1, 1, TimeUnit.SECONDS);
     }
 
 }

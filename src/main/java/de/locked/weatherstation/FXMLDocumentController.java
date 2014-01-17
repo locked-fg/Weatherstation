@@ -24,7 +24,9 @@ public class FXMLDocumentController {
     @FXML
     AnchorPane rootPane;
     @FXML
-     GridPane contentPane;
+    GridPane contentPane;
+    @FXML
+    Label bigValue;
     // header
     @FXML
     private Label title;
@@ -119,22 +121,25 @@ public class FXMLDocumentController {
     private void initModels() {
         for (Charts aChart : Charts.values()) {
             aChart.addPropertyChangeListener(e -> {
+                double val = aChart.getCurrentValue();
+                double min = aChart.getMinValue();
+                double max = aChart.getMaxValue();
                 switch (aChart) {
                     case AMBIENT:
-                        setCurrentAmbient(aChart.getCurrentValue());
-                        setMinMaxAmbient(aChart.getMinValue(), aChart.getMaxValue());
+                        setCurrentAmbient(val);
+                        setMinMaxAmbient(min, max);
                         break;
                     case TEMPERATURE:
-                        setCurrentTemp(aChart.getCurrentValue());
-                        setMinMaxTemp(aChart.getMinValue(), aChart.getMaxValue());
+                        setCurrentTemp(val);
+                        setMinMaxTemp(min, max);
                         break;
                     case HUMIDITY:
-                        setCurrentHumidity(aChart.getCurrentValue());
-                        setMinMaxHumidity(aChart.getMinValue(), aChart.getMaxValue());
+                        setCurrentHumidity(val);
+                        setMinMaxHumidity(min, max);
                         break;
                     case BAROMETER:
-                        setCurrentPressure(aChart.getCurrentValue());
-                        setMinMaxPressure(aChart.getMinValue(), aChart.getMaxValue());
+                        setCurrentPressure(val);
+                        setMinMaxPressure(min, max);
                         break;
                 }
             });
@@ -158,19 +163,35 @@ public class FXMLDocumentController {
     }
 
     private void setCurrentAmbient(double d) {
-        currentAmbient.setText(String.format(locale, "%.1f Lux", d));
+        String str = String.format(locale, "%.1f Lux", d);
+        currentAmbient.setText(str);
+        if (currentChart == Charts.AMBIENT) {
+            bigValue.setText(str);
+        }
     }
 
     private void setCurrentHumidity(double d) {
-        currentHumidity.setText(String.format(locale, "%.1f%%", d));
+        String str = String.format(locale, "%.1f%%", d);
+        currentHumidity.setText(str);
+        if (currentChart == Charts.HUMIDITY) {
+            bigValue.setText(str);
+        }
     }
 
     private void setCurrentPressure(double d) {
-        currentPressure.setText(String.format(locale, "%.0fmBar", d));
+        String str = String.format(locale, "%.0fmBar", d);
+        currentPressure.setText(str);
+        if (currentChart == Charts.BAROMETER) {
+            bigValue.setText(str);
+        }
     }
 
     private void setCurrentTemp(double d) {
-        currentTemp.setText(String.format(locale, "%.1f°C", d));
+        String str = String.format(locale, "%.1f°C", d);
+        currentTemp.setText(str);
+        if (currentChart == Charts.TEMPERATURE) {
+            bigValue.setText(str);
+        }
     }
 
     private void setMinMaxAmbient(double min, double max) {

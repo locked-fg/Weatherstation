@@ -35,6 +35,12 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 4, 0.4, 0, 0);
 }
 
+.gridValueBig{
+    -fx-font: bold 100px "System";
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 4, 0.4, 0, 0);
+}
+
 .gridLabel, .gridHead {
     -fx-font: bold 20px "System";
     /*    -fx-text-fill: white;
