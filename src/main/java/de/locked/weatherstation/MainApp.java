@@ -48,6 +48,9 @@ public class MainApp extends Application {
     private final String UID_humidity = "hRd";
     private final String UID_ambient = "jzj";
     private final String UID_barometer = "jo7";
+    //
+    private final int AUTO_SWITCH_DIAG = 15;
+    private final int REFRESH_DATE = 60;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -94,7 +97,7 @@ public class MainApp extends Application {
         // refresh date 
         scheduler.scheduleAtFixedRate(() -> {
             controller.setDate(new DateTime());
-        }, 1, 1, TimeUnit.MINUTES);
+        }, REFRESH_DATE, REFRESH_DATE, TimeUnit.SECONDS);
 
         // read data from CSVs
         Platform.runLater(() -> {
@@ -113,7 +116,7 @@ public class MainApp extends Application {
             } catch (Throwable t) {
                 log.log(Level.SEVERE, t.getMessage(), t);
             }
-        }, 10, 10, TimeUnit.SECONDS);
+        }, AUTO_SWITCH_DIAG, AUTO_SWITCH_DIAG, TimeUnit.SECONDS);
     }
 
     /**
@@ -133,21 +136,23 @@ public class MainApp extends Application {
      * @throws IOException
      */
     @SuppressWarnings("LoggerStringConcat")
-    private void initModelsFromCSV() throws IOException {
+    private void initModelsFromCSV() {
         log.info("init data from CSVs");
+        Map<String, String> params = getParameters().getNamed();
         for (Charts chartModel : Charts.values()) {
-            Map<String, String> params = getParameters().getNamed();
             String paramName = chartModel.name().toLowerCase() + "-csv";
             String csvPath = params.get(paramName);
             if (csvPath == null) {
                 log.warning(paramName + " not given in command line. Ignoring");
                 continue;
             }
+
             File csvFile = new File(csvPath);
             if (!csvFile.exists() || !csvFile.canRead()) {
                 log.warning(csvFile.getAbsolutePath() + " cannot be found or read. Ignoring");
                 continue;
             }
+
             log.info("init data from " + csvFile.getName() + " // " + csvFile.getAbsolutePath());
             try (BufferedReader in = new BufferedReader(new FileReader(csvFile))) {
                 while (in.ready()) {
@@ -161,13 +166,15 @@ public class MainApp extends Application {
                     try {
                         DateTime date = new DateTime(Long.parseLong(parts[0].trim()) * 1000L);
                         double value = Double.parseDouble(parts[1].trim());
-                        chartModel.add(date, value);
+                        chartModel.add(new Measure(date, value));
                     } catch (NumberFormatException e) {
                         log.info("invalid line (Ignoring): " + line);
                     }
                 }
+                log.info("file done");
+            } catch (IOException e) {
+                log.log(Level.WARNING, "IO Exception: ", e);
             }
-            log.info("file done");
         }
     }
 

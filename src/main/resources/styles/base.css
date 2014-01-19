@@ -21,7 +21,7 @@
     -fx-effect: dropshadow(gaussian, rgba(128,128,128,0.5), 10, 0.2, 4, 4);
 }
 
-#date {
+.subhead {
     -fx-font: bold 30px "System";
     -fx-effect: dropshadow(gaussian, rgba(128,128,128,0.5), 5, 0.2, 3, 3);
 }
@@ -59,10 +59,6 @@
     -fx-opacity: 0.2;
 }
 
-#LineChartNxN .axis {
-    -fx-opacity: 1;
-}
-
 .chart-plot-background {
     -fx-background-color: #eea10b;
 }
@@ -82,7 +78,8 @@
 }
 
 .axis {
-    -fx-tick-label-font: bold 15px "System";
+    -fx-opacity: 1;
+    -fx-tick-label-font: bold 20px "System";
 }
 
 .chart {

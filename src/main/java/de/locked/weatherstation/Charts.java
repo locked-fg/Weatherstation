@@ -20,43 +20,47 @@ public enum Charts {
         return valuesModel.getModel();
     }
 
-    public void add(double value) {
-        add(new DateTime(), value);
+    public DateTime getMinTime() {
+        return valuesModel.minTime();
     }
 
-    public void add(DateTime d, double value) {
-        valuesModel.add(new Measure(d, value));
+    public void add(double value) {
+        add(new Measure(new DateTime(), value));
+    }
+
+    public void add(Measure m) {
+        valuesModel.add(m);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         valuesModel.addPropertyChangeListener(listener);
     }
 
-    Charts next() {
+    public Charts next() {
         Charts[] all = Charts.values();
         int i = (ordinal() + 1) % all.length;
         return all[i];
     }
 
-    Charts prev() {
+    public Charts prev() {
         Charts[] all = Charts.values();
         int i = (ordinal() + all.length - 1) % all.length;
         return all[i];
     }
 
-    double getCurrentValue() {
+    public double getCurrentValue() {
         return valuesModel.getCurrentValue();
     }
 
-    double getMinValue() {
+    public double getMinValue() {
         return valuesModel.getMin();
     }
 
-    double getMaxValue() {
+    public double getMaxValue() {
         return valuesModel.getMax();
     }
 
-    String title() {
+    public String title() {
         return title;
     }
 }

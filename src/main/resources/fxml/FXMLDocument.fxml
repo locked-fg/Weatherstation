@@ -16,7 +16,7 @@
     <GridPane fx:id="contentPane" prefHeight="-1.0" prefWidth="-1.0" styleClass="largeButton" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
       <children>
         <Label fx:id="title" text="Wetter Gaißach" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-        <Label fx:id="date" text="Montag, 30. Dezember" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <Label fx:id="date" styleClass="subhead" text="Montag, 30. Dezember" GridPane.columnIndex="0" GridPane.rowIndex="1" />
         <GridPane id="dataGrid" styleClass="dataGrid" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
           <children>
             <Label styleClass="gridLabel" text="Temperatur:" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
@@ -54,7 +54,7 @@
           <center>
             <LineChart fx:id="chart" animated="false">
               <xAxis>
-                <NumberAxis fx:id="xAxis" forceZeroInRange="false" minorTickCount="4" minorTickLength="5.0" minorTickVisible="true" side="BOTTOM" tickLabelGap="3.0" tickLabelRotation="270.0" tickLength="10.0" />
+                <NumberAxis fx:id="xAxis" animated="false" autoRanging="false" forceZeroInRange="false" minHeight="-1.0" minorTickCount="4" minorTickLength="5.0" minorTickVisible="false" prefHeight="60.0" rotate="0.0" side="BOTTOM" snapToPixel="true" tickLabelGap="3.0" tickLabelRotation="0.0" tickLabelsVisible="true" tickLength="10.0" tickUnit="1.08E7" />
               </xAxis>
               <yAxis>
                 <NumberAxis forceZeroInRange="false" side="LEFT" />
@@ -100,6 +100,7 @@
           </top>
         </BorderPane>
         <Label fx:id="bigValue" styleClass="gridValueBig" text="---" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+        <Label fx:id="bigChartTitle" styleClass="subhead" text="TITLE BIG" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
       </children>
       <columnConstraints>
         <ColumnConstraints hgrow="ALWAYS" percentWidth="40.0" />

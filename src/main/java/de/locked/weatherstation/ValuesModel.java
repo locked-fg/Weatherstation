@@ -3,8 +3,8 @@ package de.locked.weatherstation;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart.Data;
@@ -19,20 +19,16 @@ public class ValuesModel {
     private final ObservableList<Data<Long, Double>> model = FXCollections.<Data<Long, Double>>observableArrayList();
     private final List<MyStats> statList = new ArrayList<>(25);
 
+    private static final int LIMIT_HOURS = 48;
     private Measure recent = new Measure(new DateTime(0), 0);
+    private double min, max;
 
     public ObservableList<Data<Long, Double>> getModel() {
         return model;
     }
 
     public void add(Measure m) {
-        if (!Platform.isFxApplicationThread()) {
-            Platform.runLater(() -> {
-                add(m);
-            });
-            return;
-        }
-        DateTime limit = new DateTime().minusHours(25);
+        DateTime limit = new DateTime().minusHours(LIMIT_HOURS);
         // check if we can simply ignore the incoming value
         if (m.getDate().isBefore(limit)) {
             return;
@@ -42,31 +38,25 @@ public class ValuesModel {
         cleanup(limit);
 
         updateRecent(m);
+        setMinMax();
         pcs.firePropertyChange("UPDATE", 0, 1);
     }
 
-    public double getMin() {
-        DateTime now = new DateTime().minusHours(12);
-        double min = Double.MAX_VALUE;
+    private void setMinMax() {
+        min = Double.MAX_VALUE;
+        max = Double.MIN_VALUE;
         for (MyStats m : statList) {
-            if (m.isAfter(now)) {
-                min = Math.min(min, m.getMean());
-            }
+            min = Math.min(min, m.getMean());
+            max = Math.max(max, m.getMean());
         }
-        min = Math.min(min, recent.getValue());
+    }
+
+    public double getMin() {
         return min;
     }
 
     public double getMax() {
-        DateTime now = new DateTime().minusHours(12);
-        double min = Double.MIN_VALUE;
-        for (MyStats m : statList) {
-            if (m.isAfter(now)) {
-                min = Math.max(min, m.getMean());
-            }
-        }
-        min = Math.max(min, recent.getValue());
-        return min;
+        return max;
     }
 
     private void updateRecent(Measure m) {
@@ -99,13 +89,17 @@ public class ValuesModel {
         }
     }
 
+    public DateTime minTime(){
+        return new DateTime().minusHours(LIMIT_HOURS);
+    }
+    
     /**
      * cleanup timed out values
      */
     private void cleanup(DateTime limit) {
         for (int i = statList.size() - 1; i >= 0; i--) {
             MyStats myStat = statList.get(i);
-            if (myStat.isBefore(limit)) {
+            if (limit.isAfter(myStat.timestamp)) {
                 statList.remove(i);
             }
         }

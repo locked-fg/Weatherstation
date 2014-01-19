@@ -21,6 +21,7 @@ public class FXMLDocumentController {
 
     private static final Logger log = Logger.getLogger(FXMLDocumentController.class.getName());
     private final Locale locale = Locale.GERMAN;
+    private final String TITLE = "Wetter Gaißach";
     private final DateTimeFormatter fmt = DateTimeFormat.forPattern("EEEEE, dd. MMMMMMMM").withLocale(locale);
 
     // masterpane
@@ -28,8 +29,13 @@ public class FXMLDocumentController {
     AnchorPane rootPane;
     @FXML
     GridPane contentPane;
+
+    // Big right top
     @FXML
     private Label bigValue;
+    @FXML
+    private Label bigChartTitle;
+
     // header
     @FXML
     private Label title;
@@ -37,6 +43,7 @@ public class FXMLDocumentController {
     private Label date;
     @FXML
     private Label chartTitle;
+
     // current
     @FXML
     private Label currentTemp;
@@ -46,7 +53,8 @@ public class FXMLDocumentController {
     private Label currentPressure;
     @FXML
     private Label currentAmbient;
-    // minMax
+
+// minMax
     @FXML
     private Label minMaxTemp;
     @FXML
@@ -76,7 +84,7 @@ public class FXMLDocumentController {
 
             @Override
             public String toString(Number object) {
-                final String ddMM = "dd. MM.";
+                final String ddMM = "dd.MM.";
                 DateTime dateTime = new DateTime(object.longValue());
 
                 String today = new DateTime().toString(ddMM);
@@ -92,12 +100,12 @@ public class FXMLDocumentController {
                     pre = current;
                 }
 
-                return pre + " " + dateTime.toString("HH") + " Uhr";
+                return pre + "\n" + dateTime.toString("H:00");
             }
         });
 
         setDate(new DateTime());
-        title.setText("Wetter Gaißach");
+        title.setText(TITLE);
 
         initModels();
         initModel(currentChart);
@@ -141,8 +149,12 @@ public class FXMLDocumentController {
         currentChart = model;
 
         chartTitle.setText(currentChart.title());
+        bigChartTitle.setText(currentChart.title());
+
         chart.getData().clear();
         chart.getData().add(new XYChart.Series(currentChart.getValuesModel()));
+        xAxis.setLowerBound(currentChart.getMinTime().getMillis());
+        xAxis.setUpperBound(System.currentTimeMillis());
         chart.requestLayout();
     }
 
