@@ -1,5 +1,6 @@
 #AnchorPane {
     -fx-background-color: black;
+    -fx-padding: 5px;
 }
 
 .largeButton {
@@ -17,20 +18,21 @@
 }
 
 #title {
-    -fx-font: bold 40px "System";
+    -fx-font: bold 70px "System";
     -fx-effect: dropshadow(gaussian, rgba(128,128,128,0.5), 10, 0.2, 4, 4);
 }
 
 .subhead {
-    -fx-font: bold 30px "System";
+    -fx-font: bold 45px "System";
     -fx-effect: dropshadow(gaussian, rgba(128,128,128,0.5), 5, 0.2, 3, 3);
 }
 
 .dataGrid {
+    -fx-padding: 0px 0px 20px 0px;
 }
 
 .gridValue{
-    -fx-font: bold 25px "System";
+    -fx-font: bold 30px "System";
     -fx-text-fill: white;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 4, 0.4, 0, 0);
 }
@@ -45,14 +47,18 @@
 }
 
 .gridLabel, .gridHead {
-    -fx-font: bold 20px "System";
+    -fx-font: bold 30px "System";
     /*    -fx-text-fill: white;
         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 4, 0.4, 0, 0);*/
 }
 
+#diagramPane {
+    -fx-padding: 10px;
+}
+
 #diagramHead {
-    -fx-effect: dropshadow(gaussian, rgba(128,128,128,0.5), 5, 0.2, 3, 3);
-    -fx-font: bold 20px "System";
+    /*-fx-effect: dropshadow(gaussian, rgba(128,128,128,0.5), 5, 0.2, 3, 3);*/
+    -fx-font: bold 35px "System";
 }
 
 #LineChartNxN .chart {

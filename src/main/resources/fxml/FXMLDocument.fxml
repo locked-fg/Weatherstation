@@ -13,9 +13,9 @@
 
 <AnchorPane id="AnchorPane" fx:id="rootPane" focusTraversable="true" prefHeight="760.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="de.locked.weatherstation.FXMLDocumentController">
   <children>
-    <GridPane fx:id="contentPane" prefHeight="-1.0" prefWidth="-1.0" styleClass="largeButton" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+    <GridPane fx:id="contentPane" prefHeight="-1.0" prefWidth="-1.0" styleClass="largeButton" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-1.0">
       <children>
-        <Label fx:id="title" text="Wetter Gaißach" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <Label fx:id="title" graphicTextGap="4.0" text="Wetter Gaißach" GridPane.columnIndex="0" GridPane.rowIndex="0" />
         <Label fx:id="date" styleClass="subhead" text="Montag, 30. Dezember" GridPane.columnIndex="0" GridPane.rowIndex="1" />
         <GridPane id="dataGrid" styleClass="dataGrid" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
           <children>
@@ -46,9 +46,6 @@
             <RowConstraints vgrow="ALWAYS" />
             <RowConstraints vgrow="ALWAYS" />
           </rowConstraints>
-          <GridPane.margin>
-            <Insets bottom="25.0" />
-          </GridPane.margin>
         </GridPane>
         <BorderPane id="digramPane" prefHeight="386.0" prefWidth="1252.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="3">
           <center>
@@ -61,40 +58,6 @@
               </yAxis>
             </LineChart>
           </center>
-          <left>
-            <Pane maxHeight="100.0" maxWidth="60.0" prefHeight="100.0" prefWidth="60.0" BorderPane.alignment="CENTER">
-              <children>
-                <Circle layoutX="35.0" layoutY="50.0" radius="30.0" styleClass="roundButton" />
-                <Polygon layoutX="5.0" layoutY="50.0" styleClass="leftRightButton, leftButton">
-                  <points>
-                    <Double fx:value="40.0" />
-                    <Double fx:value="-18.0" />
-                    <Double fx:value="40.0" />
-                    <Double fx:value="18.0" />
-                    <Double fx:value="10.0" />
-                    <Double fx:value="0.0" />
-                  </points>
-                </Polygon>
-              </children>
-            </Pane>
-          </left>
-          <right>
-            <Pane maxHeight="100.0" maxWidth="60.0" prefHeight="100.0" prefWidth="60.0" BorderPane.alignment="CENTER">
-              <children>
-                <Circle layoutX="25.0" layoutY="50.0" radius="30.0" styleClass="roundButton" />
-                <Polygon layoutX="4.0" layoutY="50.0" rotate="180.0" styleClass="rightButton, leftRightButton">
-                  <points>
-                    <Double fx:value="40.0" />
-                    <Double fx:value="-18.0" />
-                    <Double fx:value="40.0" />
-                    <Double fx:value="18.0" />
-                    <Double fx:value="10.0" />
-                    <Double fx:value="0.0" />
-                  </points>
-                </Polygon>
-              </children>
-            </Pane>
-          </right>
           <top>
             <Label id="diagramHead" fx:id="chartTitle" text="Temperatur" />
           </top>
@@ -103,7 +66,7 @@
         <Label fx:id="bigChartTitle" styleClass="subhead" text="TITLE BIG" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
       </children>
       <columnConstraints>
-        <ColumnConstraints hgrow="ALWAYS" percentWidth="40.0" />
+        <ColumnConstraints hgrow="ALWAYS" percentWidth="50.0" />
         <ColumnConstraints hgrow="ALWAYS" percentWidth="60.0" />
       </columnConstraints>
       <rowConstraints>
