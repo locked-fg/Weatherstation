@@ -52,7 +52,7 @@
         </GridPane>
         <BorderPane id="digramPane" prefHeight="386.0" prefWidth="1252.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="3">
           <center>
-            <LineChart fx:id="chart">
+            <LineChart fx:id="chart" animated="false">
               <xAxis>
                 <NumberAxis fx:id="xAxis" forceZeroInRange="false" minorTickCount="4" minorTickLength="5.0" minorTickVisible="true" side="BOTTOM" tickLabelGap="3.0" tickLabelRotation="270.0" tickLength="10.0" />
               </xAxis>
@@ -99,7 +99,7 @@
             <Label id="diagramHead" fx:id="chartTitle" text="Temperatur" />
           </top>
         </BorderPane>
-        <Label fx:id="bigValue" styleClass="gridValueBig" text="-5.0°C" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+        <Label fx:id="bigValue" styleClass="gridValueBig" text="---" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP" />
       </children>
       <columnConstraints>
         <ColumnConstraints hgrow="ALWAYS" percentWidth="40.0" />

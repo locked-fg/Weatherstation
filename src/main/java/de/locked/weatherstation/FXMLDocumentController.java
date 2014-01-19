@@ -5,14 +5,12 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import org.joda.time.DateTime;
@@ -23,6 +21,7 @@ public class FXMLDocumentController {
 
     private static final Logger log = Logger.getLogger(FXMLDocumentController.class.getName());
     private final Locale locale = Locale.GERMAN;
+    private final DateTimeFormatter fmt = DateTimeFormat.forPattern("EEEEE, dd. MMMMMMMM").withLocale(locale);
 
     // masterpane
     @FXML
@@ -104,12 +103,22 @@ public class FXMLDocumentController {
         initModel(currentChart);
     }
 
-    public void next() {
-        initModel(currentChart.next());
+    public synchronized void next() {
+        Platform.runLater(() -> {
+            initModel(currentChart.next());
+        });
     }
 
-    public void prev() {
-        initModel(currentChart.prev());
+    public synchronized void prev() {
+        Platform.runLater(() -> {
+            initModel(currentChart.prev());
+        });
+    }
+
+    public synchronized void setDate(DateTime now) {
+        Platform.runLater(() -> {
+            date.setText(fmt.print(now));
+        });
     }
 
     private void initModels() {
@@ -137,20 +146,14 @@ public class FXMLDocumentController {
         chart.requestLayout();
     }
 
-    public void setDate(DateTime now) {
-        DateTimeFormatter fmt = DateTimeFormat.forPattern("EEEEE, dd. MMMMMMMM").withLocale(locale);
-        date.setText(fmt.print(now));
-    }
-
     private void update(String fmt1, String fmt2, Charts c, Label current, Label minMax) {
-        String str = String.format(locale, fmt1, c.getCurrentValue());
+        String curr = String.format(locale, fmt1, c.getCurrentValue());
         String mm = String.format(locale, fmt2, c.getMinValue(), c.getMaxValue());
 
+        current.setText(curr);
         minMax.setText(mm);
-        current.setText(str);
         if (currentChart == c) {
-            bigValue.setText(str + "\n" + mm);
+            bigValue.setText(curr + "\n" + mm);
         }
     }
-
 }

@@ -51,6 +51,8 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        initModelsFromCSV();
+
         log.info("Welcome - starting " + getClass().getName());
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLDocument.fxml"));
         loader.load();
@@ -81,7 +83,7 @@ public class MainApp extends Application {
                 controller.rootPane.setPrefSize(w, h);
                 controller.contentPane.setPrefSize(w, h);
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             log.severe(e.getMessage());
         }
 
@@ -94,14 +96,24 @@ public class MainApp extends Application {
             controller.setDate(new DateTime());
         }, 1, 1, TimeUnit.MINUTES);
 
+        // read data from CSVs
         Platform.runLater(() -> {
-            try {
-                initModelsFromCSV();
-                listenTemp();
-            } catch (IOException ex) {
-                log.log(Level.SEVERE, null, ex);
-            }
+            scheduleDiagramSwitch(controller);
+            connectBricklets();
         });
+
+    }
+
+    private void scheduleDiagramSwitch(FXMLDocumentController controller) {
+        // change view automatically as long as I don't get keyboard events from CEC
+        scheduler.scheduleAtFixedRate(() -> {
+            try {
+                log.info("switch to next diagram");
+                controller.next();
+            } catch (Throwable t) {
+                log.log(Level.SEVERE, t.getMessage(), t);
+            }
+        }, 10, 10, TimeUnit.SECONDS);
     }
 
     /**
@@ -169,7 +181,7 @@ public class MainApp extends Application {
         }
     }
 
-    private void listenTemp() {
+    private void connectBricklets() {
         final MyBricklet temp = new MyBrickletTemperature(new BrickletTemperature(UID_temperature, ipcon));
         final MyBricklet humidity = new MyBrickletHumidity(new BrickletHumidity(UID_humidity, ipcon));
         final MyBricklet ambient = new MyBrickletAmbientLight(new BrickletAmbientLight(UID_ambient, ipcon));

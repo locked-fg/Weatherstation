@@ -30,11 +30,11 @@ public class Connector extends Thread {
     @Override
     public void run() {
         if (ipcon.getConnectionState() == IPConnection.CONNECTION_STATE_PENDING) {
-            log.info("Connection is pending.");
+            log.fine("Connection is pending.");
         } else if (ipcon.getConnectionState() == IPConnection.CONNECTION_STATE_CONNECTED) {
-            log.info("Connection is up.");
+            log.fine("Connection is up.");
         } else {
-            log.info("Connection down, connecting");
+            log.fine("Connection down, connecting");
             try {
                 ipcon.connect(host, port);
                 log.info("Connecting succeeded.");
