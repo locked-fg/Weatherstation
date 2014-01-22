@@ -1,5 +1,6 @@
 package de.locked.weatherstation;
 
+import com.tinkerforge.AlreadyConnectedException;
 import com.tinkerforge.BrickletAmbientLight;
 import com.tinkerforge.BrickletBarometer;
 import com.tinkerforge.BrickletHumidity;
@@ -7,7 +8,7 @@ import com.tinkerforge.BrickletTemperature;
 import com.tinkerforge.IPConnection;
 import com.tinkerforge.NotConnectedException;
 import com.tinkerforge.TimeoutException;
-import de.locked.weatherstation.tinkerforge.Connector;
+import static de.locked.weatherstation.Charts.*;
 import de.locked.weatherstation.tinkerforge.MyBricklet;
 import de.locked.weatherstation.tinkerforge.MyBrickletAmbientLight;
 import de.locked.weatherstation.tinkerforge.MyBrickletBarometer;
@@ -51,6 +52,7 @@ public class MainApp extends Application {
     //
     private final int AUTO_SWITCH_DIAG = 15;
     private final int REFRESH_DATE = 60;
+    private final int POLL_SENSORS = 5;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -99,23 +101,21 @@ public class MainApp extends Application {
             controller.setDate(new DateTime());
         }, REFRESH_DATE, REFRESH_DATE, TimeUnit.SECONDS);
 
-        // read data from CSVs
-        Platform.runLater(() -> {
-            scheduleDiagramSwitch(controller);
-            connectBricklets();
-        });
-
+        connectBricklets();
+        scheduleDiagramSwitch(controller);
     }
 
     private void scheduleDiagramSwitch(FXMLDocumentController controller) {
         // change view automatically as long as I don't get keyboard events from CEC
         scheduler.scheduleAtFixedRate(() -> {
-            try {
-                log.info("switch to next diagram");
-                controller.next();
-            } catch (Throwable t) {
-                log.log(Level.SEVERE, t.getMessage(), t);
-            }
+            Platform.runLater(() -> {
+                try {
+                    log.info("switch to next diagram");
+                    controller.next();
+                } catch (Throwable t) {
+                    log.log(Level.SEVERE, t.getMessage(), t);
+                }
+            });
         }, AUTO_SWITCH_DIAG, AUTO_SWITCH_DIAG, TimeUnit.SECONDS);
     }
 
@@ -189,35 +189,43 @@ public class MainApp extends Application {
     }
 
     private void connectBricklets() {
-        final MyBricklet temp = new MyBrickletTemperature(new BrickletTemperature(UID_temperature, ipcon));
-        final MyBricklet humidity = new MyBrickletHumidity(new BrickletHumidity(UID_humidity, ipcon));
-        final MyBricklet ambient = new MyBrickletAmbientLight(new BrickletAmbientLight(UID_ambient, ipcon));
-        final MyBricklet barometer = new MyBrickletBarometer(new BrickletBarometer(UID_barometer, ipcon));
+        try {
+            ipcon.setAutoReconnect(true);
+            ipcon.connect(host, port);
 
-        scheduler.scheduleAtFixedRate(new Connector(ipcon, host, port), 0, 1, TimeUnit.MINUTES);
-        schedulePolling(temp, Charts.TEMPERATURE);
-        schedulePolling(humidity, Charts.HUMIDITY);
-        schedulePolling(barometer, Charts.BAROMETER);
-        schedulePolling(ambient, Charts.AMBIENT);
+            scheduler.scheduleAtFixedRate(new Runnable() {
+                MyBricklet temp = new MyBrickletTemperature(new BrickletTemperature(UID_temperature, ipcon));
+                MyBricklet humidity = new MyBrickletHumidity(new BrickletHumidity(UID_humidity, ipcon));
+                MyBricklet ambient = new MyBrickletAmbientLight(new BrickletAmbientLight(UID_ambient, ipcon));
+                MyBricklet barometer = new MyBrickletBarometer(new BrickletBarometer(UID_barometer, ipcon));
+
+                @Override
+                public void run() {
+                    if (ipcon.getConnectionState() != IPConnection.CONNECTION_STATE_CONNECTED) {
+                        log.warning("No connection available. Don't query sensor.");
+                        return;
+                    }
+                    update(temp, TEMPERATURE);
+                    update(humidity, HUMIDITY);
+                    update(ambient, AMBIENT);
+                    update(barometer, BAROMETER);
+                }
+            }, POLL_SENSORS, POLL_SENSORS, TimeUnit.SECONDS);
+        } catch (IOException | AlreadyConnectedException ex) {
+            log.log(Level.SEVERE, null, ex);
+        }
     }
 
-    private void schedulePolling(MyBricklet bricklet, Charts aChart) {
-        scheduler.scheduleAtFixedRate(() -> {
-            if (ipcon.getConnectionState() != IPConnection.CONNECTION_STATE_CONNECTED) {
-                log.warning("No connection available. Don't query sensor.");
-                return;
-            }
-
-            try {
-                double t = bricklet.getValue();
-                log.fine("queried " + aChart.name() + ": " + t);
-                Platform.runLater(() -> {
-                    aChart.add(t);
-                });
-            } catch (TimeoutException | NotConnectedException e) {
-                log.log(Level.SEVERE, e.getMessage(), e);
-            }
-        }, 1, 1, TimeUnit.SECONDS);
+    private void update(MyBricklet bricklet, Charts aChart) {
+        try {
+            double t = bricklet.getValue();
+            log.fine("queried " + aChart.name() + ": " + t);
+            Platform.runLater(() -> {
+                aChart.add(t);
+            });
+        } catch (TimeoutException | NotConnectedException e) {
+            log.log(Level.SEVERE, e.getMessage(), e);
+        }
     }
 
 }
