@@ -3,16 +3,13 @@ package de.locked.weatherstation;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart.Data;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.joda.time.DateTime;
-import org.joda.time.Minutes;
 import org.joda.time.ReadableInstant;
-import org.joda.time.Seconds;
 
 public class ValuesModel {
 

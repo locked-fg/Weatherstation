@@ -175,7 +175,7 @@ public class FXMLDocumentController {
         String fmt1 = formats.get(c).getKey();
         String fmt2 = formats.get(c).getValue();
 
-        xAxis.setUpperBound(System.currentTimeMillis());
+        xAxis.setUpperBound(System.currentTimeMillis() + 15 * 60 * 1000); // +15min
         String curr = String.format(locale, fmt1, c.getCurrentValue());
         String mm = String.format(locale, fmt2, c.getMinValue(), c.getMaxValue());
 
