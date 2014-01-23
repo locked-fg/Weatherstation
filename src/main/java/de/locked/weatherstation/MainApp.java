@@ -8,6 +8,8 @@ import com.tinkerforge.BrickletTemperature;
 import com.tinkerforge.IPConnection;
 import com.tinkerforge.NotConnectedException;
 import com.tinkerforge.TimeoutException;
+import de.locked.cecclient.CecListener;
+import de.locked.cecclient.KEvent;
 import static de.locked.weatherstation.Charts.*;
 import de.locked.weatherstation.tinkerforge.MyBricklet;
 import de.locked.weatherstation.tinkerforge.MyBrickletAmbientLight;
@@ -27,9 +29,7 @@ import java.util.logging.Logger;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.application.Platform;
-import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -53,20 +53,25 @@ public class MainApp extends Application {
     private final int AUTO_SWITCH_DIAG = 15; // s
     private final int REFRESH_DATE = 60; // s
     private final int POLL_SENSORS = 5; // s
+    private FXMLDocumentController controller;
 
     @Override
     public void start(Stage stage) throws Exception {
+        log.info("Welcome - starting " + getClass().getName());
         initModelsFromCSV();
 
-        log.info("Welcome - starting " + getClass().getName());
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLDocument.fxml"));
         loader.load();
-        Parent root = loader.getRoot();
-
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(loader.getRoot());
         scene.getStylesheets().add("/styles/base.css");
 
-        FXMLDocumentController controller = loader.getController();
+        controller = loader.getController();
+        resize();
+        stage.setTitle("JavaFX and Maven");
+        stage.setScene(scene);
+        stage.show();
+
+        // on the CLI we won't get any of those
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent e) -> {
             if (e.getCode() == KeyCode.RIGHT) {
                 controller.next();
@@ -75,10 +80,30 @@ public class MainApp extends Application {
             }
         });
 
-        scene.addEventHandler(Event.ANY, (Event e) -> {
-            log.info(e.toString());
-        });
+        connectCEC();
+        connectBricklets();
 
+        // refresh date 
+        scheduler.scheduleAtFixedRate(() -> {
+            controller.setDate(new DateTime());
+        }, REFRESH_DATE, REFRESH_DATE, TimeUnit.SECONDS);
+    }
+
+    private void connectCEC() {
+        CecListener cec = new CecListener();
+        cec.addCallBackListener((KEvent e) -> {
+            if (!e.isUnmapped() && e.isPressed()) {
+                if (e.getCode() == java.awt.event.KeyEvent.VK_RIGHT) {
+                    controller.next();
+                } else if (e.getCode() == java.awt.event.KeyEvent.VK_LEFT) {
+                    controller.prev();
+                }
+            }
+        });
+        cec.start();
+    }
+
+    private void resize() {
         try {
             if (getParameters().getNamed().containsKey("w")) {
                 int w = Integer.parseInt(getParameters().getNamed().get("w"));
@@ -91,32 +116,6 @@ public class MainApp extends Application {
         } catch (NumberFormatException e) {
             log.severe(e.getMessage());
         }
-
-        stage.setTitle("JavaFX and Maven");
-        stage.setScene(scene);
-        stage.show();
-
-        // refresh date 
-        scheduler.scheduleAtFixedRate(() -> {
-            controller.setDate(new DateTime());
-        }, REFRESH_DATE, REFRESH_DATE, TimeUnit.SECONDS);
-
-        connectBricklets();
-        scheduleDiagramSwitch(controller);
-    }
-
-    private void scheduleDiagramSwitch(FXMLDocumentController controller) {
-        // change view automatically as long as I don't get keyboard events from CEC
-        scheduler.scheduleAtFixedRate(() -> {
-            Platform.runLater(() -> {
-                try {
-                    log.info("switch to next diagram");
-                    controller.next();
-                } catch (Throwable t) {
-                    log.log(Level.SEVERE, t.getMessage(), t);
-                }
-            });
-        }, AUTO_SWITCH_DIAG, AUTO_SWITCH_DIAG, TimeUnit.SECONDS);
     }
 
     /**
@@ -227,4 +226,5 @@ public class MainApp extends Application {
             }
         }, POLL_SENSORS, POLL_SENSORS, TimeUnit.SECONDS);
     }
+
 }

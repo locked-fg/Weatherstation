@@ -1,0 +1,165 @@
+pi@raspberrypi ~ $ cec-client
+No device type given. Using 'recording device'
+CEC Parser created - libCEC version 2.1.1
+no serial port given. trying autodetect:
+ path:     Raspberry Pi
+ com port: RPI
+
+opening a connection to the CEC adapter...
+DEBUG:   [             193]     unregistering all CEC clients
+DEBUG:   [             194]     Broadcast (F): osd name set to 'Broadcast'
+DEBUG:   [             196]     InitHostCEC - vchiq_initialise succeeded
+DEBUG:   [             198]     InitHostCEC - vchi_initialise succeeded
+DEBUG:   [             199]     InitHostCEC - vchi_connect succeeded
+DEBUG:   [             204]     logical address changed to Broadcast (f)
+DEBUG:   [             208]     RegisterLogicalAddress - registering address e
+DEBUG:   [             391]     logical address changed to Recorder 1 (1)
+DEBUG:   [             394]     logical address changed to Free use (e)
+DEBUG:   [             396]     Open - vc_cec initialised
+NOTICE:  [             396]     connection opened
+DEBUG:   [             400]     << Broadcast (F) -> TV (0): POLL
+DEBUG:   [             402]     initiator 'Broadcast' is not supported by the CEC adapter. using 'Free use' instead
+TRAFFIC: [             402]     << e0
+DEBUG:   [             402]     processor thread started
+DEBUG:   [             436]     >> POLL sent
+DEBUG:   [             443]     TV (0): device status changed into 'present'
+DEBUG:   [             447]     << requesting vendor ID of 'TV' (0)
+TRAFFIC: [             450]     << e0:8c
+TRAFFIC: [             643]     >> 0f:87:00:00:f0
+DEBUG:   [             644]     >> TV (0) -> Broadcast (F): device vendor id (87)
+DEBUG:   [             644]     TV (0): vendor = Samsung (0000f0)
+DEBUG:   [             645]     expected response received (87: device vendor id)
+DEBUG:   [             647]     replacing the command handler for device 'TV' (0)
+NOTICE:  [             648]     registering new CEC client - v2.1.1
+DEBUG:   [             650]     detecting logical address for type 'recording device'
+DEBUG:   [             657]     trying logical address 'Recorder 1'
+DEBUG:   [             658]     << Recorder 1 (1) -> Recorder 1 (1): POLL
+TRAFFIC: [             659]     << 11
+DEBUG:   [             660]     UnregisterLogicalAddress - releasing previous logical address
+DEBUG:   [             661]     logical address changed to Broadcast (f)
+DEBUG:   [             662]     RegisterLogicalAddress - registering address 1
+DEBUG:   [             844]     logical address changed to Free use (e)
+DEBUG:   [             844]     logical address changed to Recorder 1 (1)
+TRAFFIC: [             844]     << 11
+DEBUG:   [             844]     >> POLL not sent
+DEBUG:   [             844]     using logical address 'Recorder 1'
+DEBUG:   [             845]     Recorder 1 (1): device status changed into 'handled by libCEC'
+DEBUG:   [             845]     Recorder 1 (1): power status changed from 'unknown' to 'on'
+DEBUG:   [             845]     Recorder 1 (1): CEC version 1.4
+DEBUG:   [             845]     AllocateLogicalAddresses - device '0', type 'recording device', LA '1'
+DEBUG:   [             845]     Recorder 1 (1): osd name set to 'CECTester'
+DEBUG:   [             846]     Recorder 1 (1): menu language set to 'eng'
+DEBUG:   [             847]     GetPhysicalAddress - physical address = 3000
+DEBUG:   [             852]     AutodetectPhysicalAddress - autodetected physical address '3000'
+DEBUG:   [             853]     Recorder 1 (1): physical address changed from ffff to 3000
+DEBUG:   [             853]     << Recorder 1 (1) -> broadcast (F): physical adddress 3000
+TRAFFIC: [             854]     << 1f:84:30:00:01
+NOTICE:  [            1008]     CEC client registered: libCEC version = 2.1.1, client version = 2.1.1, firmware version = 1, logical address(es) = Recorder 1 (1) , physical address: 3.0.0.0, host: armv6l-unknown-linux-gnueabihf, features: 'P8 USB' 'P8 USB detect' 'RPi', git revision: 3ff78be, compiled on: Mon Mar 25 06:49:17 UTC 2013 by pi@raspberrypi on Linux 3.6.11+ (armv6l)
+DEBUG:   [            1008]     << Recorder 1 (1) -> TV (0): OSD name 'CECTester'
+TRAFFIC: [            1008]     << 10:47:43:45:43:54:65:73:74:65:72
+DEBUG:   [            1284]     << requesting power status of 'TV' (0)
+TRAFFIC: [            1284]     << 10:8f
+TRAFFIC: [            1441]     >> 01:90:00
+DEBUG:   [            1442]     >> TV (0) -> Recorder 1 (1): report power status (90)
+DEBUG:   [            1442]     TV (0): power status changed from 'unknown' to 'on'
+DEBUG:   [            1443]     expected response received (90: report power status)
+waiting for input
+
+TRAFFIC: [            5614]     >> 01:44:21
+DEBUG:   [            5615]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
+DEBUG:   [            5615]     key pressed: 1 (21)
+DEBUG:   [            5615]     making Recorder 1 (1) the active source
+NOTICE:  [            5615]     >> source activated: Recorder 1 (1)
+TRAFFIC: [            5845]     >> 01:8b:21
+DEBUG:   [            5846]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
+DEBUG:   [            5846]     key released: 1 (21)
+TRAFFIC: [           11770]     >> 01:44:22
+DEBUG:   [           11771]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
+DEBUG:   [           11771]     key pressed: 2 (22)
+TRAFFIC: [           12007]     >> 01:8b:22
+DEBUG:   [           12007]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
+DEBUG:   [           12007]     key released: 2 (22)
+TRAFFIC: [           14378]     >> 01:44:23
+DEBUG:   [           14378]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
+DEBUG:   [           14378]     key pressed: 3 (23)
+TRAFFIC: [           14506]     >> 01:8b:23
+DEBUG:   [           14507]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
+DEBUG:   [           14507]     key released: 3 (23)
+TRAFFIC: [           16002]     >> 01:44:24
+DEBUG:   [           16002]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
+DEBUG:   [           16003]     key pressed: 4 (24)
+TRAFFIC: [           16233]     >> 01:8b:24
+DEBUG:   [           16233]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
+DEBUG:   [           16234]     key released: 4 (24)
+TRAFFIC: [           16718]     >> 01:44:25
+DEBUG:   [           16718]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
+DEBUG:   [           16718]     key pressed: 5 (25)
+TRAFFIC: [           16846]     >> 01:8b:25
+DEBUG:   [           16846]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
+DEBUG:   [           16846]     key released: 5 (25)
+TRAFFIC: [           17426]     >> 01:44:26
+DEBUG:   [           17426]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
+DEBUG:   [           17426]     key pressed: 6 (26)
+TRAFFIC: [           17661]     >> 01:8b:26
+DEBUG:   [           17662]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
+DEBUG:   [           17662]     key released: 6 (26)
+TRAFFIC: [           18127]     >> 01:44:27
+DEBUG:   [           18131]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
+DEBUG:   [           18132]     key pressed: 7 (27)
+TRAFFIC: [           18253]     >> 01:8b:27
+DEBUG:   [           18254]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
+DEBUG:   [           18254]     key released: 7 (27)
+TRAFFIC: [           18775]     >> 01:44:28
+DEBUG:   [           18775]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
+DEBUG:   [           18775]     key pressed: 8 (28)
+TRAFFIC: [           19007]     >> 01:8b:28
+DEBUG:   [           19007]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
+DEBUG:   [           19008]     key released: 8 (28)
+TRAFFIC: [           19459]     >> 01:44:29
+DEBUG:   [           19459]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
+DEBUG:   [           19459]     key pressed: 9 (29)
+TRAFFIC: [           19685]     >> 01:8b:29
+DEBUG:   [           19685]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
+DEBUG:   [           19686]     key released: 9 (29)
+TRAFFIC: [           20586]     >> 01:44:20
+DEBUG:   [           20586]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
+DEBUG:   [           20587]     key pressed: 0 (20)
+TRAFFIC: [           20818]     >> 01:8b:20
+DEBUG:   [           20818]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
+DEBUG:   [           20818]     key released: 0 (20)
+TRAFFIC: [           22324]     >> 01:44:30
+DEBUG:   [           22329]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
+DEBUG:   [           22330]     key pressed: channel up (30)
+TRAFFIC: [           22545]     >> 01:8b:30
+DEBUG:   [           22545]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
+DEBUG:   [           22545]     key released: channel up (30)
+TRAFFIC: [           23632]     >> 01:44:31
+DEBUG:   [           23632]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
+DEBUG:   [           23632]     key pressed: channel down (31)
+TRAFFIC: [           23870]     >> 01:8b:31
+DEBUG:   [           23870]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
+DEBUG:   [           23870]     key released: channel down (31)
+TRAFFIC: [           25881]     >> 01:44:04
+DEBUG:   [           25881]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
+DEBUG:   [           25882]     key pressed: right (4)
+TRAFFIC: [           26111]     >> 01:8b:04
+DEBUG:   [           26112]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
+DEBUG:   [           26112]     key released: right (4)
+TRAFFIC: [           27011]     >> 01:44:03
+DEBUG:   [           27011]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
+DEBUG:   [           27011]     key pressed: left (3)
+TRAFFIC: [           27241]     >> 01:8b:03
+DEBUG:   [           27242]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
+DEBUG:   [           27242]     key released: left (3)
+TRAFFIC: [           29023]     >> 01:44:01
+DEBUG:   [           29023]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
+DEBUG:   [           29023]     key pressed: up (1)
+TRAFFIC: [           29146]     >> 01:8b:01
+DEBUG:   [           29147]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
+DEBUG:   [           29150]     key released: up (1)
+TRAFFIC: [           29862]     >> 01:44:02
+DEBUG:   [           29863]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
+DEBUG:   [           29863]     key pressed: down (2)
+TRAFFIC: [           30093]     >> 01:8b:02
+DEBUG:   [           30093]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
+DEBUG:   [           30093]     key released: down (2)
