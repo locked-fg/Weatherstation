@@ -2,7 +2,11 @@ package de.locked.weatherstation;
 
 import static de.locked.weatherstation.Charts.*;
 import java.net.URL;
+import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -54,7 +58,7 @@ public class FXMLDocumentController {
     @FXML
     private Label currentAmbient;
 
-// minMax
+    // minMax
     @FXML
     private Label minMaxTemp;
     @FXML
@@ -77,9 +81,17 @@ public class FXMLDocumentController {
     private URL location;
 
     private Charts currentChart = TEMPERATURE;
+    private Map<Charts, SimpleEntry<String, String>> formats = new HashMap<>();
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
+        // nah is this a nice place for this?
+        // I don't want to put the formats into the MODEL classes as this is clearly a VIEW topic
+        formats.put(AMBIENT, new AbstractMap.SimpleEntry<>("%.1f Lux", "%.1f / %.1f Lux"));
+        formats.put(TEMPERATURE, new AbstractMap.SimpleEntry<>("%.1f°C", "%.1f / %.1f°C"));
+        formats.put(HUMIDITY, new AbstractMap.SimpleEntry<>("%.1f%%", "%.1f / %.1f%%"));
+        formats.put(BAROMETER, new AbstractMap.SimpleEntry<>("%.0fmBar", "%.0f / %.0fmBar"));
+
         xAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(xAxis) {
 
             @Override
@@ -131,16 +143,16 @@ public class FXMLDocumentController {
 
     private void initModels() {
         AMBIENT.addPropertyChangeListener(e -> {
-            update("%.1f Lux", "%.1f / %.1f Lux", AMBIENT, currentAmbient, minMaxAmbient);
+            update(AMBIENT, currentAmbient, minMaxAmbient);
         });
         TEMPERATURE.addPropertyChangeListener(e -> {
-            update("%.1f°C", "%.1f / %.1f°C", TEMPERATURE, currentTemp, minMaxTemp);
+            update(TEMPERATURE, currentTemp, minMaxTemp);
         });
         HUMIDITY.addPropertyChangeListener(e -> {
-            update("%.1f%%", "%.1f / %.1f%%", HUMIDITY, currentHumidity, minMaxHumidity);
+            update(HUMIDITY, currentHumidity, minMaxHumidity);
         });
         BAROMETER.addPropertyChangeListener(e -> {
-            update("%.0fmBar", "%.0f / %.0fmBar", BAROMETER, currentPressure, minMaxPressure);
+            update(BAROMETER, currentPressure, minMaxPressure);
         });
     }
 
@@ -151,19 +163,28 @@ public class FXMLDocumentController {
         chartTitle.setText(currentChart.title());
         bigChartTitle.setText(currentChart.title());
 
-        chart.getData().clear();
-        chart.getData().add(new XYChart.Series(currentChart.getValuesModel()));
+        chart.getData().setAll(new XYChart.Series(currentChart.getValuesModel()));
         xAxis.setLowerBound(currentChart.getMinTime().getMillis());
         xAxis.setUpperBound(System.currentTimeMillis());
         chart.requestLayout();
+
+        update(currentChart, null, null);
     }
 
-    private void update(String fmt1, String fmt2, Charts c, Label current, Label minMax) {
+    private void update(Charts c, Label current, Label minMax) {
+        String fmt1 = formats.get(c).getKey();
+        String fmt2 = formats.get(c).getValue();
+
+        xAxis.setUpperBound(System.currentTimeMillis());
         String curr = String.format(locale, fmt1, c.getCurrentValue());
         String mm = String.format(locale, fmt2, c.getMinValue(), c.getMaxValue());
 
-        current.setText(curr);
-        minMax.setText(mm);
+        if (current != null) {
+            current.setText(curr);
+        }
+        if (minMax != null) {
+            minMax.setText(mm);
+        }
         if (currentChart == c) {
             bigValue.setText(curr + "\n" + mm);
         }

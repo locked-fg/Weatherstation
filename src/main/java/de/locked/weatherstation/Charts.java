@@ -63,4 +63,5 @@ public enum Charts {
     public String title() {
         return title;
     }
+
 }
