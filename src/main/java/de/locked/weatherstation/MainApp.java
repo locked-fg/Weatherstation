@@ -39,7 +39,7 @@ import org.joda.time.DateTime;
 public class MainApp extends Application {
 
     private static final Logger log = Logger.getLogger(MainApp.class.getName());
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     //
     private final String host = "192.168.178.38";
     private final int port = 4223;
@@ -50,9 +50,9 @@ public class MainApp extends Application {
     private final String UID_ambient = "jzj";
     private final String UID_barometer = "jo7";
     //
-    private final int AUTO_SWITCH_DIAG = 15;
-    private final int REFRESH_DATE = 60;
-    private final int POLL_SENSORS = 5;
+    private final int AUTO_SWITCH_DIAG = 15; // s
+    private final int REFRESH_DATE = 60; // s
+    private final int POLL_SENSORS = 5; // s
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -182,9 +182,8 @@ public class MainApp extends Application {
     public void stop() throws Exception {
         log.info("shutting down application");
         scheduler.shutdownNow();
-        try {
+        if (ipcon.getConnectionState() == IPConnection.CONNECTION_STATE_CONNECTED) {
             ipcon.disconnect();
-        } catch (NotConnectedException ignore) {
         }
     }
 
@@ -192,40 +191,40 @@ public class MainApp extends Application {
         try {
             ipcon.setAutoReconnect(true);
             ipcon.connect(host, port);
-
-            scheduler.scheduleAtFixedRate(new Runnable() {
-                MyBricklet temp = new MyBrickletTemperature(new BrickletTemperature(UID_temperature, ipcon));
-                MyBricklet humidity = new MyBrickletHumidity(new BrickletHumidity(UID_humidity, ipcon));
-                MyBricklet ambient = new MyBrickletAmbientLight(new BrickletAmbientLight(UID_ambient, ipcon));
-                MyBricklet barometer = new MyBrickletBarometer(new BrickletBarometer(UID_barometer, ipcon));
-
-                @Override
-                public void run() {
-                    if (ipcon.getConnectionState() != IPConnection.CONNECTION_STATE_CONNECTED) {
-                        log.warning("No connection available. Don't query sensor.");
-                        return;
-                    }
-                    update(temp, TEMPERATURE);
-                    update(humidity, HUMIDITY);
-                    update(ambient, AMBIENT);
-                    update(barometer, BAROMETER);
-                }
-            }, POLL_SENSORS, POLL_SENSORS, TimeUnit.SECONDS);
         } catch (IOException | AlreadyConnectedException ex) {
             log.log(Level.SEVERE, null, ex);
+            return;
         }
-    }
 
-    private void update(MyBricklet bricklet, Charts aChart) {
-        try {
-            double t = bricklet.getValue();
-            log.fine("queried " + aChart.name() + ": " + t);
-            Platform.runLater(() -> {
-                aChart.add(t);
-            });
-        } catch (TimeoutException | NotConnectedException e) {
-            log.log(Level.SEVERE, e.getMessage(), e);
-        }
-    }
+        scheduler.scheduleAtFixedRate(new Runnable() {
+            MyBricklet temp = new MyBrickletTemperature(new BrickletTemperature(UID_temperature, ipcon));
+            MyBricklet humidity = new MyBrickletHumidity(new BrickletHumidity(UID_humidity, ipcon));
+            MyBricklet ambient = new MyBrickletAmbientLight(new BrickletAmbientLight(UID_ambient, ipcon));
+            MyBricklet barometer = new MyBrickletBarometer(new BrickletBarometer(UID_barometer, ipcon));
 
+            @Override
+            public void run() {
+                if (ipcon.getConnectionState() != IPConnection.CONNECTION_STATE_CONNECTED) {
+                    log.warning("No connection available. Don't query sensors.");
+                    return;
+                }
+                update(temp, TEMPERATURE);
+                update(humidity, HUMIDITY);
+                update(ambient, AMBIENT);
+                update(barometer, BAROMETER);
+            }
+
+            private void update(MyBricklet bricklet, Charts aChart) {
+                try {
+                    double t = bricklet.getValue();
+                    log.fine("queried " + aChart.name() + ": " + t);
+                    Platform.runLater(() -> {
+                        aChart.add(t);
+                    });
+                } catch (TimeoutException | NotConnectedException e) {
+                    log.log(Level.SEVERE, e.getMessage(), e);
+                }
+            }
+        }, POLL_SENSORS, POLL_SENSORS, TimeUnit.SECONDS);
+    }
 }

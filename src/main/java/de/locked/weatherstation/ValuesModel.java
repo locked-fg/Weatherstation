@@ -10,15 +10,17 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart.Data;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.joda.time.DateTime;
+import org.joda.time.Minutes;
 import org.joda.time.ReadableInstant;
 import org.joda.time.Seconds;
 
 public class ValuesModel {
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-    private final ObservableList<Data<Long, Double>> model = FXCollections.<Data<Long, Double>>observableArrayList();
-    private final List<MyStats> statList = new ArrayList<>(25);
+    private final ObservableList<Data<Long, Double>> model = FXCollections.observableArrayList();
+    private final List<MyStats> statList = new ArrayList<>(49);
 
+    private static final int TIME_TOLERANCE = 60_000;
     private static final int LIMIT_HOURS = 48;
     private Measure recent = new Measure(new DateTime(0), 0);
     private double min, max;
@@ -66,33 +68,42 @@ public class ValuesModel {
     }
 
     private void addOrUpdate(Measure m) {
-        DateTime date = m.getDate();
         // get rid of min, sec, msec
-        DateTime key = new DateTime(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), date.getHourOfDay(), 0);
-        long keyMillis = key.getMillis();
+        DateTime date = m.getDate();
+        final DateTime key = new DateTime(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), date.getHourOfDay(), 0);
 
         // measure for this key in list and map?
-        boolean found = false;
         for (MyStats stat : statList) {
-            if (Seconds.secondsBetween(stat.timestamp, key).getSeconds() < 15) {
-                found = true;
-                stat.add(m.getValue());
-                model.stream().filter(d -> d.getXValue() == keyMillis).forEach(d -> {
+            if (eq(stat, key)) {
+                stat.add(m);
+                model.stream().filter(d -> eq(d, key)).forEach(d -> {
                     d.setYValue(stat.getMean());
                 });
-                break;
+                return;
             }
         }
-        if (!found) { // wasn't there
-            statList.add(new MyStats(key, m.getValue()));
-            model.add(new Data<>(keyMillis, m.getValue()));
-        }
+
+        // didn't return in above loop
+        statList.add(new MyStats(key, m.getValue()));
+        model.add(new Data<>(key.getMillis(), m.getValue()));
     }
 
-    public DateTime minTime(){
+    private boolean eq(Data<Long, Double> d, DateTime dt) {
+        return eq(d.getXValue().longValue(), dt.getMillis());
+    }
+
+    private boolean eq(MyStats dt, DateTime m) {
+        return eq(dt.getDate().getMillis(), m.getMillis());
+    }
+
+    private boolean eq(long a, long b) {
+        return Math.abs(a - b) < TIME_TOLERANCE;
+    }
+
+    public DateTime minTime() {
         return new DateTime().minusHours(LIMIT_HOURS);
     }
-    
+
     /**
      * cleanup timed out values
      */
@@ -128,9 +139,13 @@ public class ValuesModel {
             addValue(value);
         }
 
-        public MyStats add(double val) {
-            addValue(val);
+        public MyStats add(Measure m) {
+            addValue(m.getValue());
             return this;
+        }
+
+        public DateTime getDate() {
+            return timestamp;
         }
 
         public boolean isAfter(long instant) {
