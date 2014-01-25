@@ -66,27 +66,27 @@ public enum ChartModel {
     }
 
     public double getMinY() {
-        return defaultMin;
+        if (!Double.isNaN(defaultMin)) {
+            return Math.min(defaultMin, getMinValue());
+        } else {
+            return getMinValue();
+        }
     }
 
     public double getMaxY() {
-        return defaultMax;
+        if (!Double.isNaN(defaultMax)) {
+            return Math.max(defaultMax, getMaxValue());
+        } else {
+            return getMaxValue();
+        }
     }
 
     public double getMinValue() {
-        if (!Double.isNaN(getMinY())) {
-            return Math.min(getMinY(), valuesModel.getMin());
-        } else {
-            return valuesModel.getMin();
-        }
+        return valuesModel.getMin();
     }
 
     public double getMaxValue() {
-        if (!Double.isNaN(getMaxY())) {
-            return Math.max(getMaxY(), valuesModel.getMax());
-        } else {
-            return valuesModel.getMax();
-        }
+        return valuesModel.getMax();
     }
 
     public String title() {
