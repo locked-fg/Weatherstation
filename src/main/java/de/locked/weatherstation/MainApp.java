@@ -1,6 +1,6 @@
 package de.locked.weatherstation;
 
-import de.locked.weatherstation.model.Charts;
+import de.locked.weatherstation.model.ChartModel;
 import com.tinkerforge.AlreadyConnectedException;
 import com.tinkerforge.BrickletAmbientLight;
 import com.tinkerforge.BrickletBarometer;
@@ -11,7 +11,7 @@ import com.tinkerforge.NotConnectedException;
 import com.tinkerforge.TimeoutException;
 import de.locked.cecclient.CecListener;
 import de.locked.cecclient.KEvent;
-import static de.locked.weatherstation.model.Charts.*;
+import static de.locked.weatherstation.model.ChartModel.*;
 import de.locked.weatherstation.tinkerforge.MyBricklet;
 import de.locked.weatherstation.tinkerforge.MyBrickletAmbientLight;
 import de.locked.weatherstation.tinkerforge.MyBrickletBarometer;
@@ -51,8 +51,8 @@ public class MainApp extends Application {
     private final String UID_ambient = "jzj";
     private final String UID_barometer = "jo7";
     //
-    private final int REFRESH_DATE = 60; // s
-    private final int POLL_SENSORS = 5; // s
+    private final int REFRESH_DATE = 30; // s
+    private final int POLL_SENSORS = 2; // s
     private FXMLDocumentController controller;
     private CecListener cec;
     
@@ -147,7 +147,7 @@ public class MainApp extends Application {
     private void initModelsFromCSV() {
         log.info("init data from CSVs");
         Map<String, String> params = getParameters().getNamed();
-        for (Charts chartModel : Charts.values()) {
+        for (ChartModel chartModel : ChartModel.values()) {
             String paramName = chartModel.name().toLowerCase() + "-csv";
             String csvPath = params.get(paramName);
             if (csvPath == null) {
@@ -219,7 +219,7 @@ public class MainApp extends Application {
                 });
             }
             
-            private void update(MyBricklet bricklet, Charts aChart) {
+            private void update(MyBricklet bricklet, ChartModel aChart) {
                 try {
                     double t = bricklet.getValue();
                     log.fine("queried " + aChart.name() + ": " + t);

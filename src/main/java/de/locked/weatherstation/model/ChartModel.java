@@ -6,20 +6,20 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 import org.joda.time.DateTime;
 
-public enum Charts {
+public enum ChartModel {
 
-    TEMPERATURE("Temperatur"), HUMIDITY("Luftfeuchtigkeit", 40, 90), BAROMETER("Luftdruck", 925, 965), AMBIENT("Lichtstärke");
+    TEMPERATURE("Temperatur"), HUMIDITY("Luftfeuchtigkeit", 50, 90), BAROMETER("Luftdruck"), AMBIENT("Lichtstärke");
 
     private final ValuesModel valuesModel = new ValuesModel();
     private final String title;
     private final double defaultMin;
     private final double defaultMax;
 
-    private Charts(String title) {
+    private ChartModel(String title) {
         this(title, Double.NaN, Double.NaN);
     }
 
-    private Charts(String title, double defaultMin, double defaultMax) {
+    private ChartModel(String title, double defaultMin, double defaultMax) {
         this.title = title;
         this.defaultMin = defaultMin;
         this.defaultMax = defaultMax;
@@ -45,14 +45,14 @@ public enum Charts {
         valuesModel.addPropertyChangeListener(listener);
     }
 
-    public Charts next() {
-        Charts[] all = Charts.values();
+    public ChartModel next() {
+        ChartModel[] all = ChartModel.values();
         int i = (ordinal() + 1) % all.length;
         return all[i];
     }
 
-    public Charts prev() {
-        Charts[] all = Charts.values();
+    public ChartModel prev() {
+        ChartModel[] all = ChartModel.values();
         int i = (ordinal() + all.length - 1) % all.length;
         return all[i];
     }

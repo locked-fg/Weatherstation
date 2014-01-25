@@ -1,9 +1,7 @@
 package de.locked.weatherstation;
 
-import de.locked.weatherstation.model.Charts;
-import static de.locked.weatherstation.model.Charts.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import de.locked.weatherstation.model.ChartModel;
+import static de.locked.weatherstation.model.ChartModel.*;
 import java.net.URL;
 import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
@@ -85,8 +83,8 @@ public class FXMLDocumentController {
     @FXML // URL location of the FXML file that was given to the FXMLLoader
     private URL location;
 
-    private Charts currentChart = TEMPERATURE;
-    private Map<Charts, SimpleEntry<String, String>> formats = new HashMap<>();
+    private ChartModel currentChart = TEMPERATURE;
+    private Map<ChartModel, SimpleEntry<String, String>> formats = new HashMap<>();
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
@@ -161,14 +159,13 @@ public class FXMLDocumentController {
         });
     }
 
-    private void initModel(Charts model) {
-        log.info("now displaying " + model.name());
-        currentChart = model;
+    private void initModel(ChartModel newModel) {
+        log.info("now displaying " + newModel.name());
+        currentChart = newModel;
 
         chartTitle.setText(currentChart.title());
         bigChartTitle.setText(currentChart.title());
 
-        chart.getData().clear();
         chart.getData().setAll(new XYChart.Series(currentChart.getValuesModel()));
         xAxis.setLowerBound(currentChart.getMinTime().getMillis());
         xAxis.setUpperBound(System.currentTimeMillis());
@@ -176,7 +173,7 @@ public class FXMLDocumentController {
         update(currentChart, null, null);
     }
 
-    private void update(Charts charts, Label current, Label minMax) {
+    private synchronized void update(ChartModel charts, Label current, Label minMax) {
         String fmt1 = formats.get(charts).getKey();
         String fmt2 = formats.get(charts).getValue();
 

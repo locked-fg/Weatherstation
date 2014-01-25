@@ -1,6 +1,6 @@
 package de.locked.weatherstation.model;
 
-import de.locked.weatherstation.model.Charts;
+import de.locked.weatherstation.model.ChartModel;
 import java.beans.PropertyChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
@@ -12,9 +12,9 @@ public class ChartsTest {
 
     @Test
     public void testNext() {
-        Charts[] values = Charts.values();
+        ChartModel[] values = ChartModel.values();
         for (int i = 0; i < values.length; i++) {
-            Charts c = values[i].next();
+            ChartModel c = values[i].next();
             if (i < values.length - 1) {
                 assertEquals(values[i + 1], c);
             }
@@ -26,9 +26,9 @@ public class ChartsTest {
 
     @Test
     public void testPrev() {
-        Charts[] values = Charts.values();
+        ChartModel[] values = ChartModel.values();
         for (int i = 0; i < values.length; i++) {
-            Charts c = values[i].prev();
+            ChartModel c = values[i].prev();
             if (i > 0 && i < values.length) {
                 assertEquals(values[i - 1], c);
             }
