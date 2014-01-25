@@ -74,11 +74,19 @@ public enum ChartModel {
     }
 
     public double getMinValue() {
-        return valuesModel.getMin();
+        if (!Double.isNaN(getMinY())) {
+            return Math.min(getMinY(), valuesModel.getMin());
+        } else {
+            return valuesModel.getMin();
+        }
     }
 
     public double getMaxValue() {
-        return valuesModel.getMax();
+        if (!Double.isNaN(getMaxY())) {
+            return Math.max(getMaxY(), valuesModel.getMax());
+        } else {
+            return valuesModel.getMax();
+        }
     }
 
     public String title() {

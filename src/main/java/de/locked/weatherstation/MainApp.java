@@ -38,7 +38,7 @@ import javafx.stage.Stage;
 import org.joda.time.DateTime;
 
 public class MainApp extends Application {
-    
+
     private static final Logger log = Logger.getLogger(MainApp.class.getName());
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     //
@@ -55,17 +55,17 @@ public class MainApp extends Application {
     private final int POLL_SENSORS = 2; // s
     private FXMLDocumentController controller;
     private CecListener cec;
-    
+
     @Override
     public void start(Stage stage) throws Exception {
         log.info("Welcome - starting " + getClass().getName());
         initModelsFromCSV();
-        
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLDocument.fxml"));
         loader.load();
         Scene scene = new Scene(loader.getRoot());
         scene.getStylesheets().add("/styles/base.css");
-        
+
         controller = loader.getController();
         resize();
         stage.setTitle("JavaFX and Maven");
@@ -80,7 +80,7 @@ public class MainApp extends Application {
                 controller.prev();
             }
         });
-        
+
         connectCEC();
 
         // Connect to sensors
@@ -94,10 +94,10 @@ public class MainApp extends Application {
         scheduler.scheduleAtFixedRate(() -> {
             controller.setDate(new DateTime());
         }, REFRESH_DATE, REFRESH_DATE, TimeUnit.SECONDS);
-        
+
         log.info("start finished");
     }
-    
+
     private void connectCEC() {
         cec = new CecListener();
         cec.addCallBackListener((KEvent e) -> {
@@ -111,13 +111,13 @@ public class MainApp extends Application {
         });
         cec.start();
     }
-    
+
     private void resize() {
         try {
             if (getParameters().getNamed().containsKey("w")) {
                 int w = Integer.parseInt(getParameters().getNamed().get("w"));
                 int h = Integer.parseInt(getParameters().getNamed().get("h"));
-                
+
                 log.info("setting width/height to " + w + "/" + h);
                 controller.rootPane.setPrefSize(w, h);
                 controller.contentPane.setPrefSize(w, h);
@@ -139,7 +139,9 @@ public class MainApp extends Application {
     }
 
     /**
-     * This is executed in the JavaFX application thread! Not particularly well, but this is just once at startup.
+     * This should be executed in the JavaFX application thread as the model.add(MEasure) calls trigger updates of the
+     * underlying model. If this should be done off the FX-Appthread, a bulk-insert method in the model would be
+     * required.
      *
      * @throws IOException
      */
@@ -154,13 +156,13 @@ public class MainApp extends Application {
                 log.warning(paramName + " not given in command line. Ignoring");
                 continue;
             }
-            
+
             File csvFile = new File(csvPath);
             if (!csvFile.exists() || !csvFile.canRead()) {
                 log.warning(csvFile.getAbsolutePath() + " cannot be found or read. Ignoring");
                 continue;
             }
-            
+
             log.info("init data from " + csvFile.getName() + " // " + csvFile.getAbsolutePath());
             try (BufferedReader in = new BufferedReader(new FileReader(csvFile))) {
                 while (in.ready()) {
@@ -170,7 +172,7 @@ public class MainApp extends Application {
                         log.warning("invalid line (Ignoring): " + line);
                         continue;
                     }
-                    
+
                     try {
                         DateTime date = new DateTime(Long.parseLong(parts[0].trim()) * 1000L);
                         double value = Double.parseDouble(parts[1].trim());
@@ -185,7 +187,7 @@ public class MainApp extends Application {
             }
         }
     }
-    
+
     @Override
     public void stop() throws Exception {
         log.info("shutting down application");
@@ -197,32 +199,38 @@ public class MainApp extends Application {
             ipcon.disconnect();
         }
     }
-    
+
     private void connectBricklets() {
+        log.info("Connecting bricklets.");
         scheduler.scheduleAtFixedRate(new Runnable() {
             MyBricklet temp = new MyBrickletTemperature(new BrickletTemperature(UID_temperature, ipcon));
             MyBricklet humidity = new MyBrickletHumidity(new BrickletHumidity(UID_humidity, ipcon));
             MyBricklet ambient = new MyBrickletAmbientLight(new BrickletAmbientLight(UID_ambient, ipcon));
             MyBricklet barometer = new MyBrickletBarometer(new BrickletBarometer(UID_barometer, ipcon));
-            
+
             @Override
             public void run() {
+                log.info("Poll sensors");
                 if (ipcon.getConnectionState() != IPConnection.CONNECTION_STATE_CONNECTED) {
                     log.warning("No connection available. Don't query sensors.");
                     return;
                 }
-                Platform.runLater(() -> {
-                    update(temp, TEMPERATURE);
-                    update(humidity, HUMIDITY);
-                    update(ambient, AMBIENT);
-                    update(barometer, BAROMETER);
-                });
+                // I wanted to push all runLater calls to the controller (or model) yet this would result in 4x the amount of 
+                // runLater calls every POLL_SENSORS seconds. I should evealuate if this leads to a noticable effect
+                // on the Raspberry.
+                // See ValuesModel#add(Measure)
+                // Platform.runLater(() -> {
+                update(temp, TEMPERATURE);
+                update(humidity, HUMIDITY);
+                update(ambient, AMBIENT);
+                update(barometer, BAROMETER);
+                // });
             }
-            
+
             private void update(MyBricklet bricklet, ChartModel aChart) {
                 try {
                     double t = bricklet.getValue();
-                    log.fine("queried " + aChart.name() + ": " + t);
+                    log.info("queried " + aChart.name() + ": " + t);
                     aChart.add(t);
                 } catch (TimeoutException | NotConnectedException e) {
                     log.severe("Getting value from Sensor " + aChart.name() + " failed: " + e.getMessage());
@@ -230,16 +238,17 @@ public class MainApp extends Application {
             }
         }, POLL_SENSORS, POLL_SENSORS, TimeUnit.SECONDS);
     }
-    
+
     private boolean connectMasterbrick() {
+        log.info("Connecting to Masterbrick");
         try {
             ipcon.setAutoReconnect(true);
             ipcon.connect(host, port);
             return true;
         } catch (IOException | AlreadyConnectedException ex) {
-            log.severe("Connection to Bricklets failed! " + ex.getMessage());
+            log.severe("Connection to Bricklets failed!\n" + ex.getMessage());
             return false;
         }
     }
-    
+
 }

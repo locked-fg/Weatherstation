@@ -168,7 +168,7 @@ public class FXMLDocumentController {
 
         chart.getData().setAll(new XYChart.Series(currentChart.getValuesModel()));
         xAxis.setLowerBound(currentChart.getMinTime().getMillis());
-        xAxis.setUpperBound(System.currentTimeMillis());
+        xAxis.setUpperBound(System.currentTimeMillis() + 15 * 60 * 1000); // +15min
 
         update(currentChart, null, null);
     }
@@ -177,7 +177,6 @@ public class FXMLDocumentController {
         String fmt1 = formats.get(charts).getKey();
         String fmt2 = formats.get(charts).getValue();
 
-        xAxis.setUpperBound(System.currentTimeMillis() + 15 * 60 * 1000); // +15min
         String curr = String.format(locale, fmt1, charts.getCurrentValue());
         String mm = String.format(locale, fmt2, charts.getMinValue(), charts.getMaxValue());
 
@@ -190,12 +189,14 @@ public class FXMLDocumentController {
         if (currentChart == charts) {
             bigValue.setText(curr + "\n" + mm);
 
-            yAxis.setAutoRanging(charts.isAutoRanging());
-            double max = charts.getMaxY();
-            double min = charts.getMinY();
-            yAxis.setUpperBound(max);
-            yAxis.setLowerBound(min);
-            yAxis.setTickUnit((max - min) / 10);
+            if (charts.isAutoRanging()) {
+                double max = charts.getMaxY();
+                double min = charts.getMinY();
+
+                yAxis.setUpperBound(max);
+                yAxis.setLowerBound(min);
+                yAxis.setTickUnit((max - min) / 10);
+            }
         }
     }
 }

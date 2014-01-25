@@ -6,6 +6,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart.Data;
@@ -29,9 +30,18 @@ class ValuesModel {
     }
 
     public void add(Measure m) {
-        DateTime limit = new DateTime().minusHours(LIMIT_HOURS);
         // check if we can simply ignore the incoming value
+        DateTime limit = new DateTime().minusHours(LIMIT_HOURS);
         if (m.getDate().isBefore(limit)) {
+            return;
+        }
+
+        // Now it's clear that we need to do process the call. The following methods must be called on the 
+        // FXApplicationThread as the add/remove/update calls will trigger an update of the UI
+        if (!Platform.isFxApplicationThread()) {
+            Platform.runLater(() -> {
+                add(m);
+            });
             return;
         }
 
