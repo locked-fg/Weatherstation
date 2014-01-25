@@ -33,6 +33,11 @@ public class CecListenerTest {
             int i = 0;
 
             @Override
+            public void run() {
+                super.run();
+            }
+
+            @Override
             void fireEvent(KEvent key) {
                 i++;
                 System.out.println("process line #" + i);
@@ -49,11 +54,13 @@ public class CecListenerTest {
             }
 
             @Override
-            InputStream getStream() throws IOException {
+            InputStream openStream() throws IOException {
                 // Inject test stream
                 return getClass().getResourceAsStream("/input.log");
             }
         };
+        c.maxRetryCount = 1;
+        c.keepAlive = false;
         c.run();
         c.close();
     }

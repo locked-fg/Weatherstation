@@ -28,11 +28,15 @@ import java.util.logging.Logger;
 public class CecListener extends Thread implements AutoCloseable {
 
     private static final Logger log = Logger.getLogger(CecListener.class.getName());
-    private static final String COMMAND[] = {"/usr/local/bin/cec-client", "-d", "8", "-t", "prta", "-o", "Wetter"};
+    private static final String COMMAND = "/usr/local/bin/cec-client -d 8 -t prta -o Wetter";
+    private static final int SLEEP_BETWEEN_RETRIES = 1000;
+
     private final Parser parser = new Parser();
+    private final List<CallBackListener> listener = new LinkedList<>();
     private Process process;
     private InputStream inputStream;
-    private List<CallBackListener> listener = new LinkedList<>();
+    int maxRetryCount = 10;
+    boolean keepAlive = true;
 
     public CecListener() {
         setDaemon(true);
@@ -40,30 +44,44 @@ public class CecListener extends Thread implements AutoCloseable {
 
     @Override
     public void run() {
-        try {
-            inputStream = getStream();
+        int retryCount = 1;
+        do {
+            try {
+                log.info("Starting cec-listener on command line. Attempt " + retryCount);
+                inputStream = openStream();
 
-            byte[] b = new byte[1];
-            StringBuilder sb = new StringBuilder(60);
-            while (inputStream.read(b) >= 0) {
-                String s = new String(b);
-                if (s.equals("\n")) {
-                    KEvent keyCode = parser.toKeyCode(sb.toString());
-                    fireEvent(keyCode);
-                    sb = new StringBuilder(60);
-                } else {
-                    sb.append(s);
+                byte[] b = new byte[1];
+                StringBuilder sb = new StringBuilder(60);
+                while (inputStream.read(b) >= 0) {
+                    retryCount = 1;
+                    String s = new String(b);
+                    if (s.equals("\n")) {
+                        KEvent keyCode = parser.toKeyCode(sb.toString());
+                        fireEvent(keyCode);
+                        sb = new StringBuilder(60);
+                    } else {
+                        sb.append(s);
+                    }
                 }
+            } catch (IOException ex) {
+                log.warning("Error reading stream from commandline!");
+            } finally {
+                close();
             }
-        } catch (IOException ex) {
-            log.log(Level.SEVERE, null, ex);
-        } finally {
-            close();
-        }
+
+            // set asleep after an error. Maybe the call is simply invalid. In this case I want to avoid going into an
+            // infinite loop
+            try {
+                sleep(SLEEP_BETWEEN_RETRIES);
+            } catch (InterruptedException ex) {
+                log.info("Interrupted CECListener shutting down");
+                return;
+            }
+        } while (keepAlive && !isInterrupted() && retryCount++ < maxRetryCount);
     }
 
-    InputStream getStream() throws IOException {
-        ProcessBuilder pb = new ProcessBuilder(COMMAND);
+    InputStream openStream() throws IOException {
+        ProcessBuilder pb = new ProcessBuilder(COMMAND.split(" "));
         process = pb.start();
         return process.getInputStream();
     }
@@ -89,7 +107,9 @@ public class CecListener extends Thread implements AutoCloseable {
             process.destroy();
         }
         try {
-            inputStream.close();
+            if (inputStream != null) {
+                inputStream.close();
+            }
         } catch (IOException ex) {
             log.log(Level.SEVERE, null, ex);
         }

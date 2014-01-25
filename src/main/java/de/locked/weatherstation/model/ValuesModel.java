@@ -1,9 +1,11 @@
-package de.locked.weatherstation;
+package de.locked.weatherstation.model;
 
+import de.locked.weatherstation.Measure;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart.Data;
@@ -11,7 +13,7 @@ import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.joda.time.DateTime;
 import org.joda.time.ReadableInstant;
 
-public class ValuesModel {
+class ValuesModel {
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final ObservableList<Data<Long, Double>> model = FXCollections.observableArrayList();
@@ -64,25 +66,28 @@ public class ValuesModel {
         }
     }
 
-    private void addOrUpdate(Measure m) {
+    private void addOrUpdate(Measure measure) {
         // get rid of min, sec, msec
-        DateTime date = m.getDate();
+        DateTime date = measure.getDate();
         final DateTime key = new DateTime(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), date.getHourOfDay(), 0);
 
-        // measure for this key in list and map?
-        for (MyStats stat : statList) {
-            if (eq(stat, key)) {
-                stat.add(m);
-                model.stream().filter(d -> eq(d, key)).forEach(d -> {
-                    d.setYValue(stat.getMean());
-                });
-                return;
+        double value = measure.getValue();
+        {
+            Optional<MyStats> optional = statList.stream().filter(s -> eq(s, key)).findAny();
+            if (optional.isPresent()) {
+                value = optional.get().add(measure).getMean();
+            } else {
+                statList.add(new MyStats(key, value));
             }
         }
-
-        // didn't return in above loop
-        statList.add(new MyStats(key, m.getValue()));
-        model.add(new Data<>(key.getMillis(), m.getValue()));
+        {
+            Optional<Data<Long, Double>> optional = model.stream().filter(m -> eq(m, key)).findAny();
+            if (optional.isPresent()) {
+                optional.get().setYValue(value);
+            } else {
+                model.add(new Data<>(key.getMillis(), value));
+            }
+        }
     }
 
     private boolean eq(Data<Long, Double> d, DateTime dt) {
@@ -131,9 +136,13 @@ public class ValuesModel {
 
         final DateTime timestamp;
 
-        private MyStats(DateTime ts, double value) {
-            this.timestamp = ts;
+        private MyStats(DateTime dt, double value) {
+            this.timestamp = dt;
             addValue(value);
+        }
+
+        private MyStats(DateTime dt, Measure measure) {
+            this(dt, measure.getValue());
         }
 
         public MyStats add(Measure m) {
@@ -143,10 +152,6 @@ public class ValuesModel {
 
         public DateTime getDate() {
             return timestamp;
-        }
-
-        public boolean isAfter(long instant) {
-            return timestamp.isAfter(instant);
         }
 
         public boolean isAfter(ReadableInstant instant) {

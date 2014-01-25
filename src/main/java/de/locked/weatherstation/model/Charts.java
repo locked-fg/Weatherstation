@@ -1,5 +1,6 @@
-package de.locked.weatherstation;
+package de.locked.weatherstation.model;
 
+import de.locked.weatherstation.Measure;
 import java.beans.PropertyChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
@@ -7,13 +8,21 @@ import org.joda.time.DateTime;
 
 public enum Charts {
 
-    TEMPERATURE("Temperatur"), HUMIDITY("Luftfeuchtigkeit"), BAROMETER("Luftdruck"), AMBIENT("Lichtstärke");
+    TEMPERATURE("Temperatur"), HUMIDITY("Luftfeuchtigkeit", 40, 90), BAROMETER("Luftdruck", 925, 965), AMBIENT("Lichtstärke");
 
     private final ValuesModel valuesModel = new ValuesModel();
     private final String title;
+    private final double defaultMin;
+    private final double defaultMax;
 
     private Charts(String title) {
+        this(title, Double.NaN, Double.NaN);
+    }
+
+    private Charts(String title, double defaultMin, double defaultMax) {
         this.title = title;
+        this.defaultMin = defaultMin;
+        this.defaultMax = defaultMax;
     }
 
     public ObservableList<XYChart.Data<Long, Double>> getValuesModel() {
@@ -24,11 +33,11 @@ public enum Charts {
         return valuesModel.minTime();
     }
 
-    public void add(double value) {
+    public synchronized void add(double value) {
         add(new Measure(new DateTime(), value));
     }
 
-    public void add(Measure m) {
+    public synchronized void add(Measure m) {
         valuesModel.add(m);
     }
 
@@ -52,6 +61,18 @@ public enum Charts {
         return valuesModel.getCurrentValue();
     }
 
+    public boolean isAutoRanging() {
+        return Double.isNaN(defaultMin);
+    }
+
+    public double getMinY() {
+        return defaultMin;
+    }
+
+    public double getMaxY() {
+        return defaultMax;
+    }
+
     public double getMinValue() {
         return valuesModel.getMin();
     }
@@ -63,5 +84,4 @@ public enum Charts {
     public String title() {
         return title;
     }
-
 }

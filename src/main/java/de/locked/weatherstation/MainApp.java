@@ -1,5 +1,6 @@
 package de.locked.weatherstation;
 
+import de.locked.weatherstation.model.Charts;
 import com.tinkerforge.AlreadyConnectedException;
 import com.tinkerforge.BrickletAmbientLight;
 import com.tinkerforge.BrickletBarometer;
@@ -10,7 +11,7 @@ import com.tinkerforge.NotConnectedException;
 import com.tinkerforge.TimeoutException;
 import de.locked.cecclient.CecListener;
 import de.locked.cecclient.KEvent;
-import static de.locked.weatherstation.Charts.*;
+import static de.locked.weatherstation.model.Charts.*;
 import de.locked.weatherstation.tinkerforge.MyBricklet;
 import de.locked.weatherstation.tinkerforge.MyBrickletAmbientLight;
 import de.locked.weatherstation.tinkerforge.MyBrickletBarometer;
@@ -37,7 +38,7 @@ import javafx.stage.Stage;
 import org.joda.time.DateTime;
 
 public class MainApp extends Application {
-
+    
     private static final Logger log = Logger.getLogger(MainApp.class.getName());
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     //
@@ -50,21 +51,21 @@ public class MainApp extends Application {
     private final String UID_ambient = "jzj";
     private final String UID_barometer = "jo7";
     //
-    private final int AUTO_SWITCH_DIAG = 15; // s
     private final int REFRESH_DATE = 60; // s
     private final int POLL_SENSORS = 5; // s
     private FXMLDocumentController controller;
-
+    private CecListener cec;
+    
     @Override
     public void start(Stage stage) throws Exception {
         log.info("Welcome - starting " + getClass().getName());
         initModelsFromCSV();
-
+        
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLDocument.fxml"));
         loader.load();
         Scene scene = new Scene(loader.getRoot());
         scene.getStylesheets().add("/styles/base.css");
-
+        
         controller = loader.getController();
         resize();
         stage.setTitle("JavaFX and Maven");
@@ -79,18 +80,26 @@ public class MainApp extends Application {
                 controller.prev();
             }
         });
-
+        
         connectCEC();
-        connectBricklets();
+
+        // Connect to sensors
+        scheduler.schedule(() -> {
+            if (connectMasterbrick()) {
+                connectBricklets();
+            }
+        }, 0, TimeUnit.SECONDS);
 
         // refresh date 
         scheduler.scheduleAtFixedRate(() -> {
             controller.setDate(new DateTime());
         }, REFRESH_DATE, REFRESH_DATE, TimeUnit.SECONDS);
+        
+        log.info("start finished");
     }
-
+    
     private void connectCEC() {
-        CecListener cec = new CecListener();
+        cec = new CecListener();
         cec.addCallBackListener((KEvent e) -> {
             if (!e.isUnmapped() && e.isPressed()) {
                 if (e.getCode() == java.awt.event.KeyEvent.VK_RIGHT) {
@@ -102,13 +111,13 @@ public class MainApp extends Application {
         });
         cec.start();
     }
-
+    
     private void resize() {
         try {
             if (getParameters().getNamed().containsKey("w")) {
                 int w = Integer.parseInt(getParameters().getNamed().get("w"));
                 int h = Integer.parseInt(getParameters().getNamed().get("h"));
-
+                
                 log.info("setting width/height to " + w + "/" + h);
                 controller.rootPane.setPrefSize(w, h);
                 controller.contentPane.setPrefSize(w, h);
@@ -145,13 +154,13 @@ public class MainApp extends Application {
                 log.warning(paramName + " not given in command line. Ignoring");
                 continue;
             }
-
+            
             File csvFile = new File(csvPath);
             if (!csvFile.exists() || !csvFile.canRead()) {
                 log.warning(csvFile.getAbsolutePath() + " cannot be found or read. Ignoring");
                 continue;
             }
-
+            
             log.info("init data from " + csvFile.getName() + " // " + csvFile.getAbsolutePath());
             try (BufferedReader in = new BufferedReader(new FileReader(csvFile))) {
                 while (in.ready()) {
@@ -161,7 +170,7 @@ public class MainApp extends Application {
                         log.warning("invalid line (Ignoring): " + line);
                         continue;
                     }
-
+                    
                     try {
                         DateTime date = new DateTime(Long.parseLong(parts[0].trim()) * 1000L);
                         double value = Double.parseDouble(parts[1].trim());
@@ -176,55 +185,61 @@ public class MainApp extends Application {
             }
         }
     }
-
+    
     @Override
     public void stop() throws Exception {
         log.info("shutting down application");
         scheduler.shutdownNow();
+        if (cec != null) {
+            cec.interrupt();
+        }
         if (ipcon.getConnectionState() == IPConnection.CONNECTION_STATE_CONNECTED) {
             ipcon.disconnect();
         }
     }
-
+    
     private void connectBricklets() {
-        try {
-            ipcon.setAutoReconnect(true);
-            ipcon.connect(host, port);
-        } catch (IOException | AlreadyConnectedException ex) {
-            log.log(Level.SEVERE, null, ex);
-            return;
-        }
-
         scheduler.scheduleAtFixedRate(new Runnable() {
             MyBricklet temp = new MyBrickletTemperature(new BrickletTemperature(UID_temperature, ipcon));
             MyBricklet humidity = new MyBrickletHumidity(new BrickletHumidity(UID_humidity, ipcon));
             MyBricklet ambient = new MyBrickletAmbientLight(new BrickletAmbientLight(UID_ambient, ipcon));
             MyBricklet barometer = new MyBrickletBarometer(new BrickletBarometer(UID_barometer, ipcon));
-
+            
             @Override
             public void run() {
                 if (ipcon.getConnectionState() != IPConnection.CONNECTION_STATE_CONNECTED) {
                     log.warning("No connection available. Don't query sensors.");
                     return;
                 }
-                update(temp, TEMPERATURE);
-                update(humidity, HUMIDITY);
-                update(ambient, AMBIENT);
-                update(barometer, BAROMETER);
+                Platform.runLater(() -> {
+                    update(temp, TEMPERATURE);
+                    update(humidity, HUMIDITY);
+                    update(ambient, AMBIENT);
+                    update(barometer, BAROMETER);
+                });
             }
-
+            
             private void update(MyBricklet bricklet, Charts aChart) {
                 try {
                     double t = bricklet.getValue();
                     log.fine("queried " + aChart.name() + ": " + t);
-                    Platform.runLater(() -> {
-                        aChart.add(t);
-                    });
+                    aChart.add(t);
                 } catch (TimeoutException | NotConnectedException e) {
-                    log.log(Level.SEVERE, e.getMessage(), e);
+                    log.severe("Getting value from Sensor " + aChart.name() + " failed: " + e.getMessage());
                 }
             }
         }, POLL_SENSORS, POLL_SENSORS, TimeUnit.SECONDS);
     }
-
+    
+    private boolean connectMasterbrick() {
+        try {
+            ipcon.setAutoReconnect(true);
+            ipcon.connect(host, port);
+            return true;
+        } catch (IOException | AlreadyConnectedException ex) {
+            log.severe("Connection to Bricklets failed! " + ex.getMessage());
+            return false;
+        }
+    }
+    
 }

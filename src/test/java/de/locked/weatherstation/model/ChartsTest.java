@@ -1,5 +1,6 @@
-package de.locked.weatherstation;
+package de.locked.weatherstation.model;
 
+import de.locked.weatherstation.model.Charts;
 import java.beans.PropertyChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;

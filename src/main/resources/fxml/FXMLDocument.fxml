@@ -54,7 +54,7 @@
                 <NumberAxis fx:id="xAxis" animated="false" autoRanging="false" forceZeroInRange="false" minHeight="-1.0" minorTickCount="4" minorTickLength="5.0" minorTickVisible="false" prefHeight="60.0" rotate="0.0" side="BOTTOM" snapToPixel="true" tickLabelGap="3.0" tickLabelRotation="0.0" tickLabelsVisible="true" tickLength="10.0" tickUnit="1.08E7" />
               </xAxis>
               <yAxis>
-                <NumberAxis forceZeroInRange="false" side="LEFT" />
+                <NumberAxis fx:id="yAxis" autoRanging="true" forceZeroInRange="false" side="LEFT" />
               </yAxis>
             </LineChart>
           </center>

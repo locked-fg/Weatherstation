@@ -1,6 +1,9 @@
 package de.locked.weatherstation;
 
-import static de.locked.weatherstation.Charts.*;
+import de.locked.weatherstation.model.Charts;
+import static de.locked.weatherstation.model.Charts.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.net.URL;
 import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
@@ -73,6 +76,8 @@ public class FXMLDocumentController {
     private LineChart<Long, Double> chart;
     @FXML
     private NumberAxis xAxis;
+    @FXML
+    private NumberAxis yAxis;
 
     @FXML   // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -123,13 +128,13 @@ public class FXMLDocumentController {
         initModel(currentChart);
     }
 
-    public synchronized void next() {
+    public void next() {
         Platform.runLater(() -> {
             initModel(currentChart.next());
         });
     }
 
-    public synchronized void prev() {
+    public void prev() {
         Platform.runLater(() -> {
             initModel(currentChart.prev());
         });
@@ -163,21 +168,21 @@ public class FXMLDocumentController {
         chartTitle.setText(currentChart.title());
         bigChartTitle.setText(currentChart.title());
 
+        chart.getData().clear();
         chart.getData().setAll(new XYChart.Series(currentChart.getValuesModel()));
         xAxis.setLowerBound(currentChart.getMinTime().getMillis());
         xAxis.setUpperBound(System.currentTimeMillis());
-        chart.requestLayout();
 
         update(currentChart, null, null);
     }
 
-    private void update(Charts c, Label current, Label minMax) {
-        String fmt1 = formats.get(c).getKey();
-        String fmt2 = formats.get(c).getValue();
+    private void update(Charts charts, Label current, Label minMax) {
+        String fmt1 = formats.get(charts).getKey();
+        String fmt2 = formats.get(charts).getValue();
 
         xAxis.setUpperBound(System.currentTimeMillis() + 15 * 60 * 1000); // +15min
-        String curr = String.format(locale, fmt1, c.getCurrentValue());
-        String mm = String.format(locale, fmt2, c.getMinValue(), c.getMaxValue());
+        String curr = String.format(locale, fmt1, charts.getCurrentValue());
+        String mm = String.format(locale, fmt2, charts.getMinValue(), charts.getMaxValue());
 
         if (current != null) {
             current.setText(curr);
@@ -185,8 +190,15 @@ public class FXMLDocumentController {
         if (minMax != null) {
             minMax.setText(mm);
         }
-        if (currentChart == c) {
+        if (currentChart == charts) {
             bigValue.setText(curr + "\n" + mm);
+
+            yAxis.setAutoRanging(charts.isAutoRanging());
+            double max = charts.getMaxY();
+            double min = charts.getMinY();
+            yAxis.setUpperBound(max);
+            yAxis.setLowerBound(min);
+            yAxis.setTickUnit((max - min) / 10);
         }
     }
 }
