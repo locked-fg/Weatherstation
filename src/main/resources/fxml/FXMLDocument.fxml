@@ -24,7 +24,7 @@
                         <Label styleClass="gridLabel" text="Luftdruck:" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
                         <Label styleClass="gridLabel" text="Umgebungslicht:" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="4" />
                         <Label styleClass="gridHead" text="aktuell" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="0" />
-                        <Label styleClass="gridHead" text="min / max 12h" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="0" />
+                        <Label styleClass="gridHead" text="min / max 2d" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="0" />
                         <Label fx:id="currentTemp" styleClass="gridValue" text="-5.0 °C" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                         <Label fx:id="currentHumidity" styleClass="gridValue" text="70.0 %" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                         <Label fx:id="currentPressure" styleClass="gridValue" text="100 mBar" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
