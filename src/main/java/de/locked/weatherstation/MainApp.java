@@ -61,10 +61,10 @@ public class MainApp extends Application {
         log.info("Welcome - starting " + getClass().getName());
         initModelsFromCSV();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLDocument.fxml"));
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLDocument.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/metro.fxml"));
         loader.load();
         Scene scene = new Scene(loader.getRoot());
-        scene.getStylesheets().add("/styles/base.css");
 
         controller = loader.getController();
         resize();
