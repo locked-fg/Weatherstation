@@ -1,103 +1,104 @@
 #AnchorPane {
-    -fx-background-color: red;
+    -fx-background-color: #0041A9;
 }
 
 .largeButton {
-    -fx-background-color: white;
-    -fx-text-fill: #654b00;
-    -fx-font: bold 20px "System";
+    -fx-padding: 7;
 }
 
 .tile {
-    /*-fx-background-color: darkblue;*/
-    -fx-background-color: linear-gradient(from 0% 0% to 70% 100%, #6060a0, #00007F);
-    -fx-background-insets: 4;
-    -fx-text-fill: white;
-    -fx-background-radius: 5;
+    -fx-background-color: linear-gradient(from 0% 0% to 70% 100%, 
+        #0A5BC4, #1A6BD4);
+    -fx-background-insets: 7;
+    /*-fx-text-fill: white;*/
+    /*-fx-background-radius: 5;*/
 }
 
 .tileNoBottom {
-    -fx-background-color: linear-gradient(from 0% 0% to 70% 0%, #6060a0, #00007F);
-    /*-fx-background-color: darkblue;*/
-    -fx-text-fill: white;
-    -fx-background-insets: 4 4 0 4;
-    -fx-background-radius: 5 5 0 0;
+    -fx-background-color: linear-gradient(from 0% 0% to 70% 0%, 
+        #0A5BC4, #1A6BD4);
+    /*-fx-text-fill: white;*/
+    -fx-background-insets: 7 7 0 7;
+    /*-fx-background-radius: 5 5 0 0;*/
 }
 
 .tileNoTop {
-    -fx-background-color: linear-gradient(from 0% 0% to 70% 0%, #6060a0, #00007F);
-    /*-fx-background-color: darkblue;*/
-    -fx-text-fill: white;
-    -fx-background-insets: 0 4 4 4;
-    -fx-background-radius: 0 0 5 5;
+    -fx-background-color: linear-gradient(from 0% 0% to 70% 0%, 
+        #0A5BC4, #1A6BD4);
+    /*-fx-text-fill: white;*/
+    -fx-background-insets: 0 7 7 7 ;
+    /*-fx-background-radius: 0 0 5 5;*/
 }
 
 .tilecontent {
     -fx-text-fill: white;
-    -fx-padding: 8px 20px 8px 20px;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 5, 0.3, 4, 4);
+    -fx-padding: 10px 30px 10px 30px;
 }
 
 #title {
     -fx-font: bold 70px "System";
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 5, 0.3, 4, 4);
-    /*-fx-text-fill: linear-gradient(from 0% 0% to 0% 100%, white, black, white);*/
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 2, 0.9, 0, 0);
 }
 
 .fontgradient{
-    -fx-text-fill: linear-gradient(from 0% 0% to 0% 100%, white, #e0e0e0 50%, #a0a0a0 80%, #e0e0e0 100%);
+    /*    -fx-text-fill: linear-gradient(from 0% 0% to 0% 100%, 
+            white,  #f0f0f0 50%, #a0a0a0 100%);*/
 }
 
 .fontgradient1{
-    /*-fx-text-fill: linear-gradient(from 0% 0% to 0% 100%, white, #e0e0e0 50%, #a0a0a0 80%, #e0e0e0 100%);*/
-    -fx-text-fill: linear-gradient(from 0% 0% to 0% 100%, 
-        white, #f0f0f0 50%, #c8c8c8 80%, #f0f0f0 100%);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 2, 0.9, 0, 0);
+    /*-fx-text-fill: white;*/
+/*    -fx-text-fill: linear-gradient(from 0% 0% to 0% 100%, 
+        white, #f8f8f8 50%, #e0e0e0 80%, white 100%);*/
 }
 
 .subhead {
     -fx-font: bold 45px "System";
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 5, 0.3, 4, 4);
-}
+    /*-fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 5, 0.3, 4, 4);*/
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 2, 0.9, 0, 0);
+    -fx-text-fill: white;
+    -fx-alignment: center;
+ }
 
 .dataGrid {
 }
 
 .gridValue{
+    -fx-text-fill: white;
     -fx-font: bold 27px "System";
-    /*-fx-text-fill: white;*/
 }
 
 .gridLabel, .gridHead {
+    -fx-text-fill: white;
     -fx-font: bold 30px "System";
-    /*-fx-text-fill: white;*/
 }
 
 .gridValueBig{
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 5, 0.3, 4, 4);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 2, 0.9, 0, 0);
+    /*-fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 5, 0.3, 4, 4);*/
     -fx-font: bold 70px "System";
-    -fx-text-fill: 
+/*    -fx-text-fill: 
         linear-gradient(from 0% 0% to 0% 50%, white, #e0e0e0 50%, #a0a0a0 80%, #e0e0e0 100%),
-        linear-gradient(from 0% 50% to 0% 100%, white, #e0e0e0 50%, #a0a0a0 80%, #e0e0e0 100%);
-    /*-fx-text-fill: white;*/
-    -fx-alignment: center;
+        linear-gradient(from 0% 50% to 0% 100%, white, #e0e0e0 50%, #a0a0a0 80%, #e0e0e0 100%);*/
+    -fx-text-fill: white;
     -fx-text-alignment: center;
     -fx-alignment: center;
     -fx-background-color: transparent;  
 }
 
-
-#diagramPane {
-    -fx-padding: 10px;
-}
+#diagramPane {}
 
 #diagramHead {
+    -fx-padding-left: 7;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 2, 0.9, 0, 0);
+    -fx-text-fill: white;
     -fx-font: bold 35px "System";
 }
 
-#LineChartNxN .chart {
-    -fx-opacity: 0.2;
+.chart {
+    -fx-legend-visible: false;
+    -fx-padding: 0 25 15 25;
 }
-
 
 .chart-vertical-grid-lines {
     -fx-stroke: #654b00;
@@ -108,12 +109,10 @@
 }
 
 .chart-plot-background {
-    /*-fx-background-color: #1589e6;*/
     -fx-background-color: linear-gradient(from 0% 0% to 100% 0%, #1080e0, #005090);
 }
 
 .chart-alternative-row-fill {
-    /*-fx-fill: #0059e4;*/
     -fx-fill: linear-gradient(from 0% 0% to 100% 0%, #10a0e0, #007090);
     -fx-stroke: transparent;
     -fx-stroke-width: 0;
@@ -122,7 +121,7 @@
 .axis {
     -fx-opacity: 1;
     -fx-tick-label-font: bold 20px "System";
-    -fx-tick-label-fill: #e0e0e0;
+    -fx-tick-label-fill: white;
 }
 
 .default-color0.chart-series-line { 
@@ -134,8 +133,4 @@
     -fx-background-radius: 5px;
     -fx-background-color: darkblue, lightblue; 
     -fx-background-insets: 0, 3;
-}
-
-.chart {
-    -fx-legend-visible: false;
 }

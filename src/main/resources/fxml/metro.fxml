@@ -71,13 +71,16 @@
               </yAxis>
             </LineChart>
           </center>
+          <padding>
+            <Insets />
+          </padding>
           <top>
-            <Label id="diagramHead" fx:id="chartTitle" styleClass="tilecontent, fontgradient" text="Temperatur" />
+            <Label id="diagramHead" fx:id="chartTitle" styleClass="tilecontent" text="Temperatur" />
           </top>
         </BorderPane>
         <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" styleClass="tileNoBottom" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="1" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
           <children>
-            <Label fx:id="bigChartTitle" layoutX="335.0" layoutY="7.0" styleClass="subhead, fontgradient" text="TITLE BIG" />
+            <Label fx:id="bigChartTitle" prefHeight="78.0" prefWidth="896.0" styleClass="subhead, fontgradient" text="TITLE BIG" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
           </children>
         </AnchorPane>
         <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" styleClass="tileNoTop" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
