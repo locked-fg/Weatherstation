@@ -8,25 +8,25 @@ Label {
 }
 
 .largeButton {
-    -fx-padding: 7;
+    -fx-padding: 10;
 }
 
 .tile {
     -fx-background-color: linear-gradient(from 0% 0% to 70% 100%, 
         #0A5BC4, #1A6BD4);
-    -fx-background-insets: 7;
+    -fx-background-insets: 10;
 }
 
 .tileNoBottom {
     -fx-background-color: linear-gradient(from 0% 0% to 70% 0%, 
         #0A5BC4, #1A6BD4);
-    -fx-background-insets: 7 7 0 7;
+    -fx-background-insets: 10 10 0 10;
 }
 
 .tileNoTop {
     -fx-background-color: linear-gradient(from 0% 0% to 70% 0%, 
         #0A5BC4, #1A6BD4);
-    -fx-background-insets: 0 7 7 7 ;
+    -fx-background-insets: 0 10 10 10;
 }
 
 .tilecontent {
@@ -41,42 +41,50 @@ Label {
     -fx-font: bold 50px "System";
 }
 
-.subhead {
-    -fx-font: bold 45px "System";
-    -fx-alignment: center;
+.row1 {
+    -fx-font: bold 50px "System";
 }
 
+#date {
+    -fx-text-alignment: left;
+}
+
+#bigChartTitle{
+    -fx-text-alignment: center;
+}
+
+
 .dataGrid {
+    -fx-padding-bottom:20px;
 }
 
 .gridValue{
-    -fx-font: bold 27px "System";
+    -fx-font: bold 32px "System";
 }
 
 .gridLabel, .gridHead {
-    -fx-text-fill: white;
-    -fx-font: bold 30px "System";
+    -fx-font: bold 32px "System";
 }
 
-.gridValueBig{
+#bigValue {
     -fx-font: bold 70px "System";
-    -fx-text-fill: white;
-    -fx-text-alignment: center;
     -fx-alignment: center;
-    -fx-background-color: transparent;  
+    -fx-text-alignment: center;
 }
 
-#diagramPane {}
+#diagramPane {
+    /*-fx-padding: 10px 20px 10px 20px;*/
+}
 
 #diagramHead {
-    -fx-padding-left: 7;
     -fx-text-fill: white;
     -fx-font: bold 35px "System";
+    -fx-padding: 15px 0px 10px 30px;
 }
 
 .chart {
+    -fx-padding: 10px 35px 15px 30px;
     -fx-legend-visible: false;
-    -fx-padding: 0 25 15 25;
 }
 
 .chart-vertical-grid-lines {
@@ -88,11 +96,11 @@ Label {
 }
 
 .chart-plot-background {
-    -fx-background-color: linear-gradient(from 0% 0% to 100% 0%, #1080e0, #005090);
+    -fx-background-color: #1080e0;
 }
 
 .chart-alternative-row-fill {
-    -fx-fill: linear-gradient(from 0% 0% to 100% 0%, #10a0e0, #007090);
+    -fx-fill: #10a0e0;
     -fx-stroke: transparent;
     -fx-stroke-width: 0;
 }
