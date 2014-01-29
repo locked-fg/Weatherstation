@@ -15,11 +15,20 @@
   <children>
     <GridPane fx:id="contentPane" prefHeight="-1.0" prefWidth="-1.0" styleClass="largeButton" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-1.0">
       <children>
-        <AnchorPane id="" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" styleClass="tile" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
+        <!--        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" styleClass="tile" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
           <children>
             <Label fx:id="title" graphicTextGap="4.0" layoutX="-6.0" layoutY="-6.0" prefWidth="-1.0" styleClass="tilecontent, fontgradient" text="Wetter Gaißach" />
+            <Label fx:id="clock" layoutX="1884.0" layoutY="8.0" styleClass="tilecontent, fontgradient" text="23:59" textAlignment="RIGHT" />
           </children>
-        </AnchorPane>
+        </AnchorPane>-->
+        <BorderPane prefHeight="-1.0" prefWidth="-1.0" styleClass="tile" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
+          <left>
+            <Label fx:id="title" styleClass="tilecontent, fontgradient" text="Wetter Gaißach" BorderPane.alignment="CENTER_LEFT"/>
+          </left>
+          <right>
+            <Label fx:id="clock" styleClass="tilecontent, fontgradient" text="23:59" BorderPane.alignment="CENTER_RIGHT" />
+          </right>
+        </BorderPane>
         <AnchorPane id="dateTile" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" styleClass="tile" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
           <children>
             <Label fx:id="date" layoutX="-2.0" layoutY="-2.0" styleClass="subhead, tilecontent, fontgradient" text="Montag, 30. Dezember" />

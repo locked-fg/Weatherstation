@@ -40,6 +40,11 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 2, 0.9, 0, 0);
 }
 
+#clock {
+    -fx-font: bold 50px "System";
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 2, 0.9, 0, 0);
+}
+
 .fontgradient{
     /*    -fx-text-fill: linear-gradient(from 0% 0% to 0% 100%, 
             white,  #f0f0f0 50%, #a0a0a0 100%);*/

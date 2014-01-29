@@ -28,6 +28,7 @@ public class FXMLDocumentController {
     private final Locale locale = Locale.GERMAN;
     private final String TITLE = "Wetter Gaißach";
     private final DateTimeFormatter fmt = DateTimeFormat.forPattern("EEEEE, dd. MMMMMMMM").withLocale(locale);
+    private final DateTimeFormatter clockFmt = DateTimeFormat.forPattern("HH:mm").withLocale(locale);
 
     // masterpane
     @FXML
@@ -44,6 +45,8 @@ public class FXMLDocumentController {
     // header
     @FXML
     private Label title;
+    @FXML
+    private Label clock;
     @FXML
     private Label date;
     @FXML
@@ -141,6 +144,7 @@ public class FXMLDocumentController {
     public synchronized void setDate(DateTime now) {
         Platform.runLater(() -> {
             date.setText(fmt.print(now));
+            clock.setText(clockFmt.print(now));
         });
     }
 
@@ -184,10 +188,10 @@ public class FXMLDocumentController {
         if (minMax != null) {
             minMax.setText(mm);
         }
-        
+
         if (currentChart == charts) {
             bigValue.setText(curr + "\n" + mm);
-            
+
             xAxis.setUpperBound(System.currentTimeMillis() + 15 * 60 * 1000); // +15min
             xAxis.setLowerBound(currentChart.getMinTime().getMillis());
 

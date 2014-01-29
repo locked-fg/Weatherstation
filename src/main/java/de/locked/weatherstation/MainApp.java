@@ -29,7 +29,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -51,7 +50,7 @@ public class MainApp extends Application {
     private final String UID_ambient = "jzj";
     private final String UID_barometer = "jo7";
     //
-    private final int REFRESH_DATE = 30; // s
+    private final int REFRESH_DATE = 1; // m
     private final int POLL_SENSORS = 2; // s
     private FXMLDocumentController controller;
     private CecListener cec;
@@ -93,7 +92,7 @@ public class MainApp extends Application {
         // refresh date 
         scheduler.scheduleAtFixedRate(() -> {
             controller.setDate(new DateTime());
-        }, REFRESH_DATE, REFRESH_DATE, TimeUnit.SECONDS);
+        }, REFRESH_DATE, REFRESH_DATE, TimeUnit.MINUTES);
 
         log.info("start finished");
     }
