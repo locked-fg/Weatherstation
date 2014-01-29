@@ -1,3 +1,8 @@
+Label {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 2, 0.9, 0, 0);
+    -fx-text-fill: white;
+}
+
 #AnchorPane {
     -fx-background-color: #0041A9;
 }
@@ -10,66 +15,41 @@
     -fx-background-color: linear-gradient(from 0% 0% to 70% 100%, 
         #0A5BC4, #1A6BD4);
     -fx-background-insets: 7;
-    /*-fx-text-fill: white;*/
-    /*-fx-background-radius: 5;*/
 }
 
 .tileNoBottom {
     -fx-background-color: linear-gradient(from 0% 0% to 70% 0%, 
         #0A5BC4, #1A6BD4);
-    /*-fx-text-fill: white;*/
     -fx-background-insets: 7 7 0 7;
-    /*-fx-background-radius: 5 5 0 0;*/
 }
 
 .tileNoTop {
     -fx-background-color: linear-gradient(from 0% 0% to 70% 0%, 
         #0A5BC4, #1A6BD4);
-    /*-fx-text-fill: white;*/
     -fx-background-insets: 0 7 7 7 ;
-    /*-fx-background-radius: 0 0 5 5;*/
 }
 
 .tilecontent {
-    -fx-text-fill: white;
     -fx-padding: 10px 30px 10px 30px;
 }
 
 #title {
     -fx-font: bold 70px "System";
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 2, 0.9, 0, 0);
 }
 
 #clock {
     -fx-font: bold 50px "System";
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 2, 0.9, 0, 0);
-}
-
-.fontgradient{
-    /*    -fx-text-fill: linear-gradient(from 0% 0% to 0% 100%, 
-            white,  #f0f0f0 50%, #a0a0a0 100%);*/
-}
-
-.fontgradient1{
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 2, 0.9, 0, 0);
-    /*-fx-text-fill: white;*/
-/*    -fx-text-fill: linear-gradient(from 0% 0% to 0% 100%, 
-        white, #f8f8f8 50%, #e0e0e0 80%, white 100%);*/
 }
 
 .subhead {
     -fx-font: bold 45px "System";
-    /*-fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 5, 0.3, 4, 4);*/
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 2, 0.9, 0, 0);
-    -fx-text-fill: white;
     -fx-alignment: center;
- }
+}
 
 .dataGrid {
 }
 
 .gridValue{
-    -fx-text-fill: white;
     -fx-font: bold 27px "System";
 }
 
@@ -79,12 +59,7 @@
 }
 
 .gridValueBig{
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 2, 0.9, 0, 0);
-    /*-fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 5, 0.3, 4, 4);*/
     -fx-font: bold 70px "System";
-/*    -fx-text-fill: 
-        linear-gradient(from 0% 0% to 0% 50%, white, #e0e0e0 50%, #a0a0a0 80%, #e0e0e0 100%),
-        linear-gradient(from 0% 50% to 0% 100%, white, #e0e0e0 50%, #a0a0a0 80%, #e0e0e0 100%);*/
     -fx-text-fill: white;
     -fx-text-alignment: center;
     -fx-alignment: center;
@@ -95,7 +70,6 @@
 
 #diagramHead {
     -fx-padding-left: 7;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 2, 0.9, 0, 0);
     -fx-text-fill: white;
     -fx-font: bold 35px "System";
 }

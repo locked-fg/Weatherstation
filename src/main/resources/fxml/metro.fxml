@@ -12,105 +12,99 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane id="AnchorPane" fx:id="rootPane" focusTraversable="true" prefHeight="760.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="de.locked.weatherstation.FXMLDocumentController">
-  <children>
-    <GridPane fx:id="contentPane" prefHeight="-1.0" prefWidth="-1.0" styleClass="largeButton" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-1.0">
-      <children>
-        <!--        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" styleClass="tile" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
-          <children>
-            <Label fx:id="title" graphicTextGap="4.0" layoutX="-6.0" layoutY="-6.0" prefWidth="-1.0" styleClass="tilecontent, fontgradient" text="Wetter Gaißach" />
-            <Label fx:id="clock" layoutX="1884.0" layoutY="8.0" styleClass="tilecontent, fontgradient" text="23:59" textAlignment="RIGHT" />
-          </children>
-        </AnchorPane>-->
-        <BorderPane prefHeight="-1.0" prefWidth="-1.0" styleClass="tile" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
-          <left>
-            <Label fx:id="title" styleClass="tilecontent, fontgradient" text="Wetter Gaißach" BorderPane.alignment="CENTER_LEFT"/>
-          </left>
-          <right>
-            <Label fx:id="clock" styleClass="tilecontent, fontgradient" text="23:59" BorderPane.alignment="CENTER_RIGHT" />
-          </right>
-        </BorderPane>
-        <AnchorPane id="dateTile" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" styleClass="tile" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
-          <children>
-            <Label fx:id="date" layoutX="-2.0" layoutY="-2.0" styleClass="subhead, tilecontent, fontgradient" text="Montag, 30. Dezember" />
-          </children>
-        </AnchorPane>
-        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" styleClass="tile" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
-          <children>
-            <GridPane id="dataGrid" layoutX="0.0" layoutY="0.0" styleClass="dataGrid, tilecontent">
-              <children>
-                <Label styleClass="gridLabel, fontgradient1" text="Temperatur:" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
-                <Label styleClass="gridLabel, fontgradient1" text="Luftfeuchtigkeit:" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
-                <Label styleClass="gridLabel, fontgradient1" text="Luftdruck:" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
-                <Label styleClass="gridLabel, fontgradient1" text="Umgebungslicht:" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="4" />
-                <Label styleClass="gridHead, fontgradient1" text="aktuell" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="0" />
-                <Label styleClass="gridHead, fontgradient1" text="min / max 2d" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="0" />
-                <Label fx:id="currentTemp" styleClass="gridValue, fontgradient1" text="-5.0 °C" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-                <Label fx:id="currentHumidity" styleClass="gridValue, fontgradient1" text="70.0 %" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-                <Label fx:id="currentPressure" styleClass="gridValue, fontgradient1" text="100 mBar" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-                <Label fx:id="currentAmbient" styleClass="gridValue, fontgradient1" text="500 Lux" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
-                <Label fx:id="minMaxTemp" styleClass="gridValue, fontgradient1" text="-5.0 / +10 °C" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-                <Label fx:id="minMaxHumidity" styleClass="gridValue, fontgradient1" text="60 / 70.0 %" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-                <Label fx:id="minMaxPressure" styleClass="gridValue, fontgradient1" text="500 / 800 mBar" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-                <Label fx:id="minMaxAmbient" styleClass="gridValue, fontgradient1" text="0 / 100 Lux" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
-              </children>
-              <columnConstraints>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="35.0" />
-                <ColumnConstraints hgrow="NEVER" percentWidth="25.0" />
-                <ColumnConstraints hgrow="NEVER" percentWidth="40.0" />
-              </columnConstraints>
-              <rowConstraints>
+    <children>
+        <GridPane fx:id="contentPane" prefHeight="-1.0" prefWidth="-1.0" styleClass="largeButton" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-1.0">
+            <children>
+                <BorderPane prefHeight="-1.0" prefWidth="-1.0" styleClass="tile" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
+                    <left>
+                        <Label fx:id="title" styleClass="tilecontent" text="Wetter Gaißach" BorderPane.alignment="CENTER_LEFT"/>
+                    </left>
+                    <right>
+                        <Label fx:id="clock" styleClass="tilecontent" text="23:59" BorderPane.alignment="CENTER_RIGHT" />
+                    </right>
+                </BorderPane>
+                <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" styleClass="tile" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
+                    <children>
+                        <Label fx:id="date" layoutX="-2.0" layoutY="-2.0" styleClass="subhead, tilecontent" text="Montag, 30. Dezember" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" styleClass="tile" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
+                    <children>
+                        <GridPane layoutX="0.0" layoutY="0.0" styleClass="dataGrid, tilecontent">
+                            <children>
+                                <Label styleClass="gridLabel" text="Temperatur:" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
+                                <Label styleClass="gridLabel" text="Luftfeuchtigkeit:" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
+                                <Label styleClass="gridLabel" text="Luftdruck:" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
+                                <Label styleClass="gridLabel" text="Umgebungslicht:" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="4" />
+                                <Label styleClass="gridHead" text="aktuell" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="0" />
+                                <Label styleClass="gridHead" text="min / max 2d" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="0" />
+                                <Label fx:id="currentTemp" styleClass="gridValue" text="-5.0 °C" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                                <Label fx:id="currentHumidity" styleClass="gridValue" text="70.0 %" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                                <Label fx:id="currentPressure" styleClass="gridValue" text="100 mBar" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                                <Label fx:id="currentAmbient" styleClass="gridValue" text="500 Lux" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+                                <Label fx:id="minMaxTemp" styleClass="gridValue" text="-5.0 / +10 °C" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                                <Label fx:id="minMaxHumidity" styleClass="gridValue" text="60 / 70.0 %" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                                <Label fx:id="minMaxPressure" styleClass="gridValue" text="500 / 800 mBar" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                                <Label fx:id="minMaxAmbient" styleClass="gridValue" text="0 / 100 Lux" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+                            </children>
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="35.0" />
+                                <ColumnConstraints hgrow="NEVER" percentWidth="25.0" />
+                                <ColumnConstraints hgrow="NEVER" percentWidth="40.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints vgrow="ALWAYS" />
+                                <RowConstraints vgrow="ALWAYS" />
+                                <RowConstraints vgrow="ALWAYS" />
+                                <RowConstraints vgrow="ALWAYS" />
+                                <RowConstraints vgrow="ALWAYS" />
+                            </rowConstraints>
+                        </GridPane>
+                    </children>
+                </AnchorPane>
+                <BorderPane id="digramPane" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" styleClass="tile" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
+                    <center>
+                        <LineChart fx:id="chart" animated="false" maxHeight="-1.0" maxWidth="-1.0">
+                            <!-- WTF animated=true clears the diagram! -->
+                            <xAxis>
+                                <NumberAxis fx:id="xAxis" animated="true" autoRanging="false" forceZeroInRange="false" minHeight="-1.0" minorTickCount="4" minorTickLength="5.0" minorTickVisible="false" prefHeight="60.0" prefWidth="1523.0000915527344" rotate="0.0" side="BOTTOM" snapToPixel="true" tickLabelGap="3.0" tickLabelRotation="0.0" tickLabelsVisible="true" tickLength="10.0" tickUnit="1.08E7" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="yAxis" autoRanging="true" forceZeroInRange="false" side="LEFT" />
+                            </yAxis>
+                        </LineChart>
+                    </center>
+                    <padding>
+                        <Insets />
+                    </padding>
+                    <top>
+                        <Label id="diagramHead" fx:id="chartTitle" styleClass="tilecontent" text="Temperatur" />
+                    </top>
+                </BorderPane>
+                <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" styleClass="tileNoBottom" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="1" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
+                    <children>
+                        <Label fx:id="bigChartTitle" prefHeight="78.0" prefWidth="896.0" styleClass="subhead" text="TITLE BIG" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" styleClass="tileNoTop" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
+                    <children>
+                        <Label fx:id="bigValue" prefHeight="216.0" prefWidth="872.0" styleClass="gridValueBig" text="---" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                    </children>
+                </AnchorPane>
+            </children>
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="50.0" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="60.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints vgrow="NEVER" />
+                <RowConstraints vgrow="NEVER" />
+                <RowConstraints vgrow="NEVER" />
                 <RowConstraints vgrow="ALWAYS" />
-                <RowConstraints vgrow="ALWAYS" />
-                <RowConstraints vgrow="ALWAYS" />
-                <RowConstraints vgrow="ALWAYS" />
-                <RowConstraints vgrow="ALWAYS" />
-              </rowConstraints>
-            </GridPane>
-          </children>
-        </AnchorPane>
-        <BorderPane id="digramPane" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" styleClass="tile" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
-          <center>
-            <LineChart fx:id="chart" animated="false" maxHeight="-1.0" maxWidth="-1.0">
-              <!-- WTF animated=true clears the diagram! -->
-              <xAxis>
-                <NumberAxis fx:id="xAxis" animated="true" autoRanging="false" forceZeroInRange="false" minHeight="-1.0" minorTickCount="4" minorTickLength="5.0" minorTickVisible="false" prefHeight="60.0" prefWidth="1523.0000915527344" rotate="0.0" side="BOTTOM" snapToPixel="true" tickLabelGap="3.0" tickLabelRotation="0.0" tickLabelsVisible="true" tickLength="10.0" tickUnit="1.08E7" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis fx:id="yAxis" autoRanging="true" forceZeroInRange="false" side="LEFT" />
-              </yAxis>
-            </LineChart>
-          </center>
-          <padding>
-            <Insets />
-          </padding>
-          <top>
-            <Label id="diagramHead" fx:id="chartTitle" styleClass="tilecontent" text="Temperatur" />
-          </top>
-        </BorderPane>
-        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" styleClass="tileNoBottom" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="1" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
-          <children>
-            <Label fx:id="bigChartTitle" prefHeight="78.0" prefWidth="896.0" styleClass="subhead, fontgradient" text="TITLE BIG" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-          </children>
-        </AnchorPane>
-        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" styleClass="tileNoTop" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
-          <children>
-            <Label fx:id="bigValue" prefHeight="216.0" prefWidth="872.0" styleClass="gridValueBig" text="---" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-          </children>
-        </AnchorPane>
-      </children>
-      <columnConstraints>
-        <ColumnConstraints hgrow="ALWAYS" percentWidth="50.0" />
-        <ColumnConstraints hgrow="ALWAYS" percentWidth="60.0" />
-      </columnConstraints>
-      <rowConstraints>
-        <RowConstraints vgrow="NEVER" />
-        <RowConstraints vgrow="NEVER" />
-        <RowConstraints vgrow="NEVER" />
-        <RowConstraints vgrow="ALWAYS" />
-      </rowConstraints>
-    </GridPane>
-  </children>
-  <stylesheets>
-    <URL value="@../styles/metro.css" />
-  </stylesheets>
+            </rowConstraints>
+        </GridPane>
+    </children>
+    <stylesheets>
+        <URL value="@../styles/metro.css" />
+    </stylesheets>
 </AnchorPane>
