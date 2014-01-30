@@ -106,5 +106,6 @@
   </children>
   <stylesheets>
     <URL value="@../styles/metro.css" />
+    <!--<URL value="http://fonts.googleapis.com/css?family=Averia+Sans+Libre" />-->
   </stylesheets>
 </AnchorPane>
