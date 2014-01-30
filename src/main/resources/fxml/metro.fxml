@@ -88,7 +88,7 @@
         </AnchorPane>
         <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" styleClass="tileNoTop" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
           <children>
-            <Label fx:id="bigValue" prefHeight="-1.0" prefWidth="-1.0" styleClass="gridValueBig" text="---" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Label fx:id="bigValue" prefHeight="-1.0" prefWidth="-1.0" text="---" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
           </children>
         </AnchorPane>
       </children>

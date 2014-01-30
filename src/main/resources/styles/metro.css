@@ -4,7 +4,8 @@ Label {
 }
 
 #AnchorPane {
-    -fx-background-color: #0041A9;
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, 
+        hsb(213, 100%, 23%), hsb(213, 100%, 43%));
 }
 
 .largeButton {
@@ -12,20 +13,17 @@ Label {
 }
 
 .tile {
-    -fx-background-color: linear-gradient(from 0% 0% to 70% 100%, 
-        #0A5BC4, #1A6BD4);
+    -fx-background-color: #2b5797;
     -fx-background-insets: 10;
 }
 
 .tileNoBottom {
-    -fx-background-color: linear-gradient(from 0% 0% to 70% 0%, 
-        #0A5BC4, #1A6BD4);
+    -fx-background-color: #2b5797;
     -fx-background-insets: 10 10 0 10;
 }
 
 .tileNoTop {
-    -fx-background-color: linear-gradient(from 0% 0% to 70% 0%, 
-        #0A5BC4, #1A6BD4);
+    -fx-background-color: #2b5797;
     -fx-background-insets: 0 10 10 10;
 }
 
@@ -68,7 +66,7 @@ Label {
 
 #bigValue {
     -fx-font: bold 70px "System";
-    -fx-alignment: center;
+    -fx-alignment: top-center;
     -fx-text-alignment: center;
 }
 
@@ -96,11 +94,11 @@ Label {
 }
 
 .chart-plot-background {
-    -fx-background-color: #1080e0;
+    -fx-background-color: #2a6096;
 }
 
 .chart-alternative-row-fill {
-    -fx-fill: #10a0e0;
+    -fx-fill: #2a7296;
     -fx-stroke: transparent;
     -fx-stroke-width: 0;
 }
@@ -117,7 +115,7 @@ Label {
 
 .chart-line-symbol { 
     -fx-padding: 5px;
-    -fx-background-radius: 5px;
-    -fx-background-color: darkblue, lightblue; 
-    -fx-background-insets: 0, 3;
+    -fx-background-radius: 4px;
+    -fx-background-color: hsb(213, 100%, 53%), hsb(213, 100%, 73%); 
+    -fx-background-insets: 0, 2;
 }
