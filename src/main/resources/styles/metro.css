@@ -7,7 +7,7 @@ Label {
 
 #AnchorPane {
     -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, 
-        hsb(213, 100%, 23%), hsb(213, 100%, 43%));
+        hsb(213, 100%, 33%), hsb(213, 100%, 43%));
 }
 
 .largeButton {
@@ -15,17 +15,19 @@ Label {
 }
 
 .tile {
-    -fx-background-color: #2b5797;
+    -fx-background-color: hsb(216, 72%, 59%, 0.8);
+/*    -fx-background-color: linear-gradient(from 0% 0% to 100% 0%,
+        rgba(197,222,234,0.2) 0%, rgba(138,187,215,0.2) 31%, rgba(6,109,171,0.2) 100%);*/
     -fx-background-insets: 10;
 }
 
 .tileNoBottom {
-    -fx-background-color: #2b5797;
+    -fx-background-color: hsb(216, 72%, 59%, 0.8);
     -fx-background-insets: 10 10 0 10;
 }
 
 .tileNoTop {
-    -fx-background-color: #2b5797;
+    -fx-background-color: hsb(216, 72%, 59%, 0.8);
     -fx-background-insets: 0 10 10 10;
 }
 
@@ -96,11 +98,11 @@ Label {
 }
 
 .chart-plot-background {
-    -fx-background-color: #2a6096;
+    -fx-background-color: hsb(210, 72%, 59%, 0.7);
 }
 
 .chart-alternative-row-fill {
-    -fx-fill: #2a7296;
+    -fx-fill: hsb(200, 72%, 59%, 0.7);
     -fx-stroke: transparent;
     -fx-stroke-width: 0;
 }
