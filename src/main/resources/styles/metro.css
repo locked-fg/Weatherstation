@@ -1,10 +1,13 @@
 Label {
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,1), 2, 0.9, 0, 0);
     -fx-text-fill: white;
+    -fx-font-family: System;
+    -fx-font-weight: bold;
 }
 
 #AnchorPane {
-    -fx-background-color: #0041A9;
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, 
+        hsb(213, 100%, 33%), hsb(213, 100%, 43%));
 }
 
 .largeButton {
@@ -12,20 +15,19 @@ Label {
 }
 
 .tile {
-    -fx-background-color: linear-gradient(from 0% 0% to 70% 100%, 
-        #0A5BC4, #1A6BD4);
+    -fx-background-color: hsb(216, 72%, 59%, 0.8);
+/*    -fx-background-color: linear-gradient(from 0% 0% to 100% 0%,
+        rgba(197,222,234,0.2) 0%, rgba(138,187,215,0.2) 31%, rgba(6,109,171,0.2) 100%);*/
     -fx-background-insets: 10;
 }
 
 .tileNoBottom {
-    -fx-background-color: linear-gradient(from 0% 0% to 70% 0%, 
-        #0A5BC4, #1A6BD4);
+    -fx-background-color: hsb(216, 72%, 59%, 0.8);
     -fx-background-insets: 10 10 0 10;
 }
 
 .tileNoTop {
-    -fx-background-color: linear-gradient(from 0% 0% to 70% 0%, 
-        #0A5BC4, #1A6BD4);
+    -fx-background-color: hsb(216, 72%, 59%, 0.8);
     -fx-background-insets: 0 10 10 10;
 }
 
@@ -34,15 +36,15 @@ Label {
 }
 
 #title {
-    -fx-font: bold 70px "System";
+    -fx-font-size: 70px;
 }
 
 #clock {
-    -fx-font: bold 50px "System";
+    -fx-font-size: 50px;
 }
 
 .row1 {
-    -fx-font: bold 50px "System";
+    -fx-font-size: 50px;
 }
 
 #date {
@@ -59,16 +61,16 @@ Label {
 }
 
 .gridValue{
-    -fx-font: bold 32px "System";
+    -fx-font-size: 32px;
 }
 
 .gridLabel, .gridHead {
-    -fx-font: bold 32px "System";
+    -fx-font-size: 32px;
 }
 
 #bigValue {
-    -fx-font: bold 70px "System";
-    -fx-alignment: center;
+    -fx-font-size: 70px;
+    -fx-alignment: top-center;
     -fx-text-alignment: center;
 }
 
@@ -78,7 +80,7 @@ Label {
 
 #diagramHead {
     -fx-text-fill: white;
-    -fx-font: bold 35px "System";
+    -fx-font-size: 35px;
     -fx-padding: 15px 0px 10px 30px;
 }
 
@@ -96,18 +98,18 @@ Label {
 }
 
 .chart-plot-background {
-    -fx-background-color: #1080e0;
+    -fx-background-color: hsb(210, 72%, 59%, 0.7);
 }
 
 .chart-alternative-row-fill {
-    -fx-fill: #10a0e0;
+    -fx-fill: hsb(200, 72%, 59%, 0.7);
     -fx-stroke: transparent;
     -fx-stroke-width: 0;
 }
 
 .axis {
     -fx-opacity: 1;
-    -fx-tick-label-font: bold 20px "System";
+    -fx-font-size: 20px;
     -fx-tick-label-fill: white;
 }
 
@@ -117,7 +119,7 @@ Label {
 
 .chart-line-symbol { 
     -fx-padding: 5px;
-    -fx-background-radius: 5px;
-    -fx-background-color: darkblue, lightblue; 
-    -fx-background-insets: 0, 3;
+    -fx-background-radius: 4px;
+    -fx-background-color: hsb(213, 100%, 53%), hsb(213, 100%, 73%); 
+    -fx-background-insets: 0, 2;
 }
