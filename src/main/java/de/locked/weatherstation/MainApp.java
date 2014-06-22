@@ -67,8 +67,9 @@ public class MainApp extends Application {
 
         controller = loader.getController();
         resize();
-        stage.setTitle("JavaFX and Maven");
+        stage.setTitle("My WeatherStation");
         stage.setScene(scene);
+        stage.setFullScreen(true);
         stage.show();
 
         // on the CLI we won't get any of those
@@ -87,7 +88,7 @@ public class MainApp extends Application {
             if (connectMasterbrick()) {
                 connectBricklets();
             }
-        }, 0, TimeUnit.SECONDS);
+        }, 30, TimeUnit.SECONDS);
 
         // refresh date 
         scheduler.scheduleAtFixedRate(() -> {
@@ -113,14 +114,17 @@ public class MainApp extends Application {
 
     private void resize() {
         try {
+            int w = 1920;
+            int h = 1080;
             if (getParameters().getNamed().containsKey("w")) {
-                int w = Integer.parseInt(getParameters().getNamed().get("w"));
-                int h = Integer.parseInt(getParameters().getNamed().get("h"));
-
-                log.info("setting width/height to " + w + "/" + h);
-                controller.rootPane.setPrefSize(w, h);
-                controller.contentPane.setPrefSize(w, h);
+                w = Integer.parseInt(getParameters().getNamed().get("w"));
             }
+            if (getParameters().getNamed().containsKey("h")) {
+                h = Integer.parseInt(getParameters().getNamed().get("h"));
+            }
+            log.info("setting width/height to " + w + "/" + h);
+            controller.rootPane.setPrefSize(w, h);
+            controller.contentPane.setPrefSize(w, h);
         } catch (NumberFormatException e) {
             log.severe(e.getMessage());
         }
@@ -152,8 +156,8 @@ public class MainApp extends Application {
             String paramName = chartModel.name().toLowerCase() + "-csv";
             String csvPath = params.get(paramName);
             if (csvPath == null) {
-                log.warning(paramName + " not given in command line. Ignoring");
-                continue;
+                log.warning(paramName + " not given in command line. Set default to localfile.");
+                csvPath = chartModel.name().toLowerCase()+".csv";
             }
 
             File csvFile = new File(csvPath);
@@ -162,8 +166,10 @@ public class MainApp extends Application {
                 continue;
             }
 
+            // read line by line to avoid having one huge file in memory
             log.info("init data from " + csvFile.getName() + " // " + csvFile.getAbsolutePath());
             try (BufferedReader in = new BufferedReader(new FileReader(csvFile))) {
+                DateTime ignoreBefore = new DateTime().minusDays(3);
                 while (in.ready()) {
                     String line = in.readLine();
                     String[] parts = line.split("\t");
@@ -174,8 +180,10 @@ public class MainApp extends Application {
 
                     try {
                         DateTime date = new DateTime(Long.parseLong(parts[0].trim()) * 1000L);
-                        double value = Double.parseDouble(parts[1].trim());
-                        chartModel.add(new Measure(date, value));
+                        if (date.isAfter(ignoreBefore)){
+                            double value = Double.parseDouble(parts[1].trim());
+                            chartModel.add(new Measure(date, value));
+                        }
                     } catch (NumberFormatException e) {
                         log.info("invalid line (Ignoring): " + line);
                     }
