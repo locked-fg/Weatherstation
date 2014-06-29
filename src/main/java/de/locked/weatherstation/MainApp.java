@@ -21,11 +21,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -57,6 +59,8 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        initLogging();
+
         log.info("Welcome - starting " + getClass().getName());
         initModelsFromCSV();
 
@@ -98,6 +102,14 @@ public class MainApp extends Application {
         log.info("start finished");
     }
 
+    private void initLogging() {
+        try (InputStream is = getClass().getResourceAsStream("/logging.properties")) {
+            LogManager.getLogManager().readConfiguration(is);
+        } catch (IOException | SecurityException ex) {
+            log.log(Level.SEVERE, "Logging properties could not be found.", ex);
+        }
+    }
+
     private void connectCEC() {
         cec = new CecListener();
         cec.addCallBackListener((KEvent e) -> {
@@ -131,9 +143,10 @@ public class MainApp extends Application {
     }
 
     /**
-     * The main() method is ignored in correctly deployed JavaFX application. main() serves only as fallback in case the
-     * application can not be launched through deployment artifacts, e.g., in IDEs with limited FX support. NetBeans
-     * ignores main().
+     * The main() method is ignored in correctly deployed JavaFX application.
+     * main() serves only as fallback in case the application can not be
+     * launched through deployment artifacts, e.g., in IDEs with limited FX
+     * support. NetBeans ignores main().
      *
      * @param args the command line arguments
      */
@@ -142,9 +155,10 @@ public class MainApp extends Application {
     }
 
     /**
-     * This should be executed in the JavaFX application thread as the model.add(MEasure) calls trigger updates of the
-     * underlying model. If this should be done off the FX-Appthread, a bulk-insert method in the model would be
-     * required.
+     * This should be executed in the JavaFX application thread as the
+     * model.add(MEasure) calls trigger updates of the underlying model. If this
+     * should be done off the FX-Appthread, a bulk-insert method in the model
+     * would be required.
      *
      * @throws IOException
      */
@@ -157,7 +171,7 @@ public class MainApp extends Application {
             String csvPath = params.get(paramName);
             if (csvPath == null) {
                 log.warning(paramName + " not given in command line. Set default to localfile.");
-                csvPath = chartModel.name().toLowerCase()+".csv";
+                csvPath = chartModel.name().toLowerCase() + ".csv";
             }
 
             File csvFile = new File(csvPath);
@@ -180,7 +194,7 @@ public class MainApp extends Application {
 
                     try {
                         DateTime date = new DateTime(Long.parseLong(parts[0].trim()) * 1000L);
-                        if (date.isAfter(ignoreBefore)){
+                        if (date.isAfter(ignoreBefore)) {
                             double value = Double.parseDouble(parts[1].trim());
                             chartModel.add(new Measure(date, value));
                         }
