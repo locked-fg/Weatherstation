@@ -93,7 +93,7 @@ public class FXMLDocumentController {
     void initialize() {
         // nah is this a nice place for this?
         // I don't want to put the formats into the MODEL classes as this is clearly a VIEW topic
-        formats.put(AMBIENT, new AbstractMap.SimpleEntry<>("%.1f Lux", "%.1f / %.1f Lux"));
+        formats.put(AMBIENTLIGHT, new AbstractMap.SimpleEntry<>("%.1f Lux", "%.1f / %.1f Lux"));
         formats.put(TEMPERATURE, new AbstractMap.SimpleEntry<>("%.1f°C", "%.1f / %.1f°C"));
         formats.put(HUMIDITY, new AbstractMap.SimpleEntry<>("%.1f%%", "%.1f / %.1f%%"));
         formats.put(BAROMETER, new AbstractMap.SimpleEntry<>("%.0fmBar", "%.0f / %.0fmBar"));
@@ -149,8 +149,8 @@ public class FXMLDocumentController {
     }
 
     private void initModels() {
-        AMBIENT.addPropertyChangeListener(e -> {
-            update(AMBIENT, currentAmbient, minMaxAmbient);
+        AMBIENTLIGHT.addPropertyChangeListener(e -> {
+            update(AMBIENTLIGHT, currentAmbient, minMaxAmbient);
         });
         TEMPERATURE.addPropertyChangeListener(e -> {
             update(TEMPERATURE, currentTemp, minMaxTemp);

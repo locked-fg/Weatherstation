@@ -229,7 +229,7 @@ public class MainApp extends Application {
                 // Platform.runLater(() -> {
                 update(temp, TEMPERATURE);
                 update(humidity, HUMIDITY);
-                update(ambient, AMBIENT);
+                update(ambient, AMBIENTLIGHT);
                 update(barometer, BAROMETER);
                 // });
             }
