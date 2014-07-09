@@ -7,11 +7,8 @@ import org.joda.time.DateTime;
  */
 public class Measure {
 
-    private DateTime date;
-    private double value;
-
-    public Measure() {
-    }
+    private final DateTime date;
+    private final double value;
 
     public Measure(DateTime date, double value) {
         this.date = date;
@@ -22,19 +19,16 @@ public class Measure {
         return date;
     }
 
-    public void setDate(DateTime date) {
-        this.date = date;
-    }
-
     public double getValue() {
         return value;
     }
 
-    public void setValue(double value) {
-        this.value = value;
-    }
-
     public boolean isAfter(Measure m) {
         return this.date.isAfter(m.getDate());
+    }
+
+    @Override
+    public String toString() {
+        return "Measure{" + "date=" + date + ", value=" + value + '}';
     }
 }

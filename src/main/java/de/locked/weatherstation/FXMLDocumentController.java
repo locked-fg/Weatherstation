@@ -171,6 +171,7 @@ public class FXMLDocumentController {
         bigChartTitle.setText(currentChart.title());
 
         chart.getData().setAll(new XYChart.Series(currentChart.getValuesModel()));
+        yAxis.setTickLabelFormatter(currentChart.getTickLabelFormatter());
 
         update(currentChart, null, null);
     }

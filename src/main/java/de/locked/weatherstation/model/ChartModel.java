@@ -2,27 +2,59 @@ package de.locked.weatherstation.model;
 
 import de.locked.weatherstation.Measure;
 import java.beans.PropertyChangeListener;
+import java.util.function.Function;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
+import javafx.util.StringConverter;
+import javafx.util.converter.NumberStringConverter;
 import org.joda.time.DateTime;
 
 public enum ChartModel {
 
-    TEMPERATURE("Temperatur"), HUMIDITY("Luftfeuchtigkeit", 50, 90), BAROMETER("Luftdruck"), AMBIENTLIGHT("Lichtstärke");
+    TEMPERATURE("Temperatur"), 
+    HUMIDITY("Luftfeuchtigkeit", 50, 90), 
+    BAROMETER("Luftdruck"),
+    AMBIENTLIGHT("Lichtstärke", e -> Math.log(Math.max(1,e)), e -> Math.pow(Math.E, e));
 
-    private final ValuesModel valuesModel = new ValuesModel();
     private final String title;
+    private final ValuesModel valuesModel = new ValuesModel();
     private final double defaultMin;
     private final double defaultMax;
+    private Function<Double, Double> in;
+    private Function<Double, Double> out;
 
     private ChartModel(String title) {
         this(title, Double.NaN, Double.NaN);
     }
+    
+    private ChartModel(String title, Function<Double, Double> in, Function<Double, Double> out) {
+        this(title, Double.NaN, Double.NaN, in, out);
+    }
 
     private ChartModel(String title, double defaultMin, double defaultMax) {
+        this(title, defaultMin, defaultMax, e -> e, e -> e);
+    }
+    
+    private ChartModel(String title, double defaultMin, double defaultMax, Function<Double, Double> in, Function<Double, Double> out) {
         this.title = title;
         this.defaultMin = defaultMin;
         this.defaultMax = defaultMax;
+        this.in = in;
+        this.out = out;
+    }
+
+    public StringConverter<Number> getTickLabelFormatter() {
+        return new NumberStringConverter("#") {
+
+                @Override
+                public String toString(Number value) {
+                    if (value != null && value instanceof Double) {
+                        value = out.apply((Double) value);
+                    }
+                    return super.toString(value);
+                }
+
+            };
     }
 
     public ObservableList<XYChart.Data<Long, Double>> getValuesModel() {
@@ -38,7 +70,8 @@ public enum ChartModel {
     }
 
     public synchronized void add(Measure m) {
-        valuesModel.add(m);
+        Measure measure = new Measure(m.getDate(), in.apply(m.getValue()));
+        valuesModel.add(measure);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -58,7 +91,7 @@ public enum ChartModel {
     }
 
     public double getCurrentValue() {
-        return valuesModel.getCurrentValue();
+        return out.apply(valuesModel.getCurrentValue());
     }
 
     public boolean isAutoRanging() {
@@ -82,14 +115,15 @@ public enum ChartModel {
     }
 
     public double getMinValue() {
-        return valuesModel.getMin();
+        return out.apply(valuesModel.getMin());
     }
 
     public double getMaxValue() {
-        return valuesModel.getMax();
+        return out.apply(valuesModel.getMax());
     }
 
     public String title() {
         return title;
     }
 }
+
