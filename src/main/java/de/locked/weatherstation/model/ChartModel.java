@@ -11,22 +11,22 @@ import org.joda.time.DateTime;
 
 public enum ChartModel {
 
-    TEMPERATURE("Temperatur"), 
-    HUMIDITY("Luftfeuchtigkeit", 50, 90), 
+    TEMPERATURE("Temperatur"),
+    HUMIDITY("Luftfeuchtigkeit", 50, 90),
     BAROMETER("Luftdruck"),
-    AMBIENTLIGHT("Lichtstärke", e -> Math.log(Math.max(1,e)), e -> Math.pow(Math.E, e));
+    AMBIENTLIGHT("Lichtstärke", e -> Math.log(Math.max(1, e)), e -> Math.pow(Math.E, e));
 
     private final String title;
     private final ValuesModel valuesModel = new ValuesModel();
     private final double defaultMin;
     private final double defaultMax;
-    private Function<Double, Double> in;
-    private Function<Double, Double> out;
+    private final Function<Double, Double> in;
+    private final Function<Double, Double> out;
 
     private ChartModel(String title) {
         this(title, Double.NaN, Double.NaN);
     }
-    
+
     private ChartModel(String title, Function<Double, Double> in, Function<Double, Double> out) {
         this(title, Double.NaN, Double.NaN, in, out);
     }
@@ -34,7 +34,7 @@ public enum ChartModel {
     private ChartModel(String title, double defaultMin, double defaultMax) {
         this(title, defaultMin, defaultMax, e -> e, e -> e);
     }
-    
+
     private ChartModel(String title, double defaultMin, double defaultMax, Function<Double, Double> in, Function<Double, Double> out) {
         this.title = title;
         this.defaultMin = defaultMin;
@@ -46,15 +46,15 @@ public enum ChartModel {
     public StringConverter<Number> getTickLabelFormatter() {
         return new NumberStringConverter("#") {
 
-                @Override
-                public String toString(Number value) {
-                    if (value != null && value instanceof Double) {
-                        value = out.apply((Double) value);
-                    }
-                    return super.toString(value);
+            @Override
+            public String toString(Number value) {
+                if (value != null && value instanceof Double) {
+                    value = out.apply((Double) value);
                 }
+                return super.toString(value);
+            }
 
-            };
+        };
     }
 
     public ObservableList<XYChart.Data<Long, Double>> getValuesModel() {
@@ -90,10 +90,6 @@ public enum ChartModel {
         return all[i];
     }
 
-    public double getCurrentValue() {
-        return out.apply(valuesModel.getCurrentValue());
-    }
-
     public boolean isAutoRanging() {
         return Double.isNaN(defaultMin);
     }
@@ -114,6 +110,10 @@ public enum ChartModel {
         }
     }
 
+    public double getCurrentValue() {
+        return out.apply(valuesModel.getCurrentValue());
+    }
+
     public double getMinValue() {
         return out.apply(valuesModel.getMin());
     }
@@ -126,4 +126,3 @@ public enum ChartModel {
         return title;
     }
 }
-
