@@ -64,7 +64,6 @@ public class MainApp extends Application {
         log.info("Welcome - starting " + getClass().getName());
         initModelsFromCSV();
 
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLDocument.fxml"));
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/metro.fxml"));
         loader.load();
         Scene scene = new Scene(loader.getRoot());
@@ -240,12 +239,10 @@ public class MainApp extends Application {
                 // runLater calls every POLL_SENSORS seconds. I should evealuate if this leads to a noticable effect
                 // on the Raspberry.
                 // See ValuesModel#add(Measure)
-                // Platform.runLater(() -> {
                 update(temp, TEMPERATURE);
                 update(humidity, HUMIDITY);
                 update(ambient, AMBIENTLIGHT);
                 update(barometer, BAROMETER);
-                // });
             }
 
             private void update(MyBricklet bricklet, ChartModel aChart) {
@@ -254,7 +251,7 @@ public class MainApp extends Application {
                     log.info("queried " + aChart.name() + ": " + t);
                     aChart.add(t);
                 } catch (TimeoutException | NotConnectedException e) {
-                    log.severe("Getting value from Sensor " + aChart.name() + " failed: " + e.getMessage());
+                    log.log(Level.SEVERE, "Getting value from Sensor " + aChart.name() + " failed", e);
                 }
             }
         }, POLL_SENSORS, POLL_SENSORS, TimeUnit.SECONDS);
@@ -267,9 +264,8 @@ public class MainApp extends Application {
             ipcon.connect(host, port);
             return true;
         } catch (IOException | AlreadyConnectedException ex) {
-            log.severe("Connection to Bricklets failed!\n" + ex.getMessage());
+            log.log(Level.SEVERE, "Connection to Bricklets failed!", ex);
             return false;
         }
     }
-
 }

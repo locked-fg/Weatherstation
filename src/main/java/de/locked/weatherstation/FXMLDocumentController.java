@@ -80,11 +80,11 @@ public class FXMLDocumentController {
     @FXML
     private NumberAxis yAxis;
 
-    @FXML   // ResourceBundle that was given to the FXMLLoader
-    private ResourceBundle resources;
-
-    @FXML // URL location of the FXML file that was given to the FXMLLoader
-    private URL location;
+//    @FXML   // ResourceBundle that was given to the FXMLLoader
+//    private ResourceBundle resources;
+//
+//    @FXML // URL location of the FXML file that was given to the FXMLLoader
+//    private URL location;
 
     private ChartModel currentChart = TEMPERATURE;
     private Map<ChartModel, SimpleEntry<String, String>> formats = new HashMap<>();
