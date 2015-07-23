@@ -10,7 +10,7 @@ import java.util.logging.Logger;
  * Wiederverbindung aktiviert ist, versucht die IP Connection eine Verbindung zum vorher angegebenen Host und Port
  * wieder herzustellen, falls die Verbindung verloren geht.
  *
- * Und wenn die Verbindung gar nicht zusatnde kommt bleibt sie zu?
+ * Und wenn die Verbindung gar nicht zustande kommt bleibt sie zu?
  */
 public class Connector extends Thread {
 
