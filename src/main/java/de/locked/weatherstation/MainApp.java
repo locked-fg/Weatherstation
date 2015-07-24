@@ -236,7 +236,7 @@ public class MainApp extends Application {
                     return;
                 }
                 // I wanted to push all runLater calls to the controller (or model) yet this would result in 4x the amount of 
-                // runLater calls every POLL_SENSORS seconds. I should evealuate if this leads to a noticable effect
+                // runLater calls every POLL_SENSORS seconds. I should evaluate if this leads to a noticable effect
                 // on the Raspberry.
                 // See ValuesModel#add(Measure)
                 update(temp, TEMPERATURE);
