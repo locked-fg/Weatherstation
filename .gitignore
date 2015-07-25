@@ -21,3 +21,9 @@ nbdist/
 build.xml
 build.properties
 
+/series.json
+/humidity.csv
+/barometer.csv
+/ambientlight.csv
+/temperature.csv
+/table.json

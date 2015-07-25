@@ -12,6 +12,8 @@ import com.tinkerforge.TimeoutException;
 import de.locked.cecclient.CecListener;
 import de.locked.cecclient.KEvent;
 import static de.locked.weatherstation.model.ChartModel.*;
+import de.locked.weatherstation.model.MeasureSink;
+import de.locked.weatherstation.model.ModelReader;
 import de.locked.weatherstation.tinkerforge.MyBricklet;
 import de.locked.weatherstation.tinkerforge.MyBrickletAmbientLight;
 import de.locked.weatherstation.tinkerforge.MyBrickletBarometer;
@@ -37,20 +39,14 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.joda.time.DateTime;
+import static de.locked.weatherstation.tinkerforge.BrickletConfig.*;
+
 
 public class MainApp extends Application {
 
     private static final Logger log = Logger.getLogger(MainApp.class.getName());
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    //
-    private final String host = "192.168.178.38";
-    private final int port = 4223;
     private final IPConnection ipcon = new IPConnection();
-    //
-    private final String UID_temperature = "dXC";
-    private final String UID_humidity = "hRd";
-    private final String UID_ambient = "jzj";
-    private final String UID_barometer = "jo7";
     //
     private final int REFRESH_DATE = 1; // m
     private final int POLL_SENSORS = 2; // s
@@ -179,32 +175,7 @@ public class MainApp extends Application {
                 continue;
             }
 
-            // read line by line to avoid having one huge file in memory
-            log.info("init data from " + csvFile.getName() + " // " + csvFile.getAbsolutePath());
-            try (BufferedReader in = new BufferedReader(new FileReader(csvFile))) {
-                DateTime ignoreBefore = new DateTime().minusDays(3);
-                while (in.ready()) {
-                    String line = in.readLine();
-                    String[] parts = line.split("\t");
-                    if (parts.length != 2) {
-                        log.warning("invalid line (Ignoring): " + line);
-                        continue;
-                    }
-
-                    try {
-                        DateTime date = new DateTime(Long.parseLong(parts[0].trim()) * 1000L);
-                        if (date.isAfter(ignoreBefore)) {
-                            double value = Double.parseDouble(parts[1].trim());
-                            chartModel.add(new Measure(date, value));
-                        }
-                    } catch (NumberFormatException e) {
-                        log.info("invalid line (Ignoring): " + line);
-                    }
-                }
-                log.info("file done");
-            } catch (IOException e) {
-                log.log(Level.WARNING, "IO Exception: ", e);
-            }
+            new ModelReader().readFile(csvFile, chartModel);
         }
     }
 

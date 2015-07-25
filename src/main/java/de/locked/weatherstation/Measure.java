@@ -10,6 +10,10 @@ public class Measure {
     private final DateTime date;
     private final double value;
 
+    public Measure(double value) {
+        this(DateTime.now(), value);
+    }
+    
     public Measure(DateTime date, double value) {
         this.date = date;
         this.value = value;

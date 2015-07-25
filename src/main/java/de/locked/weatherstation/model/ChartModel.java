@@ -9,7 +9,7 @@ import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
 import org.joda.time.DateTime;
 
-public enum ChartModel {
+public enum ChartModel implements MeasureSink {
 
     TEMPERATURE("Temperatur"),
     HUMIDITY("Luftfeuchtigkeit", 50, 90),
@@ -69,6 +69,7 @@ public enum ChartModel {
         add(new Measure(new DateTime(), value));
     }
 
+    @Override
     public synchronized void add(Measure m) {
         Measure measure = new Measure(m.getDate(), in.apply(m.getValue()));
         valuesModel.add(measure);

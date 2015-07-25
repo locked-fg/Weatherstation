@@ -9,124 +9,46 @@ import java.util.Optional;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Data;
-import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.joda.time.DateTime;
-import org.joda.time.ReadableInstant;
 
-class ValuesModel {
+class ValuesModel extends BaseModel {
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final ObservableList<Data<Long, Double>> model = FXCollections.observableArrayList();
-    private final List<MyStats> statList = new ArrayList<>(49);
 
-    private static final int TIME_TOLERANCE = 60_000;
-    private static final int LIMIT_HOURS = 48;
-    private Measure recent = new Measure(new DateTime(0), 0);
-    private double min, max;
-
-    public ObservableList<Data<Long, Double>> getModel() {
-        return model;
-    }
-
+    @Override
     public void add(Measure m) {
-        // check if we can simply ignore the incoming value
-        DateTime limit = new DateTime().minusHours(LIMIT_HOURS);
-        if (m.getDate().isBefore(limit)) {
-            return;
-        }
-
-        // Now it's clear that we need to do process the call. The following methods must be called on the 
+        // Now it's clear that we need to do process the call. The following methods must be called on the
         // FXApplicationThread as the add/remove/update calls will trigger an update of the UI
         if (!Platform.isFxApplicationThread()) {
             Platform.runLater(() -> {
-                add(m);
+                super.add(m);
             });
             return;
         }
-
-        addOrUpdate(m);
-        cleanup(limit);
-
-        updateRecent(m);
-        setMinMax();
+        super.add(m);
         pcs.firePropertyChange("UPDATE", 0, 1);
     }
 
-    private void setMinMax() {
-        min = Double.MAX_VALUE;
-        max = Double.MIN_VALUE;
-        for (MyStats m : statList) {
-            min = Math.min(min, m.getMean());
-            max = Math.max(max, m.getMean());
-        }
-    }
-
-    public double getMin() {
-        return min;
-    }
-
-    public double getMax() {
-        return max;
-    }
-
-    private void updateRecent(Measure m) {
-        if (m.isAfter(recent)) {
-            recent = m;
-        }
-    }
-
-    private void addOrUpdate(Measure measure) {
-        // get rid of min, sec, msec
-        DateTime date = measure.getDate();
-        final DateTime key = new DateTime(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), date.getHourOfDay(), 0);
+    @Override
+    protected DateTime addOrUpdate(Measure measure) {
+        DateTime key = super.addOrUpdate(measure);
 
         double value = measure.getValue();
-        {
-            Optional<MyStats> optional = statList.stream().filter(s -> eq(s, key)).findAny();
-            if (optional.isPresent()) {
-                value = optional.get().add(measure).getMean();
-            } else {
-                statList.add(new MyStats(key, value));
-            }
+        Optional<XYChart.Data<Long, Double>> optional = model.stream().filter((XYChart.Data<Long, Double> m) -> eq(m, key)).findAny();
+        if (optional.isPresent()) {
+            optional.get().setYValue(value);
+        } else {
+            model.add(new XYChart.Data<>(key.getMillis(), value));
         }
-        {
-            Optional<Data<Long, Double>> optional = model.stream().filter(m -> eq(m, key)).findAny();
-            if (optional.isPresent()) {
-                optional.get().setYValue(value);
-            } else {
-                model.add(new Data<>(key.getMillis(), value));
-            }
-        }
+        return key;
     }
 
-    private boolean eq(Data<Long, Double> d, DateTime dt) {
-        return eq(d.getXValue().longValue(), dt.getMillis());
-    }
-
-    private boolean eq(MyStats dt, DateTime m) {
-        return eq(dt.getDate().getMillis(), m.getMillis());
-    }
-
-    private boolean eq(long a, long b) {
-        return Math.abs(a - b) < TIME_TOLERANCE;
-    }
-
-    public DateTime minTime() {
-        return new DateTime().minusHours(LIMIT_HOURS);
-    }
-
-    /**
-     * cleanup timed out values
-     */
-    private void cleanup(DateTime limit) {
-        for (int i = statList.size() - 1; i >= 0; i--) {
-            MyStats myStat = statList.get(i);
-            if (limit.isAfter(myStat.timestamp)) {
-                statList.remove(i);
-            }
-        }
-
+    @Override
+    protected void cleanup(DateTime limit) {
+        super.cleanup(limit);
         for (int i = model.size() - 1; i >= 0; i--) {
             if (limit.isAfter((long) model.get(i).XValueProperty().get())) {
                 model.remove(i);
@@ -134,42 +56,12 @@ class ValuesModel {
         }
     }
 
+    public ObservableList<Data<Long, Double>> getModel() {
+        return model;
+    }
+
     void addPropertyChangeListener(PropertyChangeListener listener) {
         pcs.addPropertyChangeListener(listener);
     }
 
-    double getCurrentValue() {
-        return recent.getValue();
-    }
-
-    static class MyStats extends SummaryStatistics {
-
-        final DateTime timestamp;
-
-        private MyStats(DateTime dt, double value) {
-            this.timestamp = dt;
-            addValue(value);
-        }
-
-        private MyStats(DateTime dt, Measure measure) {
-            this(dt, measure.getValue());
-        }
-
-        public MyStats add(Measure m) {
-            addValue(m.getValue());
-            return this;
-        }
-
-        public DateTime getDate() {
-            return timestamp;
-        }
-
-        public boolean isAfter(ReadableInstant instant) {
-            return timestamp.isAfter(instant);
-        }
-
-        public boolean isBefore(ReadableInstant instant) {
-            return timestamp.isBefore(instant);
-        }
-    }
 }
