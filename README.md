@@ -11,3 +11,5 @@ So no additional remotes etc are needed to toggle the diagram.
 The configuration of the according RaspberryPis can be found in [another Repo](https://github.com/locked-fg/raspberry-weatherstation).
 
 In my blog, you can also find the related articles: [Part 1](http://www.locked.de/2014/03/16/my-first-raspberrypi-project-tv-controlled-weatherstation/), [Part 2](http://www.locked.de/2014/03/19/raspberrypi-weatherstation-the-sensor-station-part-ii/), [Part 3](http://www.locked.de/2014/05/30/raspberrypi-weatherstation-the-tv-station-part-iii/).
+
+A web view of the data is also available in the [Weatherstation-web repository](https://github.com/locked-fg/Weatherstation-web).
