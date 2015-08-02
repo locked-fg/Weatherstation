@@ -2,10 +2,6 @@ package de.locked.webexporter;
 
 import com.google.gson.Gson;
 import com.tinkerforge.AlreadyConnectedException;
-import com.tinkerforge.BrickletAmbientLight;
-import com.tinkerforge.BrickletBarometer;
-import com.tinkerforge.BrickletHumidity;
-import com.tinkerforge.BrickletTemperature;
 import com.tinkerforge.IPConnection;
 import com.tinkerforge.NotConnectedException;
 import com.tinkerforge.TimeoutException;
@@ -52,7 +48,10 @@ public class Exporter {
     //
     private final Path tablePath = Paths.get("table.json");
     private final Path seriesPath = Paths.get("series.json");
+    private final int POLL_SENSORS_INTERVAL = 15; // seconds
+    private final int WRITE_INTERVAL = 15;
 
+    
     public Exporter() {
         log.info("Starting exporter");
         Map<ChartModel, BaseModel> collect = Arrays.stream(ChartModel.values())
@@ -100,12 +99,12 @@ public class Exporter {
                     }
                 }
 
-            }, 0, 5, TimeUnit.SECONDS);
+            }, 0, POLL_SENSORS_INTERVAL, TimeUnit.SECONDS);
         });
         ipcon.connect(BrickletConfig.host, BrickletConfig.port);
         return this;
     }
-
+    
     private void setFromModel(TableValue value, BaseModel model) {
         value.min = model.getMin();
         value.max = model.getMax();
@@ -150,7 +149,7 @@ public class Exporter {
                 log.log(Level.SEVERE, null, ex);
             }
 
-        }, 0, 15, TimeUnit.SECONDS);
+        }, 0, WRITE_INTERVAL, TimeUnit.SECONDS);
     }
 
     public static void main(String[] args) throws Exception {
