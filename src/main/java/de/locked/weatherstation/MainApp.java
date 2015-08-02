@@ -49,7 +49,7 @@ public class MainApp extends Application {
     private final IPConnection ipcon = new IPConnection();
     //
     private final int REFRESH_DATE = 1; // m
-    private final int POLL_SENSORS = 2; // s
+    private final int POLL_SENSORS = 5; // s
     private FXMLDocumentController controller;
     private CecListener cec;
 
