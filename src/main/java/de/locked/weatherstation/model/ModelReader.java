@@ -19,6 +19,7 @@ public class ModelReader {
         log.info("init data from " + csvFile.getName() + " // " + csvFile.getAbsolutePath());
         try (BufferedReader in = new BufferedReader(new FileReader(csvFile))) {
             DateTime ignoreBefore = new DateTime().minusDays(3);
+            int i = 0;
             while (in.ready()) {
                 String line = in.readLine();
                 String[] parts = line.split("\t");
@@ -35,6 +36,10 @@ public class ModelReader {
                     }
                 } catch (NumberFormatException e) {
                     log.info("invalid line (Ignoring): " + line);
+                }
+                
+                if (i++ % 100 == 0) {
+                    System.gc();
                 }
             }
             log.info("file done");

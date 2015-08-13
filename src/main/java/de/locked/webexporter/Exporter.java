@@ -64,6 +64,7 @@ public class Exporter {
             File csvFile = new File(m.name().toLowerCase() + ".csv");
             log.info("reading: " + csvFile.getAbsolutePath());
             new ModelReader().readFile(csvFile, models.get(m));
+            System.gc();
         }
         return this;
     }
@@ -148,7 +149,7 @@ public class Exporter {
             } catch (IOException ex) {
                 log.log(Level.SEVERE, null, ex);
             }
-
+            System.gc();
         }, 0, WRITE_INTERVAL, TimeUnit.SECONDS);
     }
 
