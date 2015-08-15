@@ -83,8 +83,9 @@ public class Parser {
         return i == null ? UNMAPPED : i;
     }
 
-    String line2cecCode(String line) {
-        if (line == null || line.isEmpty()) {
+    String line2cecCode(String lineRaw) {
+        String line = (lineRaw == null) ? "" : lineRaw.trim();
+        if (line.isEmpty()){
             return null;
         }
         if (!line.startsWith(TRAFFIC)) {

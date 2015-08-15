@@ -36,10 +36,6 @@ public class ModelReader {
                 } catch (NumberFormatException e) {
                     log.info("invalid line (Ignoring): " + line);
                 }
-                
-                if (i++ % 100 == 0) {
-                    System.gc();
-                }
             }
             log.info("file done");
         } catch (IOException e) {

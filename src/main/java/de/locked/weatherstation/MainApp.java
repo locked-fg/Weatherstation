@@ -12,16 +12,13 @@ import com.tinkerforge.TimeoutException;
 import de.locked.cecclient.CecListener;
 import de.locked.cecclient.KEvent;
 import static de.locked.weatherstation.model.ChartModel.*;
-import de.locked.weatherstation.model.MeasureSink;
 import de.locked.weatherstation.model.ModelReader;
 import de.locked.weatherstation.tinkerforge.MyBricklet;
 import de.locked.weatherstation.tinkerforge.MyBrickletAmbientLight;
 import de.locked.weatherstation.tinkerforge.MyBrickletBarometer;
 import de.locked.weatherstation.tinkerforge.MyBrickletHumidity;
 import de.locked.weatherstation.tinkerforge.MyBrickletTemperature;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
@@ -40,13 +37,15 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.joda.time.DateTime;
 import static de.locked.weatherstation.tinkerforge.BrickletConfig.*;
-
+import java.util.Properties;
 
 public class MainApp extends Application {
 
     private static final Logger log = Logger.getLogger(MainApp.class.getName());
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final IPConnection ipcon = new IPConnection();
+    private final Properties props = new Properties();
+
     //
     private final int REFRESH_DATE = 1; // m
     private final int POLL_SENSORS = 5; // s
@@ -56,6 +55,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         initLogging();
+        initProperties();
 
         log.info("Welcome - starting " + getClass().getName());
         initModelsFromCSV();
@@ -106,7 +106,8 @@ public class MainApp extends Application {
     }
 
     private void connectCEC() {
-        cec = new CecListener();
+        cec = new CecListener(props.getProperty("cec.command"));
+        
         cec.addCallBackListener((KEvent e) -> {
             if (!e.isUnmapped() && e.isPressed()) {
                 if (e.getCode() == java.awt.event.KeyEvent.VK_RIGHT) {
@@ -138,9 +139,8 @@ public class MainApp extends Application {
     }
 
     /**
-     * The main() method is ignored in correctly deployed JavaFX application.
-     * main() serves only as fallback in case the application can not be
-     * launched through deployment artifacts, e.g., in IDEs with limited FX
+     * The main() method is ignored in correctly deployed JavaFX application. main() serves only as fallback
+     * in case the application can not be launched through deployment artifacts, e.g., in IDEs with limited FX
      * support. NetBeans ignores main().
      *
      * @param args the command line arguments
@@ -150,10 +150,9 @@ public class MainApp extends Application {
     }
 
     /**
-     * This should be executed in the JavaFX application thread as the
-     * model.add(MEasure) calls trigger updates of the underlying model. If this
-     * should be done off the FX-Appthread, a bulk-insert method in the model
-     * would be required.
+     * This should be executed in the JavaFX application thread as the model.add(MEasure) calls trigger
+     * updates of the underlying model. If this should be done off the FX-Appthread, a bulk-insert method in
+     * the model would be required.
      *
      * @throws IOException
      */
@@ -238,5 +237,9 @@ public class MainApp extends Application {
             log.log(Level.SEVERE, "Connection to Bricklets failed!", ex);
             return false;
         }
+    }
+
+    private void initProperties() throws IOException {
+        props.load(getClass().getResourceAsStream("/weatherstation.properties"));
     }
 }

@@ -22,14 +22,13 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
  * @author Dr. Franz Graf <code@Locked.de>
  */
 public class CecListenerTest {
 
     @Test
     public void testRun() throws Exception {
-        CecListener c = new CecListener() {
+        CecListener c = new CecListener("") {
             int i = 0;
 
             @Override
@@ -44,7 +43,7 @@ public class CecListenerTest {
                 if (i < 68 || (i > 68 && i < 73)) {
                     assertTrue(key.isUnmapped());
                 } else if (i == 68) {
-                    assertFalse(key.isUnmapped());
+                    assertFalse("key=>"+key.toString(), key.isUnmapped());
                     assertEquals(KeyEvent.VK_1, key.getCode());
                     assertTrue(key.isPressed());
                 } else if (i == 73) {
@@ -54,9 +53,10 @@ public class CecListenerTest {
             }
 
             @Override
-            InputStream openStream() throws IOException {
+            void openStreams() throws IOException {
                 // Inject test stream
-                return getClass().getResourceAsStream("/input.log");
+                inputStream = getClass().getResourceAsStream("/input.log");
+                errorStream = getClass().getResourceAsStream("/error.log");
             }
         };
         c.maxRetryCount = 1;
