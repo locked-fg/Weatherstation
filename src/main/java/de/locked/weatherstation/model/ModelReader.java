@@ -1,6 +1,5 @@
 package de.locked.weatherstation.model;
 
-import de.locked.weatherstation.MainApp;
 import de.locked.weatherstation.Measure;
 import java.io.BufferedReader;
 import java.io.File;
