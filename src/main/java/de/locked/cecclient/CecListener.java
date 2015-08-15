@@ -148,7 +148,7 @@ class CecStreamConsumer {
                 String s = new String(b).intern();
                 if (s.equals("\n")) {
                     if(sb.length() > 0){
-                        log.log(Level.FINE, "CEC command ''{0}'': {1}", new Object[]{label, s});
+                        log.log(Level.FINE, "CEC command from ''{0}'': {1}", new Object[]{label, sb.toString()});
                         consumer.accept(sb.toString().trim());
                         sb = new StringBuilder(60);
                     }
