@@ -59,107 +59,107 @@ DEBUG:   [            1008]     << Recorder 1 (1) -> TV (0): OSD name 'CECTester
 TRAFFIC: [            1008]     << 10:47:43:45:43:54:65:73:74:65:72
 DEBUG:   [            1284]     << requesting power status of 'TV' (0)
 TRAFFIC: [            1284]     << 10:8f
-TRAFFIC: [            1441]     >> 01:90:00
+TRAFFIC: [            1441]     >> 04:90:00
 DEBUG:   [            1442]     >> TV (0) -> Recorder 1 (1): report power status (90)
 DEBUG:   [            1442]     TV (0): power status changed from 'unknown' to 'on'
 DEBUG:   [            1443]     expected response received (90: report power status)
 waiting for input
 
-TRAFFIC: [            5614]     >> 01:44:21
+TRAFFIC: [            5614]     >> 04:44:21
 DEBUG:   [            5615]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
 DEBUG:   [            5615]     key pressed: 1 (21)
 DEBUG:   [            5615]     making Recorder 1 (1) the active source
 NOTICE:  [            5615]     >> source activated: Recorder 1 (1)
-TRAFFIC: [            5845]     >> 01:8b:21
+TRAFFIC: [            5845]     >> 04:8b:21
 DEBUG:   [            5846]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
 DEBUG:   [            5846]     key released: 1 (21)
-TRAFFIC: [           11770]     >> 01:44:22
+TRAFFIC: [           11770]     >> 04:44:22
 DEBUG:   [           11771]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
 DEBUG:   [           11771]     key pressed: 2 (22)
-TRAFFIC: [           12007]     >> 01:8b:22
+TRAFFIC: [           12007]     >> 04:8b:22
 DEBUG:   [           12007]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
 DEBUG:   [           12007]     key released: 2 (22)
-TRAFFIC: [           14378]     >> 01:44:23
+TRAFFIC: [           14378]     >> 04:44:23
 DEBUG:   [           14378]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
 DEBUG:   [           14378]     key pressed: 3 (23)
-TRAFFIC: [           14506]     >> 01:8b:23
+TRAFFIC: [           14506]     >> 04:8b:23
 DEBUG:   [           14507]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
 DEBUG:   [           14507]     key released: 3 (23)
-TRAFFIC: [           16002]     >> 01:44:24
+TRAFFIC: [           16002]     >> 04:44:24
 DEBUG:   [           16002]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
 DEBUG:   [           16003]     key pressed: 4 (24)
-TRAFFIC: [           16233]     >> 01:8b:24
+TRAFFIC: [           16233]     >> 04:8b:24
 DEBUG:   [           16233]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
 DEBUG:   [           16234]     key released: 4 (24)
-TRAFFIC: [           16718]     >> 01:44:25
+TRAFFIC: [           16718]     >> 04:44:25
 DEBUG:   [           16718]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
 DEBUG:   [           16718]     key pressed: 5 (25)
-TRAFFIC: [           16846]     >> 01:8b:25
+TRAFFIC: [           16846]     >> 04:8b:25
 DEBUG:   [           16846]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
 DEBUG:   [           16846]     key released: 5 (25)
-TRAFFIC: [           17426]     >> 01:44:26
+TRAFFIC: [           17426]     >> 04:44:26
 DEBUG:   [           17426]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
 DEBUG:   [           17426]     key pressed: 6 (26)
-TRAFFIC: [           17661]     >> 01:8b:26
+TRAFFIC: [           17661]     >> 04:8b:26
 DEBUG:   [           17662]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
 DEBUG:   [           17662]     key released: 6 (26)
-TRAFFIC: [           18127]     >> 01:44:27
+TRAFFIC: [           18127]     >> 04:44:27
 DEBUG:   [           18131]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
 DEBUG:   [           18132]     key pressed: 7 (27)
-TRAFFIC: [           18253]     >> 01:8b:27
+TRAFFIC: [           18253]     >> 04:8b:27
 DEBUG:   [           18254]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
 DEBUG:   [           18254]     key released: 7 (27)
-TRAFFIC: [           18775]     >> 01:44:28
+TRAFFIC: [           18775]     >> 04:44:28
 DEBUG:   [           18775]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
 DEBUG:   [           18775]     key pressed: 8 (28)
-TRAFFIC: [           19007]     >> 01:8b:28
+TRAFFIC: [           19007]     >> 04:8b:28
 DEBUG:   [           19007]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
 DEBUG:   [           19008]     key released: 8 (28)
-TRAFFIC: [           19459]     >> 01:44:29
+TRAFFIC: [           19459]     >> 04:44:29
 DEBUG:   [           19459]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
 DEBUG:   [           19459]     key pressed: 9 (29)
-TRAFFIC: [           19685]     >> 01:8b:29
+TRAFFIC: [           19685]     >> 04:8b:29
 DEBUG:   [           19685]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
 DEBUG:   [           19686]     key released: 9 (29)
-TRAFFIC: [           20586]     >> 01:44:20
+TRAFFIC: [           20586]     >> 04:44:20
 DEBUG:   [           20586]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
 DEBUG:   [           20587]     key pressed: 0 (20)
-TRAFFIC: [           20818]     >> 01:8b:20
+TRAFFIC: [           20818]     >> 04:8b:20
 DEBUG:   [           20818]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
 DEBUG:   [           20818]     key released: 0 (20)
-TRAFFIC: [           22324]     >> 01:44:30
+TRAFFIC: [           22324]     >> 04:44:30
 DEBUG:   [           22329]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
 DEBUG:   [           22330]     key pressed: channel up (30)
-TRAFFIC: [           22545]     >> 01:8b:30
+TRAFFIC: [           22545]     >> 04:8b:30
 DEBUG:   [           22545]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
 DEBUG:   [           22545]     key released: channel up (30)
-TRAFFIC: [           23632]     >> 01:44:31
+TRAFFIC: [           23632]     >> 04:44:31
 DEBUG:   [           23632]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
 DEBUG:   [           23632]     key pressed: channel down (31)
-TRAFFIC: [           23870]     >> 01:8b:31
+TRAFFIC: [           23870]     >> 04:8b:31
 DEBUG:   [           23870]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
 DEBUG:   [           23870]     key released: channel down (31)
-TRAFFIC: [           25881]     >> 01:44:04
+TRAFFIC: [           25881]     >> 04:44:04
 DEBUG:   [           25881]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
 DEBUG:   [           25882]     key pressed: right (4)
-TRAFFIC: [           26111]     >> 01:8b:04
+TRAFFIC: [           26111]     >> 04:8b:04
 DEBUG:   [           26112]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
 DEBUG:   [           26112]     key released: right (4)
-TRAFFIC: [           27011]     >> 01:44:03
+TRAFFIC: [           27011]     >> 04:44:03
 DEBUG:   [           27011]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
 DEBUG:   [           27011]     key pressed: left (3)
-TRAFFIC: [           27241]     >> 01:8b:03
+TRAFFIC: [           27241]     >> 04:8b:03
 DEBUG:   [           27242]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
 DEBUG:   [           27242]     key released: left (3)
-TRAFFIC: [           29023]     >> 01:44:01
+TRAFFIC: [           29023]     >> 04:44:01
 DEBUG:   [           29023]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
 DEBUG:   [           29023]     key pressed: up (1)
-TRAFFIC: [           29146]     >> 01:8b:01
+TRAFFIC: [           29146]     >> 04:8b:01
 DEBUG:   [           29147]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
 DEBUG:   [           29150]     key released: up (1)
-TRAFFIC: [           29862]     >> 01:44:02
+TRAFFIC: [           29862]     >> 04:44:02
 DEBUG:   [           29863]     >> TV (0) -> Recorder 1 (1): user control pressed (44)
 DEBUG:   [           29863]     key pressed: down (2)
-TRAFFIC: [           30093]     >> 01:8b:02
+TRAFFIC: [           30093]     >> 04:8b:02
 DEBUG:   [           30093]     >> TV (0) -> Recorder 1 (1): vendor remote button up (8B)
 DEBUG:   [           30093]     key released: down (2)

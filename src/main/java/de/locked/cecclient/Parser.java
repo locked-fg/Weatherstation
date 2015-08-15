@@ -33,33 +33,33 @@ public class Parser {
     final HashMap<String, KEvent> eventMap = new HashMap<>();
 
     public Parser() {
-//        eventMap.put("04:44:20", new KEvent(KeyEvent.VK_0, true));
-//        eventMap.put("04:44:21", new KEvent(KeyEvent.VK_1, true));
-//        eventMap.put("04:44:22", new KEvent(KeyEvent.VK_2, true));
-//        eventMap.put("04:44:23", new KEvent(KeyEvent.VK_3, true));
-//        eventMap.put("04:44:24", new KEvent(KeyEvent.VK_4, true));
-//        eventMap.put("04:44:25", new KEvent(KeyEvent.VK_5, true));
-//        eventMap.put("04:44:26", new KEvent(KeyEvent.VK_6, true));
-//        eventMap.put("04:44:27", new KEvent(KeyEvent.VK_7, true));
-//        eventMap.put("04:44:28", new KEvent(KeyEvent.VK_8, true));
-//        eventMap.put("04:44:29", new KEvent(KeyEvent.VK_9, true));
-//
-//        eventMap.put("04:8b:20", new KEvent(KeyEvent.VK_0, false));
-//        eventMap.put("04:8b:21", new KEvent(KeyEvent.VK_1, false));
-//        eventMap.put("04:8b:22", new KEvent(KeyEvent.VK_2, false));
-//        eventMap.put("04:8b:23", new KEvent(KeyEvent.VK_3, false));
-//        eventMap.put("04:8b:24", new KEvent(KeyEvent.VK_4, false));
-//        eventMap.put("04:8b:25", new KEvent(KeyEvent.VK_5, false));
-//        eventMap.put("04:8b:26", new KEvent(KeyEvent.VK_6, false));
-//        eventMap.put("04:8b:27", new KEvent(KeyEvent.VK_7, false));
-//        eventMap.put("04:8b:28", new KEvent(KeyEvent.VK_8, false));
-//        eventMap.put("04:8b:29", new KEvent(KeyEvent.VK_9, false));
-//
-//        eventMap.put("04:44:30", new KEvent(KeyEvent.VK_PAGE_UP, true));
-//        eventMap.put("04:8b:30", new KEvent(KeyEvent.VK_PAGE_UP, false));
-//
-//        eventMap.put("04:44:31", new KEvent(KeyEvent.VK_PAGE_DOWN, true));
-//        eventMap.put("04:8b:31", new KEvent(KeyEvent.VK_PAGE_DOWN, false));
+        eventMap.put("04:44:20", new KEvent(KeyEvent.VK_0, true));
+        eventMap.put("04:44:21", new KEvent(KeyEvent.VK_1, true));
+        eventMap.put("04:44:22", new KEvent(KeyEvent.VK_2, true));
+        eventMap.put("04:44:23", new KEvent(KeyEvent.VK_3, true));
+        eventMap.put("04:44:24", new KEvent(KeyEvent.VK_4, true));
+        eventMap.put("04:44:25", new KEvent(KeyEvent.VK_5, true));
+        eventMap.put("04:44:26", new KEvent(KeyEvent.VK_6, true));
+        eventMap.put("04:44:27", new KEvent(KeyEvent.VK_7, true));
+        eventMap.put("04:44:28", new KEvent(KeyEvent.VK_8, true));
+        eventMap.put("04:44:29", new KEvent(KeyEvent.VK_9, true));
+
+        eventMap.put("04:8b:20", new KEvent(KeyEvent.VK_0, false));
+        eventMap.put("04:8b:21", new KEvent(KeyEvent.VK_1, false));
+        eventMap.put("04:8b:22", new KEvent(KeyEvent.VK_2, false));
+        eventMap.put("04:8b:23", new KEvent(KeyEvent.VK_3, false));
+        eventMap.put("04:8b:24", new KEvent(KeyEvent.VK_4, false));
+        eventMap.put("04:8b:25", new KEvent(KeyEvent.VK_5, false));
+        eventMap.put("04:8b:26", new KEvent(KeyEvent.VK_6, false));
+        eventMap.put("04:8b:27", new KEvent(KeyEvent.VK_7, false));
+        eventMap.put("04:8b:28", new KEvent(KeyEvent.VK_8, false));
+        eventMap.put("04:8b:29", new KEvent(KeyEvent.VK_9, false));
+
+        eventMap.put("04:44:30", new KEvent(KeyEvent.VK_PAGE_UP, true));
+        eventMap.put("04:8b:30", new KEvent(KeyEvent.VK_PAGE_UP, false));
+
+        eventMap.put("04:44:31", new KEvent(KeyEvent.VK_PAGE_DOWN, true));
+        eventMap.put("04:8b:31", new KEvent(KeyEvent.VK_PAGE_DOWN, false));
 
         eventMap.put("04:8b:04", new KEvent(KeyEvent.VK_RIGHT, true));
         eventMap.put("04:44:04", new KEvent(KeyEvent.VK_RIGHT, false));

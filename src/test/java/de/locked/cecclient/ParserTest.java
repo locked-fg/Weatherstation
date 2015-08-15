@@ -82,11 +82,11 @@ public class ParserTest extends TestCase {
         String s;
         Parser p = new Parser();
 
-        s = "TRAFFIC: [            5845]     >> 01:8b:21";
+        s = "TRAFFIC: [            5845]     >> 04:8b:21";
         assertEquals(KeyEvent.VK_1, p.toKeyCode(s).code);
         assertFalse(p.toKeyCode(s).pressed);
 
-        s = "TRAFFIC: [            5614]     >> 01:44:21";
+        s = "TRAFFIC: [            5614]     >> 04:44:21";
         assertEquals(KeyEvent.VK_1, p.toKeyCode(s).code);
         assertTrue(p.toKeyCode(s).pressed);
 
